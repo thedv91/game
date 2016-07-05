@@ -10,7 +10,7 @@ var playState = {
 
         this.initBackground();
 
-        _self.managerTime();
+        this.managerTime();
 
         // Show intro screen when loaded
         setTimeout(function(){
@@ -24,11 +24,8 @@ var playState = {
 
     initBackground : function () {
         // Background Image
-        game.add.tileSprite(0, 0, 810, 640, "background");
+        game.add.tileSprite(0, 0, 810, 640, "play_bg");
 
-        // Add tree
-        var tree  =  game.add.image(150, 0, 'tree');
-        tree.scale.set(0.8);
 
         // Add top menu
         // Here we create the ground.
@@ -39,8 +36,8 @@ var playState = {
         ground.scale.setTo(2.1,2);
 
         // Add text "Match the pairs" on top screen
-        var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(game.world.centerX, 30, "MATCH THE PAIRS", style);
+        var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+        text = game.add.text(game.world.centerX, 38, "MATCH THE PAIRS", style);
         text.anchor.set(0.5);
 
         // Addd menu button
@@ -53,7 +50,7 @@ var playState = {
         var levelTable = game.add.image(50,game.world.height - 150,'level-table');
         levelTable.scale.setTo(0.4);
 
-        var style_level = { font: "bold 24px Arial", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
         text_level = game.add.text(60, game.world.height - 110, "LEVEL 1", style_level);
     },
 
@@ -108,20 +105,52 @@ var playState = {
     },
 
     doClick: function (sprite) {
+        
         moves++;
         move_counter.text = moves;
+
         if (firstClick == null) {
             firstClick = sprite.index;
         }
         else if (secondClick == null) {
+
             secondClick = sprite.index;
+
+
             if (images[firstClick].key === images[secondClick].key) {
+
+                game.add.tween(images[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+                game.add.tween(cards[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+
+                game.add.tween(images[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+                game.add.tween(cards[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+
+                setTimeout(function () {
+
+                    images[firstClick].destroy();
+                    cards[firstClick].destroy();
+
+                    images[secondClick].destroy();
+                    cards[secondClick].destroy();
+
+                    firstClick = null; secondClick = null;
+
+                },500);
+
                 // we have a match
                 score += 1;
-                firstClick = null; secondClick = null;
+
+
 
                 if(score == number_col*number_row/2){
-                    game.state.start('win');
+
+                    setTimeout(function () {
+                        cards = [];
+                        images = [];
+                        // We start the win state
+                        game.state.start('win');
+                    },100);
+
                 }
             }
             else {
@@ -149,18 +178,18 @@ var playState = {
     * */
     managerTime : function () {
 
-        var style = { font: "bold 28px Courier", fill: "#3e434a", tabs: 400 };
-        var style_bottom = { font: "bold 40px Courier", fill: "#3e434a", tabs: 400 };
+        var style = { font: "20px AvenirNextLTProHeavyCn", fill: "#7d5c2e", tabs: 20 };
+        var style_bottom = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#755425", tabs: 20 };
 
-        timeBg = game.add.sprite(w - 200, 100, 'time-bg');
-        timeBg.width = 200;
-        timeBg.height = 80;
+        timeBg = game.add.sprite(w - 198, 100, 'time-bg');
+        timeBg.width = 198;
+        timeBg.height = 116;
 
-        timeBg.addChild(game.add.text(30, 10, "MOVES\t\t\tTIME", style));
-        move_counter = game.add.text(45, 55, ""+moves+"", style_bottom);
+        timeBg.addChild(game.add.text(30, 10, "MOVES \t\t TIME", style));
+        move_counter = game.add.text(45, 40, ""+moves+"", style_bottom);
         timeBg.addChild(move_counter);
 
-        time_counter = game.add.text(180, 55, time+"s", style_bottom);
+        time_counter = game.add.text(120, 40, time+"s", style_bottom);
         timeBg.addChild(time_counter);
 
     },
@@ -178,12 +207,12 @@ var playState = {
         menuIntro.alpha = 0.8;
 
         //Text Bold
-        var text_bold = { font: "bold 32px Arial", fill: "#3e434a",align: "center" };
+        var text_bold = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#3e434a",align: "center" };
         instructions = game.add.text(w/2, h/2 - 100, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5,1);
 
         // Add text in center pause game
-        var style_level = { font: "bold 24px Arial", fill: "#1d5e00",align: "center" };
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#1d5e00",align: "center" };
         text_pause = game.add.text(w/2, h/2 + 50, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
@@ -212,7 +241,7 @@ var playState = {
         menu.alpha = 0.8;
 
         // Add text in center pause game
-        var style_level = { font: "bold 24px Arial", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
         text_pause = game.add.text(w/2, h/2, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5,1);
 
@@ -266,7 +295,8 @@ var playState = {
                 time = 0;
                 score = 0;
 
-                game.state.start('menu');
+                // game.state.start('menu');
+                game.stateTransition.to('menu');
             }
 
             // Click Continue, redirect to 'menu' stage
@@ -306,7 +336,9 @@ var playState = {
 
     },
 
-    Win: function() {
+    toWinStage: function() {
+        cards = [];
+        images = [];
         // We start the win state
         game.state.start('win');
     }

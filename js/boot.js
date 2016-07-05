@@ -10,6 +10,20 @@ var bootState = {
         // simple (but effective) ARCADE physics engine
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        game.stateTransition = this.game.plugins.add(Phaser.Plugin.StateTransition);
+
+        game.stateTransition.configure({
+            duration: Phaser.Timer.SECOND * 1,
+            ease: Phaser.Easing.Exponential.InOut,
+            properties: {
+                alpha: 0,
+                scale: {
+                    x: 1.4,
+                    y: 1.4
+                }
+            }
+        });
+
         // Calling the load state
         game.state.start('load');
     }

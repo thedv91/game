@@ -83,6 +83,7 @@ var winState = {
             data: params,
             success: function (response) {
                 if(response.status == 1) {
+                   
                     game.state.start('menu');
                 }else{
                     console.log('Something error on save Data');

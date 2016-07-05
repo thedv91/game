@@ -19,7 +19,7 @@ var images = [];
 var time = 0;
 var moves = 0;
 var number_row = 4;
-var number_col = 4;
+var number_col = 5;
 
 // calling it (i.e. 'boot'), and an official name that we use when
 // defining it (i.e. bootState), as you'll see in the boot.js file

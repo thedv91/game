@@ -4,6 +4,11 @@ var menuState = {
 
         game.add.tileSprite(0, 0, 810, 640, "background");
 
+        // reInit data
+        moves = 0;
+        time = 0;
+        score = 0;
+
         // add Tree
         var tree  =  game.add.image(150, -280, 'tree');
         tree.scale.set(1.1);
@@ -13,7 +18,7 @@ var menuState = {
         board.scale.set(0.75);
 
         // Add Button
-        var button  =  game.add.button(140, 430, 'start', this.start, this, 2, 1, 0);
+        var button  =  game.add.button(140, 430, 'start', this.start, this, 1, 0, 2);
 
         button.input.useHandCursor = true;
 
@@ -51,10 +56,9 @@ var menuState = {
         });
 
 
-
     },
     // The start function calls the play state
     start: function () {
-        game.state.start('play');
+        game.stateTransition.to('play');
     },
 };
