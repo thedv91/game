@@ -1,25 +1,37 @@
 var playState = {
 
+    init: function(level) {
+        console.log('Level '+level);
+    },
     create: function() {
         var _self = this;
 
         game.input.onDown.add(this.unpause, self);
 
-
-        this.initBackground();
+        var text_option = {
+            left : 70,
+            top: game.world.height - 110,
+            content : 'LEVEL '+level
+        };
+        this.initBackground(text_option);
 
 
 
         // Show intro screen when loaded
-        setTimeout(function(){
-            _self.createIntro();
-        },200);
+        if(level == 1) {
+            setTimeout(function(){
+                _self.createIntro();
+            },200);
+        }else{
+            setTimeout(function(){
+                _self.initGame();
+            },200);
 
-
+        }
 
     },
 
-    initBackground : function () {
+    initBackground : function (text_option) {
 
         var bg_w,bg_h;
 
@@ -63,7 +75,7 @@ var playState = {
         levelTable.scale.setTo(0.4);
 
         var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
-        text_level = game.add.text(60, game.world.height - 110, "LEVEL 1", style_level);
+        text_level = game.add.text(text_option.left, text_option.top, text_option.content, style_level);
     },
 
     /*
@@ -151,7 +163,7 @@ var playState = {
 
                     firstClick = null; secondClick = null;
 
-                },500);
+                },510);
 
                 // we have a match
                 score += 1;
@@ -163,8 +175,14 @@ var playState = {
                     setTimeout(function () {
                         cards = [];
                         images = [];
+                        if(level == 5){
+                            game.state.start('win');
+                        }else{
+                            level = level + 1;
+                             game.state.start('play', true, false, level);
+                        }
                         // We start the win state
-                        game.state.start('win');
+
                     },100);
 
                 }
@@ -215,8 +233,6 @@ var playState = {
     * */
     createIntro: function () {
 
-        // game.paused = true;
-        // Then add the menu
         menuIntro = game.add.sprite(w/2, h/2, 'pause');
         menuIntro.anchor.setTo(0.5, 0.5);
         menuIntro.scale.setTo(2,1.5);
@@ -235,9 +251,6 @@ var playState = {
         text_pause.lineSpacing = 3;
 
 
-        // Add ok btn
-        /*okBtn = game.add.button(,  + 120,'ok');
-        okBtn.anchor.set(0.5);*/
 
         okBtn =  game.add.button(w/2, h/2 + 120, 'ok','','', 1, 0, 2);
         okBtn.anchor.set(0.5);
@@ -246,24 +259,19 @@ var playState = {
     },
 
     initGame : function () {
-        game.add.tween(okBtn).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
-        game.add.tween(menuIntro).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
-        game.add.tween(instructions).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
-        game.add.tween(text_pause).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
 
         var _self = this;
-        setTimeout(function(){
+        okBtn.destroy();
+        menuIntro.destroy();
+        instructions.destroy();
+        text_pause.destroy();
 
-            okBtn.destroy();
-            menuIntro.destroy();
-            instructions.destroy();
-            text_pause.destroy();
+        game.time.events.loop(Phaser.Timer.SECOND, _self.updateTime, _self);
 
-            game.time.events.loop(Phaser.Timer.SECOND, _self.updateTime, _self);
-            _self.managerTime();
-            _self.initGamePlay(number_row, number_col);
+        _self.managerTime();
 
-        },300);
+
+        _self.initGamePlay(number_row, number_col);
 
     },
 

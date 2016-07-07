@@ -69,6 +69,7 @@ var menuState = {
     // The start function calls the play state
     start: function () {
         // game.stateTransition.to('play');
-        game.state.start('play');
+        // game.state.start('play');
+        game.state.start('play', true, false, 1);
     },
 };
