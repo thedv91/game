@@ -9,9 +9,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 
     <script type="text/javascript" src="phaser.min.js"></script>
-
-    <script src="bower_components/phaser-state-transition-plugin/dist/phaser-state-transition-plugin.js"></script>
-<!--    <script type="text/javascript" src="node_modules/phaser-state-transition/dist/phaser-state-transition.min.js"></script>-->
+    <script type="text/javascript" src="bower_components/phaser-state-transition-plugin/src/phaser-state-transition-plugin.js"></script>
 
     <script type="text/javascript" src="lib/canvasinput.js"></script>
     <script type="text/javascript" src="js/boot.js"></script>
