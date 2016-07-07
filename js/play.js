@@ -5,35 +5,47 @@ var playState = {
 
         game.input.onDown.add(this.unpause, self);
 
-        game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
-
 
         this.initBackground();
 
-        this.managerTime();
+
 
         // Show intro screen when loaded
         setTimeout(function(){
             _self.createIntro();
         },200);
 
-        // Game Play
-        _self.initGamePlay(number_row, number_col);
+
 
     },
 
     initBackground : function () {
-        // Background Image
-        game.add.tileSprite(0, 0, 810, 640, "play_bg");
 
+        var bg_w,bg_h;
+
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+        // add Tree
+        var tree = game.cache.getImage('bg_play');
+        var tree  =  game.add.image(w/2 - tree.width/2 + 50, h - tree.height -30, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
         var  platforms = game.add.group();
         var ground = platforms.create(0,0, 'ground');
+        ground.width = w;
+        ground.height = 70;
 
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        ground.scale.setTo(2.1,2);
 
         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
@@ -41,8 +53,8 @@ var playState = {
         text.anchor.set(0.5);
 
         // Addd menu button
-        var menuBtn = game.add.button(game.world.width - 120, 15,'menu-btn',this.clickMenu, this, 2, 1, 0);
-        menuBtn.scale.setTo(0.25);
+        var menuBtn = game.add.button(game.world.width - 160, 15,'menu-btn',this.clickMenu, this, 1, 0, 2);
+        menuBtn.scale.setTo(0.75);
         menuBtn.input.useHandCursor = true;
 
         // Add Level table
@@ -68,8 +80,6 @@ var playState = {
     * */
     initGamePlay: function (row, col) {
 
-        var TILE_SIZE = 70;
-
         var total_card = row*col;
 
         for (var i = 0; i < total_card/2; i++) {
@@ -79,8 +89,14 @@ var playState = {
 
         this.shuffle(images);
 
-        var left = 300;
-        var top = 120;
+        var left = w/2 - col*TILE_SIZE/2;
+
+        if(h < 1000) {
+            var top = h/2 - row*TILE_SIZE/2 - 100;
+        }else{
+            var top = h/2 - row*TILE_SIZE/2;
+        }
+
 
         for (var i = 0; i < row; i++) {
             for (var j = 0; j < col; j++) {
@@ -199,31 +215,56 @@ var playState = {
     * */
     createIntro: function () {
 
-        game.paused = true;
+        // game.paused = true;
         // Then add the menu
         menuIntro = game.add.sprite(w/2, h/2, 'pause');
         menuIntro.anchor.setTo(0.5, 0.5);
         menuIntro.scale.setTo(2,1.5);
-        menuIntro.alpha = 0.8;
+        menuIntro.alpha = 0.95;
 
         //Text Bold
-        var text_bold = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#3e434a",align: "center" };
+        var text_bold = { font: "32px AvenirNextLTProHeavyCn", fill: "#000",align: "center" };
         instructions = game.add.text(w/2, h/2 - 100, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5,1);
 
         // Add text in center pause game
         var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#1d5e00",align: "center" };
-        text_pause = game.add.text(w/2, h/2 + 50, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
+        text_pause = game.add.text(w/2, h/2 + 60, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
-        text_pause.lineSpacing = 10;
+        text_pause.lineSpacing = 3;
 
 
         // Add ok btn
-        okBtn = game.add.button(w/2, h/2 + 120,'ok');
-        // endGame.scale.setTo(0.25);
+        /*okBtn = game.add.button(,  + 120,'ok');
+        okBtn.anchor.set(0.5);*/
+
+        okBtn =  game.add.button(w/2, h/2 + 120, 'ok','','', 1, 0, 2);
         okBtn.anchor.set(0.5);
+        okBtn.onInputDown.add(this.initGame,this);
         okBtn.input.useHandCursor = true;
+    },
+
+    initGame : function () {
+        game.add.tween(okBtn).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(menuIntro).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(instructions).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(text_pause).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+
+        var _self = this;
+        setTimeout(function(){
+
+            okBtn.destroy();
+            menuIntro.destroy();
+            instructions.destroy();
+            text_pause.destroy();
+
+            game.time.events.loop(Phaser.Timer.SECOND, _self.updateTime, _self);
+            _self.managerTime();
+            _self.initGamePlay(number_row, number_col);
+
+        },300);
+
     },
 
     /*

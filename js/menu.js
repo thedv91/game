@@ -1,27 +1,36 @@
 var menuState = {
 
     create: function () {
-
-        game.add.tileSprite(0, 0, 810, 640, "background");
-
         // reInit data
         moves = 0;
         time = 0;
         score = 0;
 
-        // add Tree
-        var tree  =  game.add.image(150, -280, 'tree');
-        tree.scale.set(1.1);
+        var bg_w,bg_h;
+
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+
+        var tree  =  game.add.image(w/2 - 745/2 + 50, h - 816 -30, 'tree');
+
 
         // Add board
         var board  =  game.add.image(50, -135, 'board');
         board.scale.set(0.75);
 
         // Add Button
-        var button  =  game.add.button(140, 430, 'start', this.start, this, 1, 0, 2);
-
+        var button  =  game.add.button(120, 430, 'start', this.start, this, 1, 0, 2);
         button.input.useHandCursor = true;
-
 
         // Text
         var style = { font: "26px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
@@ -59,6 +68,7 @@ var menuState = {
     },
     // The start function calls the play state
     start: function () {
-        game.stateTransition.to('play');
+        // game.stateTransition.to('play');
+        game.state.start('play');
     },
 };
