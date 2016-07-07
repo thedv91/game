@@ -27,6 +27,12 @@ var h = 1024;*/
 var game = new Phaser.Game(w, h, Phaser.CANVAS, 'gameDiv');
 // var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
+// Init Item
+var timeBg;
+// check if game is playing
+var is_playing = 0;
+var total_open = 0;
+
 // Here we add each state. We give it a casual name that we use when
 var firstClick, secondClick;
 var noMatch, clickTime;
@@ -38,6 +44,7 @@ var moves = 0;
 var number_row = 2;
 var number_col = 2;
 var level = 1;
+
 
 if(w > 1000){
     TILE_SIZE = 120;

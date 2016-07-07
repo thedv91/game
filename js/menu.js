@@ -5,6 +5,7 @@ var menuState = {
         moves = 0;
         time = 0;
         score = 0;
+        level = 1;
 
         var bg_w,bg_h;
 
