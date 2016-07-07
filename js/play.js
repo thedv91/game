@@ -5,47 +5,56 @@ var playState = {
 
         game.input.onDown.add(this.unpause, self);
 
-        game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
-
 
         this.initBackground();
 
-        _self.managerTime();
+
 
         // Show intro screen when loaded
         setTimeout(function(){
             _self.createIntro();
         },200);
 
-        // Game Play
-        _self.initGamePlay(number_row, number_col);
+
 
     },
 
     initBackground : function () {
-        // Background Image
-        game.add.tileSprite(0, 0, 810, 640, "background");
 
-        // Add tree
-        var tree  =  game.add.image(150, 0, 'tree');
-        tree.scale.set(0.8);
+        var bg_w,bg_h;
+
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+        // add Tree
+        var tree = game.cache.getImage('bg_play');
+        var tree  =  game.add.image(w/2 - tree.width/2 + 50, h - tree.height -30, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
         var  platforms = game.add.group();
         var ground = platforms.create(0,0, 'ground');
+        ground.width = w;
+        ground.height = 70;
 
-        //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        ground.scale.setTo(2.1,2);
 
         // Add text "Match the pairs" on top screen
-        var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(game.world.centerX, 30, "MATCH THE PAIRS", style);
+        var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+        text = game.add.text(game.world.centerX, 38, "MATCH THE PAIRS", style);
         text.anchor.set(0.5);
 
         // Addd menu button
-        var menuBtn = game.add.button(game.world.width - 120, 15,'menu-btn',this.clickMenu, this, 2, 1, 0);
-        menuBtn.scale.setTo(0.25);
+        var menuBtn = game.add.button(game.world.width - 160, 15,'menu-btn',this.clickMenu, this, 1, 0, 2);
+        menuBtn.scale.setTo(0.75);
         menuBtn.input.useHandCursor = true;
 
         // Add Level table
@@ -53,7 +62,7 @@ var playState = {
         var levelTable = game.add.image(50,game.world.height - 150,'level-table');
         levelTable.scale.setTo(0.4);
 
-        var style_level = { font: "bold 24px Arial", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
         text_level = game.add.text(60, game.world.height - 110, "LEVEL 1", style_level);
     },
 
@@ -71,8 +80,6 @@ var playState = {
     * */
     initGamePlay: function (row, col) {
 
-        var TILE_SIZE = 70;
-
         var total_card = row*col;
 
         for (var i = 0; i < total_card/2; i++) {
@@ -82,8 +89,14 @@ var playState = {
 
         this.shuffle(images);
 
-        var left = 300;
-        var top = 120;
+        var left = w/2 - col*TILE_SIZE/2;
+
+        if(h < 1000) {
+            var top = h/2 - row*TILE_SIZE/2 - 100;
+        }else{
+            var top = h/2 - row*TILE_SIZE/2;
+        }
+
 
         for (var i = 0; i < row; i++) {
             for (var j = 0; j < col; j++) {
@@ -108,20 +121,52 @@ var playState = {
     },
 
     doClick: function (sprite) {
+        
         moves++;
         move_counter.text = moves;
+
         if (firstClick == null) {
             firstClick = sprite.index;
         }
         else if (secondClick == null) {
+
             secondClick = sprite.index;
+
+
             if (images[firstClick].key === images[secondClick].key) {
+
+                game.add.tween(images[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+                game.add.tween(cards[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+
+                game.add.tween(images[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+                game.add.tween(cards[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
+
+                setTimeout(function () {
+
+                    images[firstClick].destroy();
+                    cards[firstClick].destroy();
+
+                    images[secondClick].destroy();
+                    cards[secondClick].destroy();
+
+                    firstClick = null; secondClick = null;
+
+                },500);
+
                 // we have a match
                 score += 1;
-                firstClick = null; secondClick = null;
+
+
 
                 if(score == number_col*number_row/2){
-                    game.state.start('win');
+
+                    setTimeout(function () {
+                        cards = [];
+                        images = [];
+                        // We start the win state
+                        game.state.start('win');
+                    },100);
+
                 }
             }
             else {
@@ -149,18 +194,18 @@ var playState = {
     * */
     managerTime : function () {
 
-        var style = { font: "bold 28px Courier", fill: "#3e434a", tabs: 400 };
-        var style_bottom = { font: "bold 40px Courier", fill: "#3e434a", tabs: 400 };
+        var style = { font: "20px AvenirNextLTProHeavyCn", fill: "#7d5c2e", tabs: 20 };
+        var style_bottom = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#755425", tabs: 20 };
 
-        timeBg = game.add.sprite(w - 200, 100, 'time-bg');
-        timeBg.width = 200;
-        timeBg.height = 80;
+        timeBg = game.add.sprite(w - 198, 100, 'time-bg');
+        timeBg.width = 198;
+        timeBg.height = 116;
 
-        timeBg.addChild(game.add.text(30, 10, "MOVES\t\t\tTIME", style));
-        move_counter = game.add.text(45, 55, ""+moves+"", style_bottom);
+        timeBg.addChild(game.add.text(30, 10, "MOVES \t\t TIME", style));
+        move_counter = game.add.text(45, 40, ""+moves+"", style_bottom);
         timeBg.addChild(move_counter);
 
-        time_counter = game.add.text(180, 55, time+"s", style_bottom);
+        time_counter = game.add.text(120, 40, time+"s", style_bottom);
         timeBg.addChild(time_counter);
 
     },
@@ -170,31 +215,56 @@ var playState = {
     * */
     createIntro: function () {
 
-        game.paused = true;
+        // game.paused = true;
         // Then add the menu
         menuIntro = game.add.sprite(w/2, h/2, 'pause');
         menuIntro.anchor.setTo(0.5, 0.5);
         menuIntro.scale.setTo(2,1.5);
-        menuIntro.alpha = 0.8;
+        menuIntro.alpha = 0.95;
 
         //Text Bold
-        var text_bold = { font: "bold 32px Arial", fill: "#3e434a",align: "center" };
+        var text_bold = { font: "32px AvenirNextLTProHeavyCn", fill: "#000",align: "center" };
         instructions = game.add.text(w/2, h/2 - 100, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5,1);
 
         // Add text in center pause game
-        var style_level = { font: "bold 24px Arial", fill: "#1d5e00",align: "center" };
-        text_pause = game.add.text(w/2, h/2 + 50, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#1d5e00",align: "center" };
+        text_pause = game.add.text(w/2, h/2 + 60, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
-        text_pause.lineSpacing = 10;
+        text_pause.lineSpacing = 3;
 
 
         // Add ok btn
-        okBtn = game.add.button(w/2, h/2 + 120,'ok');
-        // endGame.scale.setTo(0.25);
+        /*okBtn = game.add.button(,  + 120,'ok');
+        okBtn.anchor.set(0.5);*/
+
+        okBtn =  game.add.button(w/2, h/2 + 120, 'ok','','', 1, 0, 2);
         okBtn.anchor.set(0.5);
+        okBtn.onInputDown.add(this.initGame,this);
         okBtn.input.useHandCursor = true;
+    },
+
+    initGame : function () {
+        game.add.tween(okBtn).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(menuIntro).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(instructions).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+        game.add.tween(text_pause).to( { alpha: 0 }, 300, Phaser.Easing.Linear.None, true, 0, 300, true);
+
+        var _self = this;
+        setTimeout(function(){
+
+            okBtn.destroy();
+            menuIntro.destroy();
+            instructions.destroy();
+            text_pause.destroy();
+
+            game.time.events.loop(Phaser.Timer.SECOND, _self.updateTime, _self);
+            _self.managerTime();
+            _self.initGamePlay(number_row, number_col);
+
+        },300);
+
     },
 
     /*
@@ -212,7 +282,7 @@ var playState = {
         menu.alpha = 0.8;
 
         // Add text in center pause game
-        var style_level = { font: "bold 24px Arial", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
         text_pause = game.add.text(w/2, h/2, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5,1);
 
@@ -266,7 +336,8 @@ var playState = {
                 time = 0;
                 score = 0;
 
-                game.state.start('menu');
+                // game.state.start('menu');
+                game.stateTransition.to('menu');
             }
 
             // Click Continue, redirect to 'menu' stage
@@ -306,7 +377,9 @@ var playState = {
 
     },
 
-    Win: function() {
+    toWinStage: function() {
+        cards = [];
+        images = [];
         // We start the win state
         game.state.start('win');
     }

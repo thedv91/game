@@ -3,8 +3,25 @@
 // down. Note also that the 'gameDiv' parameter matches the div element
 // defined in our index.html file
 
-var w = 810;
-var h = 640;
+
+/* Kiosk Mode*/
+var w = 1080;
+var h = 1420;
+
+/* Arcade Mode */
+
+/*var w = 810;
+var h = 640;*/
+
+/*var w = 414;
+var h = 736;*/
+
+/*var w = 768;
+var h = 1024;*/
+
+
+
+
 
 //var game = new Phaser.Game(w, h, Phaser.AUTO, 'gameDiv');
 var game = new Phaser.Game(w, h, Phaser.CANVAS, 'gameDiv');
@@ -20,6 +37,16 @@ var time = 0;
 var moves = 0;
 var number_row = 4;
 var number_col = 4;
+
+if(w > 1000){
+    TILE_SIZE = 120;
+}else{
+    TILE_SIZE = 70;
+}
+
+
+
+
 
 // calling it (i.e. 'boot'), and an official name that we use when
 // defining it (i.e. bootState), as you'll see in the boot.js file
