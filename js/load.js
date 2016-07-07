@@ -18,7 +18,6 @@ var loadState= {
         }
         // Menu Stage
         game.load.image('background', 'assets/images/wallys-background.png');
-        game.load.image('play_bg', 'assets/images/play_bg.png');
         game.load.image('board', 'assets/images/board.png');
         game.load.image('tree', 'assets/images/tree.png');
 
@@ -42,7 +41,7 @@ var loadState= {
         }
 
         // End Game
-        game.load.image('submit', 'assets/images/submit.png');
+        game.load.spritesheet('submit', 'assets/images/submit.png?df',170, 60);
 
     },
 

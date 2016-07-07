@@ -5,13 +5,13 @@
 
 
 /* Kiosk Mode*/
-var w = 1080;
-var h = 1420;
+/*var w = 1080;
+var h = 1420;*/
 
 /* Arcade Mode */
 
-/*var w = 810;
-var h = 640;*/
+var w = 810;
+var h = 640;
 
 /*var w = 414;
 var h = 736;*/
@@ -35,8 +35,9 @@ var cards = [];
 var images = [];
 var time = 0;
 var moves = 0;
-var number_row = 4;
-var number_col = 4;
+var number_row = 2;
+var number_col = 2;
+var level = 1;
 
 if(w > 1000){
     TILE_SIZE = 120;
