@@ -16,7 +16,6 @@ var playState = {
         this.initBackground(text_option);
 
 
-
         // Show intro screen when loaded
         if(level == 1) {
             setTimeout(function(){
@@ -93,6 +92,10 @@ var playState = {
     initGamePlay: function (row, col) {
 
         var total_card = row*col;
+        cards = [];
+        images = [];
+        total_open = 0;
+
 
         for (var i = 0; i < total_card/2; i++) {
             images.push(this.game.add.sprite(0,0,''+i));
@@ -146,31 +149,14 @@ var playState = {
 
 
             if (images[firstClick].key === images[secondClick].key) {
-
-                game.add.tween(images[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
-                game.add.tween(cards[firstClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
-
-                game.add.tween(images[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
-                game.add.tween(cards[secondClick]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0, 500, true);
-
-                setTimeout(function () {
-
-                    images[firstClick].destroy();
-                    cards[firstClick].destroy();
-
-                    images[secondClick].destroy();
-                    cards[secondClick].destroy();
-
-                    firstClick = null; secondClick = null;
-
-                },510);
+                total_open = total_open + 2;
+                firstClick = null; secondClick = null;
 
                 // we have a match
                 score += 1;
 
 
-
-                if(score == number_col*number_row/2){
+                if(total_open == number_col*number_row){
 
                     setTimeout(function () {
                         cards = [];
@@ -212,10 +198,12 @@ var playState = {
     * */
     managerTime : function () {
 
+        is_playing = 1;
+
         var style = { font: "20px AvenirNextLTProHeavyCn", fill: "#7d5c2e", tabs: 20 };
         var style_bottom = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#755425", tabs: 20 };
 
-        timeBg = game.add.sprite(w - 198, 100, 'time-bg');
+        timeBg = game.add.sprite(w, 100, 'time-bg');
         timeBg.width = 198;
         timeBg.height = 116;
 
@@ -270,7 +258,32 @@ var playState = {
 
         _self.managerTime();
 
-
+        switch(level) {
+            case 1:
+                number_row = 4;
+                number_col = 4;
+                break;
+            case 2:
+                number_row = 4;
+                number_col = 5;
+                break;
+            case 3:
+                number_row = 5;
+                number_col = 6;
+                break;
+            case 4:
+                number_row = 6;
+                number_col = 5;
+                break;
+            case 5:
+                number_row = 6;
+                number_col = 6;
+                break;
+            default:
+                number_row = 4;
+                number_col = 4;
+                break;
+        }
         _self.initGamePlay(number_row, number_col);
 
     },
@@ -380,6 +393,13 @@ var playState = {
                 images[secondClick].visible = false;
 
                 firstClick = null; secondClick = null;
+            }
+        }
+
+        if(is_playing) {
+            if (timeBg.x > w - 198)
+            {
+                timeBg.x -= 6;
             }
         }
 
