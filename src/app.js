@@ -8,13 +8,12 @@ import LoadState from './states/load';
 import MenuState from './states/menu';
 import PlayState from './states/play';
 import WinState from './states/win';
+import val from './variables';
 
 class Game extends Phaser.Game {
 	constructor() {
-		let width = 800;
-		let height = 600;
-		super(width, height, Phaser.AUTO);
-		this.moves = 0;
+		super(val.w, val.h, Phaser.AUTO);
+		
 		this.state.add('boot', BootState);
 		this.state.add('load', LoadState);
 		this.state.add('menu', MenuState);

@@ -9,8 +9,6 @@ var pixi = path.join(phaserModule, 'build/custom/pixi.js');
 var p2 = path.join(phaserModule, 'build/custom/p2.js');
 
 
-
-
 module.exports = {
 	entry: ['babel-polyfill', './src/app'],
 	output: {
@@ -47,6 +45,7 @@ module.exports = {
 			'phaser': phaser,
 			'pixi': pixi,
 			'p2': p2
+
 		}
 	}
 }

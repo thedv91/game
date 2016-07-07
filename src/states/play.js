@@ -27,7 +27,7 @@ export default class extends Phaser.State {
     create() {
         let _self = this;
 
-        this.input.onDown.add(this.unpause, self);
+        this.input.onDown.add(this.unpause.bind(this), self);
 
         let text_option = {
             left: 70,
@@ -311,7 +311,7 @@ export default class extends Phaser.State {
     clickMenu() {
 
         // When the paus button is pressed, we pause the game
-        this.paused = true;
+        this.game.paused = true;
 
         // Then add the menu
         this.menu = this.add.sprite(val.w / 2, val.h / 2, 'pause');
@@ -326,20 +326,18 @@ export default class extends Phaser.State {
 
 
         // Add two button
-        this.endGame = this.add.button(w / 2 - 180, h / 2 + 50, 'end-game');
-        // endthis.scale.setTo(0.25);
-        this.endthis.input.useHandCursor = true;
+        this.endGame = this.add.button(val.w / 2 - 180, val.h / 2 + 50, 'end-game');
+        this.endGame.input.useHandCursor = true;
 
-        this.continueGame = this.add.button(w / 2 + 20, h / 2 + 50, 'continue');
-        // continuethis.scale.setTo(0.25);
-        this.continuethis.input.useHandCursor = true;
+        this.continueGame = this.add.button(val.w / 2 + 20, val.h / 2 + 50, 'continue');
+        this.continueGame.input.useHandCursor = true;
 
     }
 
     // And finally the method that handels the pause menu
     unpause(event) {
         // Only act if paused
-        if (this.paused) {
+        if (this.game.paused) {
 
             // Click to Ok Btn
             let m1 = val.w / 2 - 60, m2 = val.w / 2 + 60,
@@ -354,18 +352,18 @@ export default class extends Phaser.State {
                 this.okBtn.destroy();
 
                 // Unpause the game
-                this.paused = false;
+                this.game.paused = false;
             }
 
 
             // Click to End Game
-            let x1 = w / 2 - 180, x2 = w / 2 - 180 + 120,
-                y1 = h / 2 + 50, y2 = h / 2 + 50 + 50;
+            let x1 = val.w / 2 - 180, x2 = val.w / 2 - 180 + 120,
+                y1 = val.h / 2 + 50, y2 = val.h / 2 + 50 + 50;
 
             // Click end Game, redirect to 'menu' stage
             if (event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2) {
                 // Unpause the game
-                this.paused = false;
+                this.game.paused = false;
 
                 // remove All image card
                 val.cards = [];
@@ -375,7 +373,7 @@ export default class extends Phaser.State {
                 val.score = 0;
 
                 // this.state.start('menu');
-                this.stateTransition.to('menu');
+                this.game.stateTransition.to('menu');
             }
 
             // Click Continue, redirect to 'menu' stage
@@ -384,14 +382,14 @@ export default class extends Phaser.State {
 
 
             if (event.x > u1 && event.x < u2 && event.y > v1 && event.y < v2) {
-                // this.state.start('menu');
+                // this.state.start('menu');                
                 this.menu.destroy();
                 this.text_pause.destroy();
-                this.endthis.destroy();
-                this.continuethis.destroy();
+                this.endGame.destroy();
+                this.continueGame.destroy();
 
                 // Unpause the game
-                this.paused = false;
+                this.game.paused = false;
             }
         }
     }
@@ -399,7 +397,7 @@ export default class extends Phaser.State {
     update() {
 
         if (val.noMatch) {
-            if (this.time.totalElapsedSeconds() - val.clickTime > 0.5) {
+            if (this.game.time.totalElapsedSeconds() - val.clickTime > 0.5) {
                 val.noMatch = false;
                 val.cards[val.firstClick].visible = true;
                 val.cards[val.firstClick].alpha = 1.0;
