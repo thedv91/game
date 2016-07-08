@@ -46,6 +46,7 @@ var winState = {
     },
 
     finalScore: function (moves, time) {
+        // var score = 1000 000 00001/(moves + time * 2)
         return moves+time;
     },
 
