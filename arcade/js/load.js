@@ -35,7 +35,7 @@ var loadState= {
         game.load.image('time-bg', 'assets/images/orange.png');
 
         // Flip Card
-        game.load.image('back', 'assets/back.png');
+        game.load.image('back', 'assets/back.png?Sdsfs');
         for(var i=0; i<= 18; i++){
             game.load.image(''+i+'', 'assets/items/'+i+'.png');
         }

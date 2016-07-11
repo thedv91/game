@@ -100,6 +100,7 @@ var playState = {
         var total_card = row*col;
         cards = [];
         images = [];
+        movies = [];
         total_open = 0;
 
 
@@ -116,6 +117,15 @@ var playState = {
 
         if(h < 1000) {
             var top = h/2 - row*TILE_SIZE/2 - 80;
+
+            if((row == 6 && col ==5)|| (row == 5 && col ==6)) {
+                var top = h/2 - row*TILE_SIZE/2 - 60;
+            }
+
+            if(row == 6 && col ==6) {
+                var top = h/2 - row*TILE_SIZE/2 - 60;
+            }
+
         }else{
             var top = h/2 - row*TILE_SIZE/2;
         }
@@ -124,41 +134,112 @@ var playState = {
         for (var i = 0; i < row; i++) {
             for (var j = 0; j < col; j++) {
                 var idx = i*col+j;
-                cards[idx] = this.game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE,'back');
-                cards[idx].width = TILE_SIZE;
-                cards[idx].height = TILE_SIZE;
-                cards[idx].index = idx;
+                // cards[idx] = this.game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE,'back');
+                cards[idx] = this.game.add.sprite(0, 0,'back');
+                cards[idx].anchor.setTo(0.5, 0.5);
+                cards[idx].scale.x = -1;
+                cards[idx].scale.setTo(TILE_SIZE/cards[idx]._frame.width);
 
-                images[idx].x = left + j*TILE_SIZE;
-                images[idx].y = top + i*TILE_SIZE;
-                images[idx].width = TILE_SIZE;
-                images[idx].height = TILE_SIZE;
-                images[idx].visible = false;
 
-                cards[idx].inputEnabled = true;
-                cards[idx].events.onInputDown.add(this.doClick);
-                cards[idx].events.onInputOver.add(function(sprite) { sprite.alpha = 0.5; });
-                cards[idx].events.onInputOut.add(function(sprite) { sprite.alpha = 1.0; });
+
+                images[idx].scale.setTo(TILE_SIZE/images[idx]._frame.width);
+                images[idx].anchor.setTo(0.5, 0.5);
+
+
+                movies[idx] = game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE);
+                movies[idx].addChild(images[idx]);
+                movies[idx].addChild(cards[idx]);
+                movies[idx].events.onInputDown.add(this.doClick, this);
+                movies[idx].inputEnabled = true;
+                movies[idx].index = idx;
+
+                game.physics.arcade.enable(movies[idx]);
+                game.physics.arcade.enable(images[idx]);
+                game.physics.arcade.enable(cards[idx]);
             }
         }
+
+
+    },
+    flipCard : function(sprite, pointer) {
+        sprite.up = sprite.up || false;
+        /*if (click) {
+            click = false;*/
+            var tween = game.add.tween(sprite.scale).to({
+                x: 0
+            }, 100, Phaser.Easing.Linear.None, true);
+            tween.onComplete.add(function () {
+                var back = sprite.getChildAt(1);
+                if (sprite.up) {
+                    back.visible = true;
+                } else {
+                    back.visible = false;
+                }
+
+                this.flipFake(sprite);
+            }, this);
+        // }
+
+    },
+
+    flipFake: function(sprite) {
+        var tween = game.add.tween(sprite.scale).to({
+            x: 1
+        }, 200, Phaser.Easing.Linear.None, true);
+        tween.onComplete.add(function () {
+            click = true;
+            sprite.up = !sprite.up;
+        }, this);
+    },
+
+    flipFakeCorrect: function(sprite) {
+        var tween = game.add.tween(sprite.scale).to({
+            x: 0
+        }, 200, Phaser.Easing.Linear.None, true);
+        tween.onComplete.add(function () {
+            click = true;
+            sprite.up = !sprite.up;
+        }, this);
     },
 
     doClick: function (sprite) {
+        var _self = this;
 
-        moves++;
-        move_counter.text = moves;
 
         if (firstClick == null) {
+            moves++;
+            move_counter.text = moves;
+            this.flipCard(sprite);
+
             firstClick = sprite.index;
         }
         else if (secondClick == null) {
 
+            moves++;
+            move_counter.text = moves;
+            this.flipCard(sprite);
+
             secondClick = sprite.index;
+            if(secondClick == firstClick ) {
+                secondClick = null;
+                firstClick = null;
+                return;
+            }
 
 
             if (images[firstClick].key === images[secondClick].key) {
+
+                setTimeout(function () {
+                    _self.flipFakeCorrect(movies[firstClick]);
+                    _self.flipFakeCorrect(movies[secondClick]);
+
+                    // firstClick = null; secondClick = null;
+                },400);
+                setTimeout(function () {
+                    firstClick = null; secondClick = null;
+                },600);
+
                 total_open = total_open + 2;
-                firstClick = null; secondClick = null;
 
                 // we have a match
                 score += 1;
@@ -169,6 +250,7 @@ var playState = {
                     setTimeout(function () {
                         cards = [];
                         images = [];
+                        movies = [];
                         if(level == 5){
                             game.state.start('win');
                         }else{
@@ -177,7 +259,7 @@ var playState = {
                         }
                         // We start the win state
 
-                    },100);
+                    },500);
 
                 }
             }
@@ -192,8 +274,8 @@ var playState = {
         }
 
         clickTime = sprite.game.time.totalElapsedSeconds();
-        sprite.visible = false;
-        images[sprite.index].visible = true;
+        // sprite.visible = false;
+        // images[sprite.index].visible = true;
     },
 
     shuffle: function(o) {
@@ -392,13 +474,16 @@ var playState = {
         if (noMatch) {
             if (this.game.time.totalElapsedSeconds() - clickTime > 0.5) {
                 noMatch = false;
-                cards[firstClick].visible = true;
+               /* cards[firstClick].visible = true;
                 cards[firstClick].alpha = 1.0;
                 cards[secondClick].visible = true;
                 cards[secondClick].alpha = 1.0;
 
                 images[firstClick].visible = false;
-                images[secondClick].visible = false;
+                images[secondClick].visible = false;*/
+
+                this.flipCard(movies[firstClick]);
+                this.flipCard(movies[secondClick]);
 
                 firstClick = null; secondClick = null;
             }

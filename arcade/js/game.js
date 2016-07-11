@@ -44,6 +44,8 @@ var number_row = 2;
 var number_col = 2;
 var level = 1;
 
+var click = true;
+
 
 if(w > 1000){
     TILE_SIZE = 120;

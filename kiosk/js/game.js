@@ -42,8 +42,8 @@ var images = [];
 var movies = [];
 var time = 0;
 var moves = 0;
-var number_row = 2;
-var number_col = 2;
+var number_row = 4;
+var number_col = 4;
 var level = 1;
 
 
