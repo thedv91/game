@@ -36,7 +36,7 @@ var loadState= {
 
         // Flip Card
         game.load.image('back', 'assets/back.png');
-        for(var i=0; i<= 18; i++){
+        for(var i=0; i<= 12; i++){
             game.load.image(''+i+'', 'assets/items/'+i+'.png');
         }
 

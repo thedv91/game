@@ -5,8 +5,6 @@
 
 
 /* Kiosk Mode*/
-/*var w = 1080;
-var h = 1420;*/
 
 /* Arcade Mode */
 

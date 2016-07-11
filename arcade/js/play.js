@@ -57,7 +57,6 @@ var playState = {
         ground.width = w;
         ground.height = 70;
 
-
         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
         text = game.add.text(game.world.centerX, 38, "MATCH THE PAIRS", style);
@@ -91,6 +90,13 @@ var playState = {
      * */
     initGamePlay: function (row, col) {
 
+        if(row == 6 && col ==6) {
+            TILE_SIZE = 50;
+        }
+        if(row == 6 && col ==5) {
+            TILE_SIZE = 50;
+        }
+
         var total_card = row*col;
         cards = [];
         images = [];
@@ -106,8 +112,10 @@ var playState = {
 
         var left = w/2 - col*TILE_SIZE/2;
 
+
+
         if(h < 1000) {
-            var top = h/2 - row*TILE_SIZE/2 - 100;
+            var top = h/2 - row*TILE_SIZE/2 - 80;
         }else{
             var top = h/2 - row*TILE_SIZE/2;
         }

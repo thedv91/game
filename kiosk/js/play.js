@@ -157,17 +157,8 @@ var playState = {
 
 
                 if(total_open == number_col*number_row){
-
                     setTimeout(function () {
-                        cards = [];
-                        images = [];
-                        if(level == 5){
                             game.state.start('win');
-                        }else{
-                            level = level + 1;
-                            game.state.start('play', true, false, level);
-                        }
-                        // We start the win state
 
                     },100);
 

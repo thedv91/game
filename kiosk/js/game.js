@@ -5,13 +5,13 @@
 
 
 /* Kiosk Mode*/
-/*var w = 1080;
-var h = 1420;*/
+var w = 1080;
+var h = 1420;
 
 /* Arcade Mode */
 
-var w = 810;
-var h = 640;
+/*var w = 810;
+var h = 640;*/
 
 /*var w = 414;
 var h = 736;*/
@@ -50,7 +50,7 @@ var level = 1;
 if(w > 1000){
     TILE_SIZE = 120;
 }else{
-    TILE_SIZE = 60;
+    TILE_SIZE = 70;
 }
 
 
