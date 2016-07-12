@@ -16,23 +16,35 @@ var winState = {
         var style_white = { font: "bold 40px AvenirNextLTProHeavyCn",boundsAlignH: "center",  boundsAlignV: "middle", fill: "#fff", tabs: 100 };
 
         text_winner = game.add.text(0, 0, "MOVES         TIME", style);
-        text_winner.setTextBounds(0, 100, w, h/2);
+        text_winner.setTextBounds(0, 100, w, h/2 - 300);
         // text_winner.anchor.setTo(0.5);
         
         scrore_winner = game.add.text(15, 0, moves+"\t"+time+"s"+"\t", style_white);
-        scrore_winner.setTextBounds(0, 100, w, h/2 + 100);
+        scrore_winner.setTextBounds(0, 100, w, h/2 - 225);
 
         // User name
         nameUser = this.createInput(game.world.centerX+100, h/2 - 120);
         nameUser.anchor.set(0.5);
-        nameUser.canvasInput.value('');
+
+        if(localStorage.getItem('user_name')){
+            nameUser.canvasInput.value(localStorage.getItem('user_name'));
+        }else{
+            nameUser.canvasInput.value('');
+        }
+
         nameUser.canvasInput.focus();
         game.add.tween(nameUser);
 
         // User Emaik
         emailUser = this.createInput(game.world.centerX+100, h/2 - 70);
         emailUser.anchor.set(0.5);
-        emailUser.canvasInput.value('');
+
+        if(localStorage.getItem('user_email')){
+            emailUser.canvasInput.value(localStorage.getItem('user_email'));
+        }else{
+            emailUser.canvasInput.value('');
+        }
+
         game.add.tween(emailUser);
 
         info_winner = game.add.text(w/2-130, h/2 - 90, " NAME:\nEMAIL:", style);
@@ -80,7 +92,8 @@ var winState = {
             user_email: user_email,
             score: score,
             moves: moves,
-            time: time
+            time: time,
+            type: game_type
         };
 
         $.ajax({
@@ -90,15 +103,19 @@ var winState = {
             data: params,
             success: function (response) {
                 if(response.status == 1) {
-                   
-                    game.state.start('menu');
+                   localStorage.setItem('user_name',user_name);
+                   localStorage.setItem('user_email',user_email);
+
+                   setTimeout(function () {
+                       game.state.start('menu');
+                   });
+
                 }else{
                     console.log('Something error on save Data');
                 }
             }
         });
 
-        // console.log(user_name,user_email);
     },
 
     inputFocus: function(sprite){

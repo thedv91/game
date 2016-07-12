@@ -43,6 +43,7 @@ var moves = 0;
 var number_row = 2;
 var number_col = 2;
 var level = 1;
+var game_type = 1;
 
 var click = true;
 

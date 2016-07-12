@@ -45,6 +45,7 @@ var moves = 0;
 var number_row = 4;
 var number_col = 4;
 var level = 1;
+var game_type = 0;
 
 
 if(w > 1000){
