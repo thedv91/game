@@ -16,13 +16,14 @@ var menuState = {
             bg_w = w;
             bg_h = 814*w/1208;
         }
-        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg = game.add.image(w/2, h, "background");
         menu_bg.width = bg_w;
         menu_bg.height = bg_h;
         menu_bg.anchor.setTo(0.5,1);
 
 
-        var tree  =  game.add.image(w/2 - 745/2 + 50, h - 816 -30, 'tree');
+        tree  =  game.add.image(w/2 - 745/2 + 100, h - 816, 'tree');
+        // tree.scale.set(1.05);
 
 
         // Add board
@@ -39,6 +40,31 @@ var menuState = {
         this.createText();
 
     },
+
+    resize: function () {
+        w = game.width;
+        h = game.height;
+        console.log(game.height);
+        // BG
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        menu_bg.x = w/2;
+        menu_bg.y = h;
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+        // Tree
+
+        tree.x =  w/2 - 745/2 + 100;
+        tree.y = h - 816;
+    },
+
     createText : function() {
         var _self = this;
         var style_normal = { font: "bold 17px AvenirNextLTProCn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };

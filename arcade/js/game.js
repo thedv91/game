@@ -8,8 +8,8 @@
 
 /* Arcade Mode */
 
-var w = 810;
-var h = 640;
+/*var w = 810;
+var h = 640;*/
 
 /*var w = 414;
 var h = 736;*/
@@ -17,12 +17,17 @@ var h = 736;*/
 /*var w = 768;
 var h = 1024;*/
 
-
+var w, h, menu_bg, margin_left, margin_top;
 
 
 
 //var game = new Phaser.Game(w, h, Phaser.AUTO, 'gameDiv');
-var game = new Phaser.Game(w, h, Phaser.CANVAS, 'gameDiv');
+// var game = new Phaser.Game(w, h, Phaser.CANVAS, 'gameDiv');
+
+var game = new Phaser.Game("100%","100%", Phaser.CANVAS, 'gameDiv');
+
+
+
 // var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 // Init Item
@@ -48,11 +53,20 @@ var game_type = 1;
 var click = true;
 
 
-if(w > 1000){
-    TILE_SIZE = 120;
+console.log(game.device);
+console.log(game.device.desktop);
+if(game.device.desktop) {
+    console.log('22');
+     if(w > 1000){
+        TILE_SIZE = 120;
+     }else{
+        TILE_SIZE = 80;
+     }
 }else{
-    TILE_SIZE = 60;
+    console.log('33');
+    TILE_SIZE = 120;
 }
+
 
 
 

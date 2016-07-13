@@ -30,6 +30,63 @@ var playState = {
 
     },
 
+    resize: function () {
+        w = game.width;
+        h = game.height;
+
+        // BG
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        menu_bg.x = w/2;
+        menu_bg.y = h;
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+        // Tree
+        tree_play.x = w/2 - tree_play.width/2 + 50;
+        tree_play.y = h - tree_play.height -30;
+
+
+        // Resize main Game
+        margin_left = w/2 - number_col*TILE_SIZE/2;
+
+        if(h < 1000) {
+
+            margin_top = h/2 - number_row*TILE_SIZE/2 - 80;
+
+
+            if((number_row == 6 && number_col ==5)|| (number_row == 5 && number_col ==6)) {
+                margin_top = h/2 - number_row*TILE_SIZE/2 - 60;
+            }
+
+            if(number_row == 6 && number_col ==6) {
+                margin_top = h/2 - number_row*TILE_SIZE/2 - 60;
+            }
+
+        }else{
+
+            margin_top = h/2 - number_row*TILE_SIZE/2;
+        }
+
+        for (var i = 0; i < number_row; i++) {
+            for (var j = 0; j < number_col; j++) {
+                var idx = i*number_col+j;
+
+                movies[idx].x = margin_left + j*TILE_SIZE;
+                movies[idx].y = margin_top + i*TILE_SIZE;
+            }
+        }
+
+
+
+    },
+
     initBackground : function (text_option) {
 
         var bg_w,bg_h;
@@ -41,30 +98,30 @@ var playState = {
             bg_w = w;
             bg_h = 814*w/1208;
         }
-        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg = game.add.image(w/2, h, "background");
         menu_bg.width = bg_w;
         menu_bg.height = bg_h;
         menu_bg.anchor.setTo(0.5,1);
 
         // add Tree
-        var tree = game.cache.getImage('bg_play');
-        var tree  =  game.add.image(w/2 - tree.width/2 + 50, h - tree.height -30, 'bg_play');
+        tree_play = game.cache.getImage('bg_play');
+        tree_play  =  game.add.image(w/2 - tree_play.width/2 + 50, h - tree_play.height -30, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
         var  platforms = game.add.group();
         var ground = platforms.create(0,0, 'ground');
         ground.width = w;
-        ground.height = 70;
+        ground.height = 60;
 
         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(game.world.centerX, 38, "MATCH THE PAIRS", style);
+        text = game.add.text(game.world.centerX, 32, "MATCH THE PAIRS", style);
         text.anchor.set(0.5);
 
         // Addd menu button
         var menuBtn = game.add.button(game.world.width - 160, 15,'menu-btn',this.clickMenu, this, 1, 0, 2);
-        menuBtn.scale.setTo(0.75);
+        menuBtn.scale.setTo(0.65);
         menuBtn.input.useHandCursor = true;
 
         // Add Level table
@@ -111,23 +168,24 @@ var playState = {
 
         this.shuffle(images);
 
-        var left = w/2 - col*TILE_SIZE/2;
-
-
+        margin_left = w/2 - col*TILE_SIZE/2;
 
         if(h < 1000) {
-            var top = h/2 - row*TILE_SIZE/2 - 80;
+
+            margin_top = h/2 - row*TILE_SIZE/2 - 80;
+
 
             if((row == 6 && col ==5)|| (row == 5 && col ==6)) {
-                var top = h/2 - row*TILE_SIZE/2 - 60;
+                margin_top = h/2 - row*TILE_SIZE/2 - 60;
             }
 
             if(row == 6 && col ==6) {
-                var top = h/2 - row*TILE_SIZE/2 - 60;
+                margin_top = h/2 - row*TILE_SIZE/2 - 60;
             }
 
         }else{
-            var top = h/2 - row*TILE_SIZE/2;
+
+            margin_top = h/2 - row*TILE_SIZE/2;
         }
 
 
@@ -137,16 +195,17 @@ var playState = {
                 // cards[idx] = this.game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE,'back');
                 cards[idx] = this.game.add.sprite(0, 0,'back');
                 cards[idx].anchor.setTo(0.5, 0.5);
-                cards[idx].scale.x = -1;
+                cards[idx].scale.x = 1;
                 cards[idx].scale.setTo(TILE_SIZE/cards[idx]._frame.width);
-
 
 
                 images[idx].scale.setTo(TILE_SIZE/images[idx]._frame.width);
                 images[idx].anchor.setTo(0.5, 0.5);
 
 
-                movies[idx] = game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE);
+                movies[idx] = game.add.sprite(margin_left + j*TILE_SIZE + TILE_SIZE/2, margin_top + i*TILE_SIZE);
+                // movies[idx] = game.add.sprite(j*TILE_SIZE, margin_top + i*TILE_SIZE);
+                // movies[idx].x = j*TILE_SIZE;
                 movies[idx].addChild(images[idx]);
                 movies[idx].addChild(cards[idx]);
                 movies[idx].events.onInputDown.add(this.doClick, this);

@@ -3,7 +3,14 @@ var loadState= {
     // The preload function is another standard Phaser function that we
     // use to define and load our assets
     preload: function() {
+        game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
 
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        
+        game.scale.pageAlignVertically = true;
+        game.scale.pageAlignHorizontally = true;
+        w = game.width;
+        h = game.height;
         // Add a loading label on the screen
         var loadingLabel = game.add.text(80, 150, 'loading...',
             {font: '30px Courier', fill: '#ffffff'});
@@ -19,7 +26,7 @@ var loadState= {
         // Menu Stage
         game.load.image('background', 'assets/images/wallys-background.png');
         game.load.image('board', 'assets/images/board.png');
-        game.load.image('tree', 'assets/images/tree.png');
+        game.load.image('tree', 'assets/images/tree.png?f');
 
         game.load.spritesheet('start', 'assets/images/start.png?sd', 170, 60);
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');

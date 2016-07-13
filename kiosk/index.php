@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.0.0.min.js"></script>
 
     <script type="text/javascript" src="phaser.min.js"></script>
     <script type="text/javascript" src="bower_components/phaser-state-transition-plugin/dist/phaser-state-transition-plugin.min.js"></script>
