@@ -30,8 +30,10 @@ var menuState = {
         var board  =  game.add.image(50, -135, 'board');
         board.scale.set(0.75);
 
+
         // Add Button
-        var button  =  game.add.button(120, 430, 'start', this.start, this, 1, 0, 2);
+        var button  =  game.add.button(0, 430, 'start', this.start, this, 1, 0, 2);
+        game.add.tween(button).to( { x: 120 }, 1000, Phaser.Easing.Bounce.Out, true);
         button.input.useHandCursor = true;
 
         // Text
@@ -44,7 +46,6 @@ var menuState = {
     resize: function () {
         w = game.width;
         h = game.height;
-        console.log(game.height);
         // BG
         if(1208/w >= 814/h) {
             bg_h = h;

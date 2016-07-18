@@ -10,7 +10,7 @@ var playState = {
 
         var text_option = {
             left : 70,
-            top: game.world.height - 110,
+            top: game.world.height - 165,
             content : 'LEVEL '+level
         };
         this.initBackground(text_option);
@@ -49,7 +49,7 @@ var playState = {
         menu_bg.anchor.setTo(0.5,1);
 
         // Tree
-        tree_play.x = w/2 - tree_play.width/2 + 50;
+        tree_play.x = w/2 - tree_play.width/2 ;
         tree_play.y = h - tree_play.height -30;
 
 
@@ -58,11 +58,13 @@ var playState = {
 
         if(h < 1000) {
 
-            margin_top = h/2 - number_row*TILE_SIZE/2 - 80;
+            margin_top = h/2 - number_row*TILE_SIZE/2 - 200;
 
 
             if((number_row == 6 && number_col ==5)|| (number_row == 5 && number_col ==6)) {
                 margin_top = h/2 - number_row*TILE_SIZE/2 - 60;
+
+                console.log('5-6, 6-5 '+margin_top);
             }
 
             if(number_row == 6 && number_col ==6) {
@@ -74,16 +76,22 @@ var playState = {
             margin_top = h/2 - number_row*TILE_SIZE/2;
         }
 
+
+
         for (var i = 0; i < number_row; i++) {
             for (var j = 0; j < number_col; j++) {
                 var idx = i*number_col+j;
 
-                movies[idx].x = margin_left + j*TILE_SIZE;
+                movies[idx].x = margin_left + j*TILE_SIZE + TILE_SIZE/2;
                 movies[idx].y = margin_top + i*TILE_SIZE;
             }
         }
 
-
+        // Ground scale
+        ground.width = w;
+        text.x = w/2;
+        menuBtn.x = w -160;
+        timeBg.x = w;
 
     },
 
@@ -105,32 +113,34 @@ var playState = {
 
         // add Tree
         tree_play = game.cache.getImage('bg_play');
-        tree_play  =  game.add.image(w/2 - tree_play.width/2 + 50, h - tree_play.height -30, 'bg_play');
+        tree_play  =  game.add.image(w/2 - tree_play.width/2 , h - tree_play.height -30, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
         var  platforms = game.add.group();
-        var ground = platforms.create(0,0, 'ground');
+        ground = platforms.create(0,0, 'ground');
         ground.width = w;
         ground.height = 60;
 
         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(game.world.centerX, 32, "MATCH THE PAIRS", style);
+        text = game.add.text(w/2, 32, "MATCH THE PAIRS", style);
         text.anchor.set(0.5);
 
         // Addd menu button
-        var menuBtn = game.add.button(game.world.width - 160, 15,'menu-btn',this.clickMenu, this, 1, 0, 2);
-        menuBtn.scale.setTo(0.65);
+        menuBtn = game.add.button(game.world.width - 160, 12,'menu-btn',this.clickMenu, this);
         menuBtn.input.useHandCursor = true;
 
         // Add Level table
 
-        var levelTable = game.add.image(50,game.world.height - 150,'level-table');
+        var levelTable = game.add.image(0,game.world.height - 200,'level-table');
+        game.add.tween(levelTable).to( { x: 50 }, 1000, Phaser.Easing.Bounce.Out, true);
         levelTable.scale.setTo(0.4);
 
         var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
-        text_level = game.add.text(text_option.left, text_option.top, text_option.content, style_level);
+
+        text_level = game.add.text(0, text_option.top, text_option.content, style_level);
+        game.add.tween(text_level).to( { x: text_option.left }, 1000, Phaser.Easing.Bounce.Out, true);
     },
 
     /*
@@ -147,13 +157,13 @@ var playState = {
      * */
     initGamePlay: function (row, col) {
 
-        if(row == 6 && col ==6) {
+ /*       if(row == 6 && col ==6) {
             TILE_SIZE = 50;
         }
         if(row == 6 && col ==5) {
             TILE_SIZE = 50;
         }
-
+*/
         var total_card = row*col;
         cards = [];
         images = [];
@@ -168,25 +178,7 @@ var playState = {
 
         this.shuffle(images);
 
-        margin_left = w/2 - col*TILE_SIZE/2;
 
-        if(h < 1000) {
-
-            margin_top = h/2 - row*TILE_SIZE/2 - 80;
-
-
-            if((row == 6 && col ==5)|| (row == 5 && col ==6)) {
-                margin_top = h/2 - row*TILE_SIZE/2 - 60;
-            }
-
-            if(row == 6 && col ==6) {
-                margin_top = h/2 - row*TILE_SIZE/2 - 60;
-            }
-
-        }else{
-
-            margin_top = h/2 - row*TILE_SIZE/2;
-        }
 
 
         for (var i = 0; i < row; i++) {
@@ -370,29 +362,37 @@ var playState = {
      * */
     createIntro: function () {
 
-        menuIntro = game.add.sprite(w/2, h/2, 'pause');
+        menuIntro = game.add.sprite(w/2,0, 'pause');
         menuIntro.anchor.setTo(0.5, 0.5);
         menuIntro.scale.setTo(2,1.5);
         menuIntro.alpha = 0.95;
 
+        game.add.tween(menuIntro).to( { y: h/2 }, 1000, Phaser.Easing.Back.Out, true);
+
         //Text Bold
         var text_bold = { font: "32px AvenirNextLTProHeavyCn", fill: "#000",align: "center" };
-        instructions = game.add.text(w/2, h/2 - 100, 'INSTRUCTIONS', text_bold);
+        instructions = game.add.text(w/2, 0, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5,1);
+
+        game.add.tween(instructions).to( { y: h/2 - 100 }, 1000, Phaser.Easing.Back.Out, true);
 
         // Add text in center pause game
         var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#1d5e00",align: "center" };
-        text_pause = game.add.text(w/2, h/2 + 60, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
+        text_pause = game.add.text(w/2, 0, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
         text_pause.lineSpacing = 3;
 
+        game.add.tween(text_pause).to( { y: h/2 + 60 }, 1000, Phaser.Easing.Back.Out, true);
 
 
-        okBtn =  game.add.button(w/2, h/2 + 120, 'ok','','', 1, 0, 2);
+
+        okBtn =  game.add.button(w/2, 0, 'ok','','');
         okBtn.anchor.set(0.5);
         okBtn.onInputDown.add(this.initGame,this);
         okBtn.input.useHandCursor = true;
+
+        game.add.tween(okBtn).to( { y: h/2 + 120 }, 1000, Phaser.Easing.Back.Out, true);
     },
 
     initGame : function () {
@@ -433,7 +433,39 @@ var playState = {
                 number_col = 4;
                 break;
         }
+
+
+        TILE_SIZE = (3*h/7) / number_row;
+
+        margin_left = w/2 - number_col*TILE_SIZE/2;
+
+        if(h < 1000) {
+
+            margin_top = h/2 - number_row*TILE_SIZE/2 - 120;
+
+
+            if((number_col == 6 && number_col ==5)|| (number_col == 5 && number_col ==6)) {
+
+                margin_top = h/2 - number_row*TILE_SIZE/2 - 90;
+
+
+            }
+
+            if(number_row == 6 && number_col ==6) {
+                margin_top = h/2 - number_row*TILE_SIZE/2 - 100;
+            }
+
+        }else{
+
+            margin_top = h/2 - number_row*TILE_SIZE/2;
+        }
+
+        if( (margin_top - TILE_SIZE/2) <= 60 ) {
+            margin_top = 65 + TILE_SIZE/2;
+        }
+
         _self.initGamePlay(number_row, number_col);
+
 
     },
 
@@ -443,28 +475,36 @@ var playState = {
     clickMenu : function () {
 
         // When the paus button is pressed, we pause the game
-        game.paused = true;
+        setTimeout(function () {
+            game.paused = true;
+        },1000);
+
 
         // Then add the menu
-        menu = game.add.sprite(w/2, h/2, 'pause');
+        menu = game.add.sprite(w/2, 0, 'pause');
         menu.anchor.setTo(0.5, 0.5);
         menu.scale.setTo(2,1.5);
         menu.alpha = 0.8;
 
+        game.add.tween(menu).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
+
         // Add text in center pause game
         var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
-        text_pause = game.add.text(w/2, h/2, "GOING TO THE MENU \nWILL END THE GAME", style_level);
+        text_pause = game.add.text(w/2, 0, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5,1);
 
+        game.add.tween(text_pause).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add two button
-        endGame = game.add.button(w/2 - 180, h/2 + 50,'end-game');
+        endGame = game.add.button(w/2 - 180, 0,'end-game');
         // endGame.scale.setTo(0.25);
         endGame.input.useHandCursor = true;
+        game.add.tween(endGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
-        continueGame = game.add.button(w/2 + 20, h/2 + 50,'continue');
+        continueGame = game.add.button(w/2 + 20, 0,'continue');
         // continueGame.scale.setTo(0.25);
         continueGame.input.useHandCursor = true;
+        game.add.tween(continueGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
     },
 

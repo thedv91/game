@@ -7,23 +7,31 @@ var winState = {
 
         var text_option = {
             left : 70,
-            top : game.world.height - 125,
+            top : game.world.height - 180,
             content : 'THANK \n   YOU'
         };
         playState.initBackground(text_option);
 
-        var style = { font: "24px AvenirNextLTProHeavyCn",boundsAlignH: "center",  boundsAlignV: "middle", fill: "#9bcd16", tabs: 100 };
-        var style_white = { font: "bold 40px AvenirNextLTProHeavyCn",boundsAlignH: "center",  boundsAlignV: "middle", fill: "#fff", tabs: 100 };
+        var style = { font: "35px AvenirNextLTProHeavyCn", fill: "#b0da40", tabs: 140 };
+        var style_white = { font: "bold 42px AvenirNextLTProHeavyCn", fill: "#fff", tabs: 140 };
 
-        text_winner = game.add.text(0, 0, "MOVES         TIME", style);
-        text_winner.setTextBounds(0, 100, w, h/2 - 300);
-        // text_winner.anchor.setTo(0.5);
-        
-        scrore_winner = game.add.text(15, 0, moves+"\t"+time+"s"+"\t", style_white);
-        scrore_winner.setTextBounds(0, 100, w, h/2 - 225);
+        text_winner = game.add.text(game.world.centerX, h/2 - 270, "MOVES\tTIME", {
+            font: "35px AvenirNextLTProHeavyCn",
+            fill: "#b0da40",
+            align: "center",
+            tabs: 140
+        });
+        text_winner.anchor.set(0.5);
+
+        scrore_winner = game.add.text(game.world.centerX, h/2 - 210, moves+"\t"+time+"s", {
+            font: "bold 60px AvenirNextLTProHeavyCn",
+            fill: "#fff",
+            tabs: 140
+        });
+        scrore_winner.anchor.set(0.5);
 
         // User name
-        nameUser = this.createInput(game.world.centerX+100, h/2 - 120);
+        nameUser = this.createInput(game.world.centerX+40, h/2 - 140);
         nameUser.anchor.set(0.5);
 
         if(localStorage.getItem('user_name')){
@@ -36,7 +44,7 @@ var winState = {
         game.add.tween(nameUser);
 
         // User Emaik
-        emailUser = this.createInput(game.world.centerX+100, h/2 - 70);
+        emailUser = this.createInput(game.world.centerX+40, h/2 - 80);
         emailUser.anchor.set(0.5);
 
         if(localStorage.getItem('user_email')){
@@ -47,13 +55,49 @@ var winState = {
 
         game.add.tween(emailUser);
 
-        info_winner = game.add.text(w/2-130, h/2 - 90, " NAME:\nEMAIL:", style);
+        info_winner = game.add.text(w/2-185, h/2 - 102, " NAME:\nEMAIL:", style);
         info_winner.anchor.setTo(0.5);
         info_winner.lineSpacing = 10;
 
-        var submitBtn  =  game.add.button(w/2+100, h/2 , 'submit', this.submitInfo, this, 1, 0, 2);
+        var submitBtn  =  game.add.button(w/2, h/2 , 'submit', this.submitInfo, this);
         submitBtn.input.useHandCursor = true;
         submitBtn.anchor.setTo(0.5);
+    },
+
+    resize: function () {
+        w = game.width;
+        h = game.height;
+
+        // BG
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
+            bg_w = w;
+            bg_h = 814*w/1208;
+        }
+        menu_bg.x = w/2;
+        menu_bg.y = h;
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
+        menu_bg.anchor.setTo(0.5,1);
+
+        // Tree
+        tree_play.x = w/2 - tree_play.width/2 ;
+        tree_play.y = h - tree_play.height -30;
+
+
+        // Ground scale
+        ground.width = w;
+        text.x = w/2;
+        menuBtn.x = w -160;
+
+        // submit form
+        scrore_winner.x = w/2;
+        text_winner.x = w/2;
+        info_winner.x = w/2 -185;
+        emailUser.x = w/2 + 40;
+        nameUser.x = w/2 + 40;
 
     },
 
@@ -125,14 +169,14 @@ var winState = {
 
 
     createInput: function(x, y){
-        var bmd = this.add.bitmapData(350, 40);
+        var bmd = this.add.bitmapData(350, 42);
         var myInput = this.game.add.sprite(x, y, bmd);
 
         myInput.canvasInput = new CanvasInput({
             canvas: bmd.canvas,
             id: '',
             fontSize: 24,
-            // height : 30,
+            height : 30,
             fontFamily: 'AvenirNextLTProHeavyCn',
             fontColor: '#212121',
             width: 340,

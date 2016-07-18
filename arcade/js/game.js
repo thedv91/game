@@ -17,7 +17,7 @@ var h = 736;*/
 /*var w = 768;
 var h = 1024;*/
 
-var w, h, menu_bg, margin_left, margin_top;
+var w, h, menu_bg, margin_left, margin_top, TILE_SIZE;
 
 
 
@@ -51,23 +51,6 @@ var level = 1;
 var game_type = 1;
 
 var click = true;
-
-
-console.log(game.device);
-console.log(game.device.desktop);
-if(game.device.desktop) {
-    console.log('22');
-     if(w > 1000){
-        TILE_SIZE = 120;
-     }else{
-        TILE_SIZE = 80;
-     }
-}else{
-    console.log('33');
-    TILE_SIZE = 120;
-}
-
-
 
 
 
