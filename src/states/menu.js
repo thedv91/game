@@ -45,7 +45,7 @@ export default class extends Phaser.State {
         nameUser.add(this.make.text(130, 155, 'HALL OFF FAME', style_title));
 
 
-
+        var _self = this;
         $.ajax({
             type: "GET",
             url: "api/public/memory/ranks",
@@ -55,8 +55,8 @@ export default class extends Phaser.State {
                 let users = response.ranks;
 
                 for (let i = 0; i < users.length; i++) {
-                    nameUser.add(this.make.text(70, 200 + i * 28, users[i].name.toUpperCase(), style_normal));
-                    nameUser.add(this.make.text(250, 200 + i * 28, users[i].score + ' PTS', style_normal));
+                    nameUser.add(_self.make.text(70, 200 + i * 28, users[i].name.toUpperCase(), style_normal));
+                    nameUser.add(_self.make.text(250, 200 + i * 28, users[i].score + ' PTS', style_normal));
                 }
 
             }
