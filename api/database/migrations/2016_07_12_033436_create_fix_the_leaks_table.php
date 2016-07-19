@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateMemoryTable extends Migration
+class CreateFixTheLeaksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,14 @@ class CreateMemoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('memory', function (Blueprint $table) {
+        Schema::create('fix_the_leaks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 255);
             $table->string('email', 255);
-            $table->integer('moves');
             $table->integer('time');
             $table->float('score');
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +30,6 @@ class CreateMemoryTable extends Migration
      */
     public function down()
     {
-        Schema::drop('memory');
+        Schema::drop('fix_the_leaks');
     }
 }
