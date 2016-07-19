@@ -1,27 +1,13 @@
 import 'pixi';
 import 'p2';
+import 'whatwg-fetch';
 import Phaser from 'phaser';
 import 'phaser-state-transition-plugin';
+import './../libs/phaser-input.js';
 
-import BootState from './states/boot';
-import LoadState from './states/load';
-import MenuState from './states/menu';
-import PlayState from './states/play';
-import WinState from './states/win';
-import val from './variables';
+import Memory from './game/memory/app';
+import FixTheLeak from './game/fix-the-leak/game';
 
-class Game extends Phaser.Game {
-	constructor() {
-		super(val.w, val.h, Phaser.AUTO);
-		
-		this.state.add('boot', BootState);
-		this.state.add('load', LoadState);
-		this.state.add('menu', MenuState);
-		this.state.add('play', PlayState);
-		this.state.add('win', WinState);
 
-		this.state.start('boot');
-	}
-}
-
-window.game = new Game();
+new FixTheLeak(810, 640, 'app');
+//new Memory(810, 640, 'memory');
