@@ -8,19 +8,27 @@ var winState = {
         var text_option = {
             left : 70,
             top : game.world.height - 125,
-            content : 'THANK \n   YOU'
+            content : 'THANK YOU'
         };
         playState.initBackground(text_option);
 
-        var style = { font: "24px AvenirNextLTProHeavyCn",boundsAlignH: "center",  boundsAlignV: "middle", fill: "#9bcd16", tabs: 100 };
-        var style_white = { font: "bold 40px AvenirNextLTProHeavyCn",boundsAlignH: "center",  boundsAlignV: "middle", fill: "#fff", tabs: 100 };
+       var style = { font: "35px AvenirNextLTProHeavyCn", fill: "#b0da40", tabs: 140 };
+        var style_white = { font: "bold 42px AvenirNextLTProHeavyCn", fill: "#fff", tabs: 140 };
 
-        text_winner = game.add.text(0, 0, "MOVES         TIME", style);
-        text_winner.setTextBounds(0, 100, w, h/2);
-        // text_winner.anchor.setTo(0.5);
+        text_winner = game.add.text(game.world.centerX, h/2 - 270, "MOVES\tTIME", {
+            font: "35px AvenirNextLTProHeavyCn",
+            fill: "#b0da40",
+            align: "center",
+            tabs: 140
+        });
+        text_winner.anchor.set(0.5);
         
-        scrore_winner = game.add.text(15, 0, moves+"\t"+time+"s", style_white);
-        scrore_winner.setTextBounds(0, 100, w, h/2 + 100);
+        scrore_winner = game.add.text(game.world.centerX, h/2 - 210, moves+"\t"+time+"s", {
+            font: "bold 60px AvenirNextLTProHeavyCn",
+            fill: "#fff",
+            tabs: 140
+        });
+        scrore_winner.anchor.set(0.5);
 
         // User name
         nameUser = this.createInput(game.world.centerX+100, h/2 - 120);
@@ -47,7 +55,7 @@ var winState = {
         info_winner.anchor.setTo(0.5);
         info_winner.lineSpacing = 10;
 
-        var submitBtn  =  game.add.button(w/2+100, h/2 , 'submit', this.submitInfo, this, 1, 0, 2);
+        var submitBtn  =  game.add.button(w/2, h/2 , 'submit', this.submitInfo, this);
         submitBtn.input.useHandCursor = true;
         submitBtn.anchor.setTo(0.5);
 

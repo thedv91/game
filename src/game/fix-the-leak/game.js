@@ -4,6 +4,7 @@ import Boot from './states/boot';
 import Menu from './states/menu';
 import GamePlay from './states/game';
 import Intro from './states/intro';
+import GameOver from './states/game-over';
 
 class LeakGame extends Phaser.Game {
 
@@ -17,6 +18,7 @@ class LeakGame extends Phaser.Game {
 		this.state.add('intro', Intro);
 		this.state.add('menu', Menu);
 		this.state.add('game', GamePlay);
+		this.state.add('game-over', GameOver);
 		this.state.start('boot');
 	}	
 }

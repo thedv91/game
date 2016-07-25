@@ -25,6 +25,7 @@ var loadState= {
         }
         // Menu Stage
         game.load.image('background', 'assets/images/wallys-background.png?dfdf');
+        game.load.image('play_bg', 'assets/images/play_bg.jpg');
         game.load.image('board', 'assets/images/board.png');
         game.load.image('tree', 'assets/images/tree.png?df');
 
@@ -56,6 +57,6 @@ var loadState= {
         // Call the menu state
         game.state.start('menu');
         // game.state.start('play');
-        // game.state.start('win');
+        //  game.state.start('win');
     }
 };

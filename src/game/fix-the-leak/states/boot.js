@@ -46,6 +46,9 @@ class Boot extends Phaser.State {
 		this.load.spritesheet('ok-button', 'assets/buttons/ok_button_sprite_sheet.png', 170, 60);
 		this.load.spritesheet('submit-button', 'assets/buttons/submit_button_sprite_sheet.png', 170, 60);
 
+		this.load.spritesheet('end-game', 'assets/buttons/end-game.png', 124, 56);
+		this.load.spritesheet('continue', 'assets/buttons/continue.png', 124, 56);
+
 		this.load.image('close-button', 'assets/buttons/close.png');
 		this.load.image('splash', 'assets/loading/phaser.png');
 		this.load.image('background', 'assets/fix-the-leak/background.png');
@@ -53,7 +56,6 @@ class Boot extends Phaser.State {
 		this.load.image('bg-water', 'assets/fix-the-leak/bg-water.png');
 		this.load.image('window', 'assets/fix-the-leak/window.png');
 		this.load.image('animator', 'assets/fix-the-leak/animator.png');
-
 		this.load.image('black', 'assets/fix-the-leak/black.png');
 		this.load.image('blue-green', 'assets/fix-the-leak/blue-green.png');
 		this.load.image('white', 'assets/fix-the-leak/white.png');
@@ -68,8 +70,15 @@ class Boot extends Phaser.State {
 
 		this.load.audio('click', 'assets/sounds/click.MP3');
 
-		this.load.tilemap('pipe-maps', 'assets/fix-the-leak/tilemaps/Map.json', null, Phaser.Tilemap.TILED_JSON);
-		this.load.image('tiles-maps', 'assets/fix-the-leak/tilemaps/maps.png');
+		/*this.load.tilemap('pipe-maps', 'assets/fix-the-leak/tilemaps/Map.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.image('tiles-maps', 'assets/fix-the-leak/tilemaps/maps.png');*/
+
+		// Add maps by manhnt
+		this.load.tilemap('map', 'assets/tilemaps/maps/pipe.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.image('pipe', 'assets/tilemaps/tiles/pipe.png');
+		this.load.image('water', 'assets/tilemaps/tiles/water.png');
+
+
 
 	}
 

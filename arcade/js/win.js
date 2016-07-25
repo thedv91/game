@@ -8,7 +8,7 @@ var winState = {
         var text_option = {
             left : 70,
             top : game.world.height - 180,
-            content : 'THANK \n   YOU'
+            content : 'THANK YOU'
         };
         playState.initBackground(text_option);
 

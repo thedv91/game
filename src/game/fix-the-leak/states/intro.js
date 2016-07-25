@@ -10,15 +10,16 @@ class Intro extends Phaser.State {
 		this.panelHeight = 400;
 		this.panelPadding = 20;
 		this.animateDuration = 1000;
+		this.level = 1;
 	}
 	init() {
 
 	}
 	create() {
 
-
-
-
+		this.level = 1;
+		this.score_game = 0;
+		this.time_play = 0;
 
 
 		// this.panel = this.add.group();
@@ -204,14 +205,19 @@ class Intro extends Phaser.State {
 		let cc = this.add.button(0, 0, 'start-button', this.actionOnClick.bind(this), this, 1, 0, 2);
 		cc.anchor.setTo(0.5);
 		cc.left = 120;
-		cc.y = this.world._height + 100;
+		cc.y = this.world.height + 100;
 
 		let tween = this.add.tween(cc);
 		tween.to({
-			y: this.world._height - 100,
+			y: this.world.height - 100,
 			alpha: 1
 		}, this.animateDuration, Phaser.Easing.Circular.Out);
 		tween.start();
+
+		tween.onComplete.add(() => {
+		});
+
+
 		return cc;
 	}
 
@@ -281,7 +287,7 @@ class Intro extends Phaser.State {
 		}, this.animateDuration, Phaser.Easing.Cubic.InOut, true);
 
 		tweenButton.onComplete.add(() => {
-			this.state.start('game');
+			this.state.start('game', true, false, this.level, this.score_game, this.time_play);
 		});
 
 	}

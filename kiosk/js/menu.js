@@ -30,7 +30,8 @@ var menuState = {
         board.scale.set(0.75);
 
         // Add Button
-        var button  =  game.add.button(120, 430, 'start', this.start, this, 1, 0, 2);
+        var button  =  game.add.button(0, 430, 'start', this.start, this, 1, 0, 2);
+        game.add.tween(button).to( { x: 120 }, 1000, Phaser.Easing.Bounce.Out, true);
         button.input.useHandCursor = true;
 
         // Text

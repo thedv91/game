@@ -41,7 +41,7 @@ var playState = {
             bg_w = w;
             bg_h = 814*w/1208;
         }
-        var menu_bg = game.add.image(w/2, h, "background");
+        menu_bg = game.add.image(w/2, h, "play_bg");
         menu_bg.width = bg_w;
         menu_bg.height = bg_h;
         menu_bg.anchor.setTo(0.5,1);
@@ -55,25 +55,25 @@ var playState = {
         var  platforms = game.add.group();
         var ground = platforms.create(0,0, 'ground');
         ground.width = w;
-        ground.height = 70;
+        ground.height = 60;
 
-        // Add text "Match the pairs" on top screen
+         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(game.world.centerX, 38, "MATCH THE PAIRS", style);
+        text = game.add.text(w/2, 32, "MATCH THE PAIRS", style);
         text.anchor.set(0.5);
 
         // Addd menu button
-        var menuBtn = game.add.button(game.world.width - 160, 15,'menu-btn',this.clickMenu, this, 1, 0, 2);
-        menuBtn.scale.setTo(0.75);
+        menuBtn = game.add.button(game.world.width - 160, 12,'menu-btn',this.clickMenu, this);
         menuBtn.input.useHandCursor = true;
 
         // Add Level table
 
-        var levelTable = game.add.image(50,game.world.height - 150,'level-table');
-        levelTable.scale.setTo(0.4);
+        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
-        text_level = game.add.text(text_option.left, text_option.top, text_option.content, style_level);
+        text_level = game.add.text(0, h, text_option.content, style_level);
+        text_level.anchor.setTo(0.5,1);
+
+        game.add.tween(text_level).to( { x: w/2 }, 1000, Phaser.Easing.Bounce.Out, true);
     },
 
     /*
@@ -146,11 +146,12 @@ var playState = {
                 images[idx].anchor.setTo(0.5, 0.5);
 
 
-                movies[idx] = game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE);
+                movies[idx] = game.add.sprite(left + j*TILE_SIZE + TILE_SIZE/2, top + i*TILE_SIZE);
                 movies[idx].addChild(images[idx]);
                 movies[idx].addChild(cards[idx]);
                 movies[idx].events.onInputDown.add(this.doClick, this);
                 movies[idx].inputEnabled = true;
+                movies[idx].input.useHandCursor = true;
                 movies[idx].index = idx;
 
                 game.physics.arcade.enable(movies[idx]);
@@ -203,6 +204,7 @@ var playState = {
     },
 
     doClick: function (sprite) {
+        
         var _self = this;
 
 
@@ -234,10 +236,10 @@ var playState = {
                     _self.flipFakeCorrect(movies[secondClick]);
 
                     // firstClick = null; secondClick = null;
-                },400);
+                },800);
                 setTimeout(function () {
                     firstClick = null; secondClick = null;
-                },600);
+                },1000);
 
                 total_open = total_open + 2;
 
@@ -252,10 +254,7 @@ var playState = {
                         images = [];
                         movies = [];
                         game.state.start('win');
-
-                        // We start the win state
-
-                    },500);
+                    },1000);
 
                 }
             }
@@ -307,29 +306,37 @@ var playState = {
      * */
     createIntro: function () {
 
-        menuIntro = game.add.sprite(w/2, h/2, 'pause');
+        menuIntro = game.add.sprite(w/2,0, 'pause');
         menuIntro.anchor.setTo(0.5, 0.5);
         menuIntro.scale.setTo(2,1.5);
         menuIntro.alpha = 0.95;
 
+        game.add.tween(menuIntro).to( { y: h/2 }, 1000, Phaser.Easing.Back.Out, true);
+
         //Text Bold
-        var text_bold = { font: "32px AvenirNextLTProHeavyCn", fill: "#000",align: "center" };
-        instructions = game.add.text(w/2, h/2 - 100, 'INSTRUCTIONS', text_bold);
+        var text_bold = { font: "42px AvenirNextLTProHeavyCn", fill: "#3f5405",align: "center" };
+        instructions = game.add.text(w/2, 0, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5,1);
 
+        game.add.tween(instructions).to( { y: h/2 - 110 }, 1000, Phaser.Easing.Back.Out, true);
+
         // Add text in center pause game
-        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#1d5e00",align: "center" };
-        text_pause = game.add.text(w/2, h/2 + 60, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
+        var style_level = { font: "bold 34px AvenirNextLTProHeavyCn", fill: "#3f5405",align: "center" };
+        text_pause = game.add.text(w/2, 0, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
-        text_pause.lineSpacing = 3;
+        text_pause.lineSpacing = 1;
+
+        game.add.tween(text_pause).to( { y: h/2 + 90 }, 1000, Phaser.Easing.Back.Out, true);
 
 
 
-        okBtn =  game.add.button(w/2, h/2 + 120, 'ok','','', 1, 0, 2);
+        okBtn =  game.add.button(w/2, 0, 'ok','','');
         okBtn.anchor.set(0.5);
         okBtn.onInputDown.add(this.initGame,this);
         okBtn.input.useHandCursor = true;
+
+        game.add.tween(okBtn).to( { y: h/2 + 135 }, 1000, Phaser.Easing.Back.Out, true);
     },
 
     initGame : function () {
@@ -353,29 +360,37 @@ var playState = {
      * */
     clickMenu : function () {
 
-        // When the paus button is pressed, we pause the game
-        game.paused = true;
+         // When the paus button is pressed, we pause the game
+        setTimeout(function () {
+            game.paused = true;
+        },1000);
+
 
         // Then add the menu
-        menu = game.add.sprite(w/2, h/2, 'pause');
+        menu = game.add.sprite(w/2, 0, 'pause');
         menu.anchor.setTo(0.5, 0.5);
         menu.scale.setTo(2,1.5);
-        menu.alpha = 0.8;
+        menu.alpha = 0.95;
+
+        game.add.tween(menu).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add text in center pause game
-        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#875d25", boundsAlignH: "center", boundsAlignV: "middle" };
-        text_pause = game.add.text(w/2, h/2, "GOING TO THE MENU \nWILL END THE GAME", style_level);
+        var style_level = { font: "bold 42px AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
+        text_pause = game.add.text(w/2, 0, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5,1);
 
+        game.add.tween(text_pause).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add two button
-        endGame = game.add.button(w/2 - 180, h/2 + 50,'end-game');
+        endGame = game.add.button(w/2 - 180, 0,'end-game');
         // endGame.scale.setTo(0.25);
         endGame.input.useHandCursor = true;
+        game.add.tween(endGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
-        continueGame = game.add.button(w/2 + 20, h/2 + 50,'continue');
+        continueGame = game.add.button(w/2 + 20, 0,'continue');
         // continueGame.scale.setTo(0.25);
         continueGame.input.useHandCursor = true;
+        game.add.tween(continueGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
     },
 
@@ -442,15 +457,8 @@ var playState = {
     update: function() {
 
         if (noMatch) {
-            if (this.game.time.totalElapsedSeconds() - clickTime > 0.5) {
+            if (this.game.time.totalElapsedSeconds() - clickTime > 1) {
                 noMatch = false;
-                /* cards[firstClick].visible = true;
-                 cards[firstClick].alpha = 1.0;
-                 cards[secondClick].visible = true;
-                 cards[secondClick].alpha = 1.0;
-
-                 images[firstClick].visible = false;
-                 images[secondClick].visible = false;*/
 
                 this.flipCard(movies[firstClick]);
                 this.flipCard(movies[secondClick]);
