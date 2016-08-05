@@ -18,6 +18,9 @@ Route::get('/', function () {
 Route::any('memory/save-info', 'MemoryController@saveInfo');
 Route::any('memory/ranks', 'MemoryController@getHeightScore');
 
+
+
 Route::group(['namespace' => 'Api', 'prefix' => 'api/v1', 'middleware' => 'cors'], function () {
     Route::resource('fix-the-leak', 'FixTheLeakController');
+    Route::any('ranks', 'FixTheLeakController@getRank');
 });

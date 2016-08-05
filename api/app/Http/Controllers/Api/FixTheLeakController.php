@@ -14,15 +14,75 @@ class FixTheLeakController extends Controller
     {
         $this->model = $model;
     }
+
+    public function getRank(Request $request)
+    {
+
+        // var_dump($request->all());die();
+        $user_email = $request->input('email');
+        $type = $request->input('type');
+
+        $fixs = FixTheLeak::where('type',$type)->get();
+        $user = FixTheLeak::where('email',$user_email)->where('type',$type)->first();
+
+        if(count($user) < 1) {
+            $rank = -1;
+        }else{
+
+            $user_time = $user->score;
+
+            $rank = 1;
+            foreach ($fixs as $key=> $fix){
+                if($fix->score < $user_time ) {
+                    $rank++;
+                }
+
+            }
+
+        }
+
+
+        $datas = $this->model->orderBy('score', 'ASC')->limit(6)->get();
+        // return response()->json($datas);
+        return response()->json(['tops'=> $datas, 'rank'=> $rank]);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datas = $this->model->orderBy('score', 'DESC')->limit(6)->get();
-        return response()->json($datas);
+
+        // var_dump($request->all());die();
+        // var_dump(1);die();
+        $user_email = $request->input('email');
+        $type = $request->input('type');
+
+        $fixs = FixTheLeak::where('type',$type)->get();
+        $user = FixTheLeak::where('email',$user_email)->where('type',$type)->first();
+
+        if(count($user) < 1) {
+            $rank = -1;
+        }else{
+
+            $user_time = $user->time;
+
+            $rank = 1;
+            foreach ($fixs as $key=> $fix){
+                if($fix->score <= $user_time ) {
+                    $rank++;
+                }
+
+            }
+
+        }
+
+
+        $datas = $this->model->orderBy('score', 'ASC')->limit(6)->get();
+        // return response()->json($datas);
+        return response()->json(['tops'=> $datas, 'rank'=> $rank]);
     }
 
     /**
@@ -43,16 +103,27 @@ class FixTheLeakController extends Controller
      */
     public function store(Request $request)
     {
-        $this->model->name  = $request->name;
-        $this->model->email = $request->email;
-        $this->model->score = $request->score;
+        $datas = \Request::all();
+
+        $fix = FixTheLeak::where('email',$datas['email'])->where('type', $datas['type'])->first();
+
+        if(count($fix) < 1){
+            $fix = new FixTheLeak();
+        }
+
+
+        $fix->name  = $request->name;
+        $fix->email = $request->email;
+        $fix->score = $request->score;
+        $fix->type = $request->type;
         try {
-            $this->model->save();
-            return response()->json($this->model);
+            $fix->save();
+            return response()->json($fix);
         } catch (QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
+
 
     /**
      * Display the specified resource.

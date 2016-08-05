@@ -1,19 +1,46 @@
 var playState = {
 
     init: function(level) {
-        console.log('Level '+level);
+
+        if(!level) {
+            level = 1;
+        }
     },
     create: function() {
         var _self = this;
+        enableClickMenu = false;
 
-        game.input.onDown.add(this.unpause, self);
+        // Config for panel
+        if(game.width <= 810){
+            panel_height = 57;
+        }else{
+            panel_height = 90;
+        }
+        match_the_pair_left = w/2;
+        if(game.width <= 500)
+        {
+            panel_margin_left = 12;
+            intro_font = '20px';
+            menu_font = '26px';
+            match_the_pair_left = w/4;
+        }
+        if(game.width > 500 && game.width <= 820){
+            panel_margin_left = 30;
+            intro_font = '30px';
+            menu_font = '32px';
+        }
+        if(game.width > 820) {
+            panel_margin_left = 44;
+            intro_font = '34px';
+            menu_font = '42px';
+        }
 
-        var text_option = {
-            left : 70,
-            top: game.world.height - 165,
-            content : 'LEVEL '+level
-        };
-        this.initBackground(text_option);
+
+
+        // game.input.onDown.add(this.unpause, self);
+
+
+        this.initBackground();
 
 
         // Show intro screen when loaded
@@ -64,7 +91,6 @@ var playState = {
             if((number_row == 6 && number_col ==5)|| (number_row == 5 && number_col ==6)) {
                 margin_top = h/2 - number_row*TILE_SIZE/2 - 60;
 
-                console.log('5-6, 6-5 '+margin_top);
             }
 
             if(number_row == 6 && number_col ==6) {
@@ -95,7 +121,7 @@ var playState = {
 
     },
 
-    initBackground : function (text_option) {
+    initBackground : function () {
 
         var bg_w,bg_h;
 
@@ -113,33 +139,36 @@ var playState = {
 
         // add Tree
         tree_play = game.cache.getImage('bg_play');
-        tree_play  =  game.add.image(w/2 - tree_play.width/2 , h - tree_play.height -30, 'bg_play');
+        tree_play  =  game.add.image(w/2 - tree_play.width/2 , h - tree_play.height - 65, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
         var  platforms = game.add.group();
         ground = platforms.create(0,0, 'ground');
         ground.width = w;
-        ground.height = 60;
+        ground.height = panel_height;
+
 
         // Add text "Match the pairs" on top screen
         var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        text = game.add.text(w/2, 32, "MATCH THE PAIRS", style);
-        text.anchor.set(0.5);
+        if(game.width <= 500){
+            text = game.add.text(10, panel_height/4, "MATCH THE PAIRS", {
+                font: "bold 28px AvenirNextLTProHeavyCn",
+                fill: "#fff",
+                boundsAlignH: "center",
+                boundsAlignV: "middle"
+            });
+            // text.anchor.set(1,0.5);
+        }else{
+
+            text = game.add.text(match_the_pair_left, panel_height /2, "MATCH THE PAIRS", style);
+            text.anchor.set(0.5);
+
+        }
 
         // Addd menu button
-        menuBtn = game.add.button(game.world.width - 160, 12,'menu-btn',this.clickMenu, this);
+        menuBtn = game.add.button(game.world.width - 160, panel_height/2 - 18,'menu-btn',this.clickMenu, this);
         menuBtn.input.useHandCursor = true;
-
-        // Add Level table
-
-
-        var style_level = { font: "bold 24px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "middle" };
-
-        text_level = game.add.text(0, h, text_option.content, style_level);
-        text_level.anchor.setTo(0.5,1);
-
-        game.add.tween(text_level).to( { x: w/2 }, 1000, Phaser.Easing.Bounce.Out, true);
     },
 
     /*
@@ -148,7 +177,7 @@ var playState = {
     updateTime: function(){
 
         time++;
-        time_counter.setText(time + 's');
+        text_bottom.text = level+' \t'+moves+' \t'+time+'s';
     },
 
     /*
@@ -156,7 +185,6 @@ var playState = {
      * */
     initGamePlay: function (row, col) {
 
-        console.log(row,col);
 
         var total_card = row*col;
         cards = [];
@@ -171,8 +199,6 @@ var playState = {
         }
 
         this.shuffle(images);
-
-
 
 
         for (var i = 0; i < row; i++) {
@@ -255,7 +281,8 @@ var playState = {
 
         if (firstClick == null) {
             moves++;
-            move_counter.text = moves;
+            text_bottom.text = level+' \t'+moves+' \t'+time+'s';
+
             this.flipCard(sprite);
 
             firstClick = sprite.index;
@@ -263,7 +290,7 @@ var playState = {
         else if (secondClick == null) {
 
             moves++;
-            move_counter.text = moves;
+            text_bottom.text = level+' \t'+moves+' \t'+time+'s';
             this.flipCard(sprite);
 
             secondClick = sprite.index;
@@ -337,33 +364,41 @@ var playState = {
 
         is_playing = 1;
 
-        var style = { font: "20px AvenirNextLTProHeavyCn", fill: "#7d5c2e", tabs: 20 };
-        var style_bottom = { font: "bold 32px AvenirNextLTProHeavyCn", fill: "#755425", tabs: 20 };
+        var style = { font: "24px AvenirNextLTProHeavyCn", fill: "#3f5405", tabs: 60 };
+        var style_bottom = { font: "bold 40px AvenirNextLTProHeavyCn", fill: "#3f5405", tabs: 110 };
 
-        timeBg = game.add.sprite(w, 100, 'time-bg');
-        timeBg.width = 198;
-        timeBg.height = 116;
+        manager_time = game.add.group();
+        manager_time.x = 0;
+        manager_time.y = h - 60;
 
-        timeBg.addChild(game.add.text(30, 10, "MOVES \t\t TIME", style));
-        move_counter = game.add.text(45, 40, ""+moves+"", style_bottom);
-        timeBg.addChild(move_counter);
 
-        time_counter = game.add.text(120, 40, time+"s", style_bottom);
-        timeBg.addChild(time_counter);
+        // Add Level table
+        var text_top = game.add.text(0, 0, 'LEVEL \tMOVES \tTIME', style);
+        text_top.anchor.setTo(0.5);
+
+        text_bottom = game.add.text(25, 35, level+' \t'+moves+' \t'+time+'s', style_bottom);
+        // text_bottom = game.add.text(25, 35, 6+' \t'+523+' \t'+653+'s', style_bottom);
+        text_bottom.anchor.setTo(0.5);
+
+        manager_time.add(text_top);
+        manager_time.add(text_bottom);
+
+        game.add.tween(manager_time).to( { x: w/2 }, 1000, Phaser.Easing.Bounce.Out, true);
 
     },
 
     /*
      *  Show intructions Game
      * */
+
     createIntro: function () {
 
-        menuIntro = game.add.sprite(w/2,0, 'pause');
-        menuIntro.anchor.setTo(0.5, 0.5);
-        menuIntro.scale.setTo(2,1.5);
+        menuIntro = game.add.sprite(panel_margin_left,0,'pause');
+        menuIntro.width = game.width - panel_margin_left * 2;
+        menuIntro.height = game.height - panel_height - 50;
         menuIntro.alpha = 0.95;
 
-        game.add.tween(menuIntro).to( { y: h/2 }, 1000, Phaser.Easing.Back.Out, true);
+        game.add.tween(menuIntro).to( { y: panel_height + 25 }, 500, Phaser.Easing.Back.Out, true);
 
         //Text Bold
         var text_bold = { font: "42px AvenirNextLTProHeavyCn", fill: "#3f5405",align: "center" };
@@ -373,7 +408,7 @@ var playState = {
         game.add.tween(instructions).to( { y: h/2 - 110 }, 1000, Phaser.Easing.Back.Out, true);
 
         // Add text in center pause game
-        var style_level = { font: "bold 34px AvenirNextLTProHeavyCn", fill: "#3f5405",align: "center" };
+        var style_level = { font: "bold "+intro_font+" AvenirNextLTProHeavyCn", fill: "#3f5405",align: "center" };
         text_pause = game.add.text(w/2, 0, "TAP ON THE BOXES \nTO FIND MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5,1);
@@ -394,6 +429,7 @@ var playState = {
     initGame : function () {
 
         var _self = this;
+        enableClickMenu = true;
         okBtn.destroy();
         menuIntro.destroy();
         instructions.destroy();
@@ -430,8 +466,12 @@ var playState = {
                 break;
         }
 
+        if(game.width < 500) {
+            TILE_SIZE = (5*w/6) / number_col;
+        }else{
+            TILE_SIZE = (3*h/7) / number_row;
+        }
 
-        TILE_SIZE = (3*h/7) / number_row;
 
         margin_left = w/2 - number_col*TILE_SIZE/2;
 
@@ -456,8 +496,8 @@ var playState = {
             margin_top = h/2 - number_row*TILE_SIZE/2;
         }
 
-        if( (margin_top - TILE_SIZE/2) <= 60 ) {
-            margin_top = 65 + TILE_SIZE/2;
+        if( (margin_top - TILE_SIZE/2) <= panel_height ) {
+            margin_top = panel_height + TILE_SIZE/2 + 10;
         }
 
         _self.initGamePlay(number_row, number_col);
@@ -470,98 +510,57 @@ var playState = {
      * */
     clickMenu : function () {
 
-        // When the paus button is pressed, we pause the game
-        setTimeout(function () {
-            game.paused = true;
-        },1000);
-
+        if(!enableClickMenu) return false;
+        enableClickMenu = false;
+        game.time.events.pause();
 
         // Then add the menu
-        menu = game.add.sprite(w/2, 0, 'pause');
-        menu.anchor.setTo(0.5, 0.5);
-        menu.scale.setTo(2,1.5);
+        menu = game.add.sprite(panel_margin_left,0,'pause');
+        menu.width = game.width - panel_margin_left * 2;
+        menu.height = game.height - panel_height - 50;
         menu.alpha = 0.95;
 
-        game.add.tween(menu).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
+        game.add.tween(menu).to( { y: panel_height + 25 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add text in center pause game
-        var style_level = { font: "bold 42px AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold "+menu_font+" AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
         text_pause = game.add.text(w/2, 0, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5,1);
 
         game.add.tween(text_pause).to( { y: h/2 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add two button
-        endGame = game.add.button(w/2 - 180, 0,'end-game');
+        endGame = game.add.button(w/2 - 160, 0,'end-game', this.clickEndGame);
         // endGame.scale.setTo(0.25);
         endGame.input.useHandCursor = true;
         game.add.tween(endGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
-        continueGame = game.add.button(w/2 + 20, 0,'continue');
+        continueGame = game.add.button(w/2, 0,'continue',this.clickContinueGame);
         // continueGame.scale.setTo(0.25);
         continueGame.input.useHandCursor = true;
         game.add.tween(continueGame).to( { y: h/2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
     },
 
-    // And finally the method that handels the pause menu
-    unpause :function(event){
-        // Only act if paused
-        if(game.paused){
+    clickContinueGame: function () {
+        enableClickMenu = true;
+        menu.destroy();
+        text_pause.destroy();
+        endGame.destroy();
+        continueGame.destroy();
+        game.time.events.resume();
+    },
 
-            // Click to Ok Btn
-            var m1 = w/2 - 60 , m2 = w/2 + 60,
-                n1 = h/2 + 120 - 60 , n2 = h/2 + 120 + 50 + 60;
+    clickEndGame: function () {
+        // remove All image card
+        cards = [];
+        images = [];
+        moves = 0;
+        time = 0;
+        score = 0;
 
-            // Click end Game, redirect to 'menu' stage
-            if(event.x > m1 && event.x < m2 && event.y > n1 && event.y < n2 ){
-
-                menuIntro.destroy();
-                instructions.destroy();
-                text_pause.destroy();
-                okBtn.destroy();
-
-                // Unpause the game
-                game.paused = false;
-            }
-
-
-            // Click to End Game
-            var x1 = w/2 - 180 , x2 = w/2 - 180 + 120,
-                y1 = h/2 + 50 , y2 = h/2 + 50 + 50;
-
-            // Click end Game, redirect to 'menu' stage
-            if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
-                // Unpause the game
-                game.paused = false;
-
-                // remove All image card
-                cards = [];
-                images = [];
-                moves = 0;
-                time = 0;
-                score = 0;
-
-                // game.state.start('menu');
-                game.stateTransition.to('menu');
-            }
-
-            // Click Continue, redirect to 'menu' stage
-            var u1 = w/2 + 20 , u2 = w/2 + 20  + 120,
-                v1 = h/2 + 50 , v2 = h/2 + 50 + 50;
-
-
-            if(event.x > u1 && event.x < u2 && event.y > v1 && event.y < v2 ){
-                // game.state.start('menu');
-                menu.destroy();
-                text_pause.destroy();
-                endGame.destroy();
-                continueGame.destroy();
-
-                // Unpause the game
-                game.paused = false;
-            }
-        }
+        // game.state.start('menu');
+        game.stateTransition.to('menu');
     },
 
     update: function() {
@@ -577,12 +576,6 @@ var playState = {
             }
         }
 
-        if(is_playing) {
-            if (timeBg.x > w - 198)
-            {
-                timeBg.x -= 6;
-            }
-        }
 
     },
 

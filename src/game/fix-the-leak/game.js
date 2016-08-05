@@ -10,7 +10,7 @@ class LeakGame extends Phaser.Game {
 
 	constructor(width = 810, height = 640, id = 'fix-the-leak') {
 
-		super(width, height, Phaser.AUTO, id);
+		super(width, height, Phaser.CANVAS, id);
 		
 		
 		this.state.add('boot', Boot);
@@ -20,7 +20,7 @@ class LeakGame extends Phaser.Game {
 		this.state.add('game', GamePlay);
 		this.state.add('game-over', GameOver);
 		this.state.start('boot');
-	}	
+	}
 }
 
 export default LeakGame;
