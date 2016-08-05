@@ -23,6 +23,8 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
 		new BrowserSyncPlugin({
 			// browse to http://localhost:3000/ during development, 
 			// ./dist directory is being served 
@@ -41,19 +43,19 @@ module.exports = {
 			include: path.join(__dirname, 'src'),
 			loader: 'babel-loader'
 		}, {
-			test: /pixi\.js/,
-			loader: 'expose?PIXI'
-		}, {
-			test: /phaser-split\.js$/,
-			loader: 'expose?Phaser'
-		}, {
-			test: /p2\.js/,
-			loader: 'expose?p2'
-		}, {
-			test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-			include: path.join(__dirname, 'assets'),
-			loader: 'file-loader?limit=100000'
-		}]
+				test: /pixi\.js/,
+				loader: 'expose?PIXI'
+			}, {
+				test: /phaser-split\.js$/,
+				loader: 'expose?Phaser'
+			}, {
+				test: /p2\.js/,
+				loader: 'expose?p2'
+			}, {
+				test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+				include: path.join(__dirname, 'assets'),
+				loader: 'file-loader?limit=100000'
+			}]
 	},
 	resolve: {
 		alias: {
@@ -63,4 +65,4 @@ module.exports = {
 
 		}
 	}
-}
+};
