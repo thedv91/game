@@ -18,7 +18,6 @@ class FixTheLeakController extends Controller
     public function getRank(Request $request)
     {
 
-        // var_dump($request->all());die();
         $user_email = $request->input('email');
         $type = $request->input('type');
 
@@ -33,7 +32,8 @@ class FixTheLeakController extends Controller
 
             $rank = 1;
             foreach ($fixs as $key=> $fix){
-                if($fix->score < $user_time ) {
+                
+                if( ($fix->score < $user_time && $type == 1) || ($fix->score > $user_time && $type == 0)) {
                     $rank++;
                 }
 
@@ -41,9 +41,12 @@ class FixTheLeakController extends Controller
 
         }
 
-
-        $datas = $this->model->orderBy('score', 'ASC')->limit(6)->get();
-        // return response()->json($datas);
+        if($type == 1) {
+            $datas = $this->model->where('type',$type)->orderBy('score', 'ASC')->limit(6)->get();
+        }else{
+            $datas = $this->model->where('type',$type)->orderBy('score', 'DESC')->limit(6)->get();
+        }
+        
         return response()->json(['tops'=> $datas, 'rank'=> $rank]);
     }
 
@@ -109,12 +112,20 @@ class FixTheLeakController extends Controller
 
         if(count($fix) < 1){
             $fix = new FixTheLeak();
+            $fix->score = $request->score;
+        }else{
+            if(($fix->score > $request->score) && $datas['type'] == 1) {
+                $fix->score = $request->score;        
+            }
+
+            if( ($fix->score < $request->score) && $datas['type'] == 0) {
+                $fix->score = $request->score;        
+            }
         }
 
 
         $fix->name  = $request->name;
         $fix->email = $request->email;
-        $fix->score = $request->score;
         $fix->type = $request->type;
         try {
             $fix->save();

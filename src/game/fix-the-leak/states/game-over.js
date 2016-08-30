@@ -74,10 +74,25 @@ class GameOver extends Phaser.State {
 		this.bgOverlay = this._drawOverlay();
 		this._drawPanel();
 		this._drawAnimator();
+		this._drawAnimatorSwing();
 		this._drawEndGame();
 		this.pauseGame = this._drawPauseGame();
 		
 	}
+
+	_drawAnimatorSwing() {
+		let cc = this.add.sprite(0, 0, 'animators');
+
+		cc.animations.add('walk');
+
+    	cc.animations.play('walk', 15, true);
+
+		cc.scale.setTo(this.animatorWidth/250);
+		cc.bottom = this.game.height - 20;
+		cc.left = 0;
+		return cc;
+	}
+
 
 	loadRender() {
 

@@ -135,6 +135,21 @@ var playState = {
         menu_bg.height = bg_h;
         menu_bg.anchor.setTo(0.5,1);
 
+        // Add wally swing
+
+        if(h >= 768) {
+            var wally_margin_bottom = 400;
+            var wally_scale = 0.7;
+        }else{
+            var wally_margin_bottom = 280;
+            var wally_scale = 0.5;
+        }
+
+        wally_swing  = game.add.sprite(w/2 -10 , h - wally_margin_bottom, 'wally-animation');
+        wally_swing.scale.setTo(wally_scale);
+        wally_swing.animations.add('swing');
+        wally_swing.animations.play('swing', 20, true);
+
         // add Tree
         tree_play = game.cache.getImage('bg_play');
         tree_play  =  game.add.image(w/2 - tree_play.width/2 , h - tree_play.height - 65, 'bg_play');

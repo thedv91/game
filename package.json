@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "jquery": "^3.0.0",
-        "phaser": "^2.5.0",
+        "phaser": "^2.6.2",
         "phaser-state-transition-plugin": "^0.1.6",
         "whatwg-fetch": "^1.0.0"
     }

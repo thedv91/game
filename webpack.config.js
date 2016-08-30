@@ -23,7 +23,7 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin(),
+		//new webpack.optimize.UglifyJsPlugin(),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new BrowserSyncPlugin({
 			// browse to http://localhost:3000/ during development, 

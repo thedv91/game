@@ -16,16 +16,18 @@ var loadState= {
             {font: '30px Courier', fill: '#ffffff'});
 
 
-        if(h >=768){
-            game.load.image('bg_play', 'assets/images/big_screen/bg_play.png?sds');
+         if(h >=768){
+            game.load.image('bg_play', 'assets/images/big_screen/bg_play.png?sddas');
         }else{
-            game.load.image('bg_play', 'assets/images/small_screen/bg_play.png?sss');
+            game.load.image('bg_play', 'assets/images/small_screen/bg_play.png?ssads');
         }
         // Menu Stage
         game.load.image('background', 'assets/images/wallys-background.png?dfddf');
-        game.load.image('play_bg', 'assets/images/play_bg.jpg?df');
+        game.load.image('play_bg', 'assets/images/play_bg.jpg?sdf');
         game.load.image('board', 'assets/images/board.png');
-        game.load.image('tree', 'assets/images/tree.png?f');
+        game.load.image('tree', 'assets/images/tree.png?svvf');
+
+        game.load.spritesheet('wally-animation', 'assets/images/wally-swing.png?ds', 300, 500, 49);      
 
         game.load.spritesheet('start', 'assets/images/start.png?sd', 170, 60);
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');

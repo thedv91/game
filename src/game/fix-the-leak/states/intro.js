@@ -19,18 +19,19 @@ class Intro extends Phaser.State {
 		if(this.game.width <= 500)
         {
         	this.window_height = 160;
-        	this.washstand_height = 275;
-            this.washstand_bottom = 100;
+        	this.washstand_height = 245;
+            this.washstand_bottom = 50;
             this.margin_right = 10;
 
             this.panelWidth = 380;
 			this.panelHeight = 445;
 			this.panelPadding = 25;
 			this.panel_left = (this.w - this.panelWidth)/2;
-			this.panel_margin_top = 15;
+			this.panel_margin_top = 10;
 
 			this.start_width = 160;
 			this.start_left = this.panel_left;
+			this.start_margin_top = 30;
 
 			this.font_1 = '51px';
 			this.font_2 = '22px';
@@ -39,6 +40,7 @@ class Intro extends Phaser.State {
 
 			this.margin_text = 30;
 			this.rank_margin_top = 0;
+			
 
         }
 
@@ -53,11 +55,12 @@ class Intro extends Phaser.State {
 			this.panelHeight = 435;
 			this.panelPadding = 25;
 			this.panel_left	= 50;
-			this.panel_margin_top = 75;
+			this.panel_margin_top = 20;
 
 
 			this.start_width = 180;
 			this.start_left = this.panel_left + this.panelWidth / 2 - this.start_width /2;
+			this.start_margin_top = 40;
 
 			this.font_1 = '51px';
 			this.font_2 = '22px';
@@ -83,6 +86,7 @@ class Intro extends Phaser.State {
 			this.start_width = 220;
 			this.start_left = this.panel_left + this.panelWidth / 2 - this.start_width /2;
 			this.panel_margin_top = 30;
+			this.start_margin_top = 100;
 
 			this.font_1 = '61px';
 			this.font_2 = '32px';
@@ -108,6 +112,7 @@ class Intro extends Phaser.State {
 			this.start_width = 280;
 			this.start_left = this.panel_left + this.panelWidth / 2 - this.start_width /2;
 			this.panel_margin_top = 50;
+			this.start_margin_top = 100;
 
 			this.font_1 = '71px';
 			this.font_2 = '42px';
@@ -255,7 +260,12 @@ class Intro extends Phaser.State {
 		pond1.anchor.setTo(0.5, 0.5);
 		pond1.scale.setTo(0.5, 0.5);
 
-		let animator = this.add.sprite(-20, -155, 'animator');
+		let animator = this.add.sprite(-20, -155, 'animators');
+
+    	animator.animations.add('walk');
+
+    	animator.animations.play('walk', 15, true);
+
 		animator.anchor.setTo(0.5);
 
 		animator.scale.setTo(-1,1);
@@ -271,6 +281,13 @@ class Intro extends Phaser.State {
  			var temp_scale  = 1 *this.h / (300 *2);
         	cc.scale.setTo(temp_scale);    
 			cc.x = this.w - 180;
+
+        }
+        if(this.game.width < 500) {
+ 			var temp_scale  = 2 *this.h / (300 *5);
+        	cc.scale.setTo(temp_scale);    
+			cc.x = this.w - 100;
+			cc.y = this.h - 10;
 
         }
 		
@@ -346,7 +363,7 @@ class Intro extends Phaser.State {
 
 		let tween = this.add.tween(cc);
 		tween.to({
-			y: this.panelHeight + 100,
+			y: this.panelHeight + this.start_margin_top,
 			alpha: 1
 		}, this.animateDuration, Phaser.Easing.Circular.Out);
 		tween.start();
@@ -455,7 +472,7 @@ class Intro extends Phaser.State {
 		}, this.animateDuration, Phaser.Easing.Cubic.InOut, true);
 
 		tweenButton.onComplete.add(() => {
-			this.state.start('game', true, false, this.level, this.score_game, this.time_play);
+			this.state.start('game', true, false, this.level, 0, 0);
 		});
 
 	}

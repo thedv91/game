@@ -9,23 +9,37 @@ var menuState = {
 
         var bg_w,bg_h;
 
-        menu_bg = game.add.image(w/2, h, "play_bg");
-
-        if(w > 1280) {
+        if(1208/w >= 814/h) {
+            bg_h = h;
+            bg_w = 1208*h/814;
+        }else{
             bg_w = w;
             bg_h = 814*w/1208;
-
-            menu_bg.width = bg_w;
-            menu_bg.height = bg_h;
         }
-
+        menu_bg = game.add.image(w/2, h, "play_bg");
+        menu_bg.width = bg_w;
+        menu_bg.height = bg_h;
         menu_bg.anchor.setTo(0.5,1);
 
         if(game.width <= 768) {
+            var wally_margin_bottom = 390;
+            var wally_scale = 0.7;
+            wally_swing  = game.add.sprite(w/2 - 40 , h - wally_margin_bottom, 'wally-animation');
+
             tree = game.add.image(w / 2 - 745 / 2 + 10, h - 875, 'tree');
+
         }else{
+            var wally_margin_bottom = 390;
+            var wally_scale = 0.7;
+            wally_swing  = game.add.sprite(w/2 + 50 , h - wally_margin_bottom, 'wally-animation');
+
             tree = game.add.image(w / 2 - 745 / 2 + 100, h - 875, 'tree');
         }
+
+        
+        wally_swing.scale.setTo(wally_scale);
+        wally_swing.animations.add('swing');
+        wally_swing.animations.play('swing', 20, true);
 
         // Add Button
         if(game.width <= 768) {

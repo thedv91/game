@@ -83,15 +83,14 @@ class Game extends Phaser.State {
 		this._drawBackground();
 		this.bgOverlay = this._drawOverlay();
 
-		let music = this.add.audio('background', 1, false);
+		// this.music = this.add.audio('background', 1, false);
 
-		setTimeout(() => {
-			music.play();
-		}, 600);
+
 
 		this.map = this._drawPipes();
 		
 		this._drawAnimator();
+		this._drawAnimatorSwing();
 
 		this.intro = this._drawIntroduction();
 		this._drawPanel();
@@ -104,7 +103,10 @@ class Game extends Phaser.State {
 		this._drawScore();
 
 		if(this.level == 1){
-			_self._showIntroGame();		
+			_self._showIntroGame();
+			/*setTimeout(() => {
+				_self.music.play();
+			}, 600);*/
 		}else{
 
 			for (var i = this.waters_group.length - 1; i >= 0; i--) {
@@ -183,8 +185,8 @@ class Game extends Phaser.State {
 	}
 
 	_updateTime() {
+
         this.time_play = this.time_play + 1;
-        
         if(this.smallScreen) {
 			this.text_score.setText(''+this.time_play+'s\t'+this.score_game);
         }else{
@@ -250,11 +252,10 @@ class Game extends Phaser.State {
 		let map;
 		let layer;
 
-
 		if(this.mapScreen == 3) {
 			map = this.add.tilemap('map');
 			map.addTilesetImage('pipe');
-			map.addTilesetImage('water');
+			map.addTilesetImage('waters');
 			scale_maps = this.game.width / 768;
 		}
 
@@ -278,8 +279,6 @@ class Game extends Phaser.State {
 		layer.scale.setTo(scale_maps);
 		layer.x = 0;
 		layer.y = this.panelHeight;
-		console.log(layer.width);
-		console.log(this.game.width);
 		layer.resizeWorld();
 		
 
@@ -292,14 +291,19 @@ class Game extends Phaser.State {
 
 		//  And now we convert all of the Tiled objects with an ID of 34 into sprites within the coins group
 		if(this.mapScreen == 3){
-				map.createFromObjects('Object Layer 1', 2561, 'water', 0, true, false, this.waters);
+			map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
+		    
 		}
 		if(this.mapScreen == 2){
-			map.createFromObjects('Object Layer 1', 1067, 'water', 0, true, false, this.waters);
+			map.createFromObjects('Object Layer 1', 1067, 'water-normal', 0, true, false, this.waters);
+			
 		}
 		if(this.mapScreen == 1) {
-			map.createFromObjects('Object Layer 1', 1293, 'water', 0, true, false, this.waters);
+			map.createFromObjects('Object Layer 1', 1293, 'waters', 0, true, false, this.waters);
 		}
+
+		this.waters.callAll('animations.add', 'animations', 'spin');
+	    this.waters.callAll('animations.play', 'animations', 'spin',15, true);
 
 		
 		this.waters.scale.setTo(scale_maps);
@@ -418,18 +422,26 @@ class Game extends Phaser.State {
 	_resetImg() {
 		this.waters_group = this.waters.children;
 
-		var rand_idx = Math.floor(Math.random()*this.waters_group.length);
-		if(this.waters_group[rand_idx].visible == true) {
-				var rand_idx = Math.floor(Math.random()*this.waters_group.length);
-				if(this.waters_group[rand_idx].visible == true) {
-						var rand_idx = Math.floor(Math.random()*this.waters_group.length);
-						this.waters_group[rand_idx].visible = true
-				}else{
-					this.waters_group[rand_idx].visible = true
-				}
-		}else{
-			this.waters_group[rand_idx].visible = true
+		var flag = true;
+		var rand_idx = -1;
+		while(flag){
+			 rand_idx = Math.floor(Math.random()*(this.waters_group.length-1));
+			 if(this.waters_group[rand_idx].visible == true) {
+				flag = true;
+			 }else{
+				flag = false;
+				this.waters_group[rand_idx].visible = true
+			 }
 		}
+		
+		/*var temp = [];
+		for(var i = 0; i < this.waters_group.length; i++){
+			let x = this.waters_group[i];
+			if(x.visible == true) {
+				temp.push(i);
+			}
+		}
+		console.log(temp);*/
 
 	}
 
@@ -438,6 +450,19 @@ class Game extends Phaser.State {
 		cc.anchor.setTo(0.5);
 		cc.scale.setTo(this.animatorWidth/502);
 		cc.bottom = this.game.height;
+		cc.left = 0;
+		return cc;
+	}
+
+	_drawAnimatorSwing() {
+		let cc = this.add.sprite(0, 0, 'animators');
+
+		cc.animations.add('walk');
+
+    	cc.animations.play('walk', 15, true);
+
+		cc.scale.setTo(this.animatorWidth/250);
+		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
 	}
@@ -465,6 +490,12 @@ class Game extends Phaser.State {
 
 		const text1 = this.add.text(this.game.width / 2, panelHeight/3 + this.panelHeight + 25, 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
+
+		let line = new Phaser.Line(100, 100, 200, 200);
+		cc.addChild(line);
+		// under.x = 300;
+		console.log(line);
+
 		const text2 = this.add.text(this.game.width / 2, panelHeight/3 + text1.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', style);
 		text2.anchor.setTo(0.5);
 
@@ -478,6 +509,7 @@ class Game extends Phaser.State {
 
 		cc.addChild(bg);
 		cc.addChild(text1);
+		// cc.addChild(line);
 		cc.addChild(text2);
 		cc.addChild(this.okButton);
 
@@ -519,7 +551,7 @@ class Game extends Phaser.State {
 		// Continue Btn
 		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight/3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
-		this.continueBtn.alpha = 0;
+		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
 
 		cc.addChild(bg);
@@ -547,6 +579,7 @@ class Game extends Phaser.State {
 
 			this.state.start('intro');
 		});
+
 	}
 
 	actionContinueClick(){
@@ -669,7 +702,6 @@ class Game extends Phaser.State {
 	}
 	actionMenuOnClick() {
 
-		console.log(this.menuButton.lock);
 		if (!this.menuButton.lock) {
 			this.menuButton.lock = true;
 			let tween = this.add.tween(this.pauseGame);
@@ -699,9 +731,9 @@ class Game extends Phaser.State {
 				this.intro.x = -this.game.width;
 				this.menuButton.lock = false;
 
-				this.paused = false;
+				//this.paused = false;
 				this.time.events.loop(Phaser.Timer.SECOND, this._updateTime, this);
-				
+				this.time.events.resume();
 				this._startShowWater();
 			});
 		}

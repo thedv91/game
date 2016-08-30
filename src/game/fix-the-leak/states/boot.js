@@ -11,8 +11,12 @@ class Boot extends Phaser.State {
         // this.scale.pageAlignHorizontally = true;
         // this.scale.pageAlignVertically = true;
 
-        this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        /*this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;*/
+
+		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+        // this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+         
 
         this.game.scale.pageAlignVertically = true;
         this.game.scale.pageAlignHorizontally = true;
@@ -65,8 +69,12 @@ class Boot extends Phaser.State {
 		this.load.image('washstand', 'assets/fix-the-leak/washstand.png');
 		this.load.image('bg-water', 'assets/fix-the-leak/bg-water.png');
 		this.load.image('window', 'assets/fix-the-leak/window.png');
-		this.load.image('animator', 'assets/fix-the-leak/animator.png');
-		this.load.image('animator-end', 'assets/fix-the-leak/animator-end.png');
+
+		//this.load.image('animator', 'assets/fix-the-leak/animator.png');
+		this.load.spritesheet('animators', 'assets/fix-the-leak/animators.png?fl', 250, 354, 35);
+		
+
+		this.load.image('animator-end', 'assets/fix-the-leak/animator-end.png?kk');
 		this.load.image('black', 'assets/fix-the-leak/black.png');
 		this.load.image('blue-green', 'assets/fix-the-leak/blue-green.png');
 		this.load.image('white', 'assets/fix-the-leak/white.png');
@@ -78,27 +86,27 @@ class Boot extends Phaser.State {
 
 		this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
-		this.load.audio('background', 'assets/sounds/Morning_Stroll.mp3');
+		// this.load.audio('background', 'assets/sounds/Morning_Stroll.mp3');
 
 		this.load.audio('click', 'assets/sounds/click.MP3');
 
 		/*this.load.tilemap('pipe-maps', 'assets/fix-the-leak/tilemaps/Map.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('tiles-maps', 'assets/fix-the-leak/tilemaps/maps.png');*/
 
-		// Add maps 
+		// Add maps
 		this.load.tilemap('map', 'assets/tilemaps/maps/pipe.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('pipe', 'assets/tilemaps/tiles/pipe.png');
-		this.load.image('water', 'assets/tilemaps/tiles/water.png');
+		this.load.spritesheet('waters', 'assets/tilemaps/tiles/waters.png?s', 179, 179,30);
 
 		// Add maps for small screen
 		this.load.tilemap('map-small', 'assets/tilemaps/maps/pipe_small.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('pipe_small', 'assets/tilemaps/tiles/pipe_small.png');
-		this.load.image('water-mall', 'assets/tilemaps/tiles/water-small.png');
+		this.load.spritesheet('water-small', 'assets/tilemaps/tiles/water-small.png?d', 90, 90,30);
 
 		// Add maps for normal screen
 		this.load.tilemap('map-normal', 'assets/tilemaps/maps/pipe_normal.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('pipe_normal', 'assets/tilemaps/tiles/pipe_normal.png');
-		this.load.image('water-normal', 'assets/tilemaps/tiles/water-normal.png');
+		this.load.spritesheet('water-normal', 'assets/tilemaps/tiles/water-normal.png?dff', 120, 120,30);
 
 	}
 
