@@ -46,6 +46,18 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'AvenirNextLTPro-Regular';
+  src: url('../fonts/AvenirNextLTPro-Regular.eot');
+  src: url('../fonts/AvenirNextLTPro-Regular.woff2') format('woff2'),
+       url('../fonts/AvenirNextLTPro-Regular.woff') format('woff'),
+       url('../fonts/AvenirNextLTPro-Regular.ttf') format('truetype'),
+       url('../fonts/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular') format('svg'),
+       url('../fonts/AvenirNextLTPro-Regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .load-font{
   width: 0;
   height: 0;
@@ -65,6 +77,10 @@
 
 .AvenirNextLTPro-BoldCn{
   font-family: 'AvenirNextLTPro-BoldCn'
+}
+
+.AvenirNextLTPro-Regular{
+  font-family: 'AvenirNextLTPro-Regular'
 }
 
 * {

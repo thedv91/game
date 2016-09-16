@@ -283,18 +283,6 @@
                 {
                  "gid":1069,
                  "height":120,
-                 "id":315,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":120,
-                 "x":-48,
-                 "y":204
-                }, 
-                {
-                 "gid":1069,
-                 "height":120,
                  "id":316,
                  "name":"",
                  "rotation":0,
@@ -303,18 +291,6 @@
                  "width":120,
                  "x":108,
                  "y":132
-                }, 
-                {
-                 "gid":1069,
-                 "height":120,
-                 "id":317,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":120,
-                 "x":216,
-                 "y":168
                 }, 
                 {
                  "gid":1069,

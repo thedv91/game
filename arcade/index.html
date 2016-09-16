@@ -1,12 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8"/>
     <title>Memory Game</title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-    <link rel="stylesheet" type="text/css" href="styles/css/app.css">
-</head>
 
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript" src="lib/jquery-3.0.0.min.js"></script>
+
+    <script type="text/javascript" src="phaser.min.js"></script>
+    <script type="text/javascript" src="bower_components/phaser-state-transition-plugin/dist/phaser-state-transition-plugin.min.js"></script>
+
+    <script type="text/javascript" src="lib/canvasinput.js"></script>
+    <script type="text/javascript" src="js/boot.js"></script>
+    <script type="text/javascript" src="js/load.js"></script>
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script type="text/javascript" src="js/play.js"></script>
+    <script type="text/javascript" src="js/win.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        /*canvas {
+            margin: 0px auto;
+        }*/
+    </style>
+
+</head>
 <body>
     <div class="font_preload" style="opacity: 0">
         <span style="font-family: 'AvenirNextLTProBold', Arial, sans-serif;"></span>
@@ -27,14 +49,8 @@
         <span style="font-family: 'AvenirNextLTProUltLtCn', Arial, sans-serif;"></span>
         <span style="font-family: 'AvenirNextLTProUltLtCnIt', Arial, sans-serif;"></span>
     </div>
-    <span style="position: absolute; left: -2000px; top : -2000px;">
-        <p class="load-font AvenirNextLTPro-HeavyCn">FAP</p>
-        <p class="load-font AvenirNextLTPro-UltLtCn">FAP</p>
-        <p class="load-font AvenirNextLTPro-DemiCn">FAP</p>
-        <p class="load-font AvenirNextLTPro-BoldCn">FAP</p>
-        <p class="load-font AvenirNextLTPro-Regular">FAP</p>
-    </span>
-    <script src="dist/app.bundle.js"></script>
+    <!--<h3 style="font-family: AvenirNextLTProBold; font-size: 48px; ">MATCH THE PAIR</h3>-->
+    <div id="gameDiv"></div>
 </body>
 
 </html>

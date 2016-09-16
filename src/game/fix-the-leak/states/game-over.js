@@ -10,7 +10,7 @@ class GameOver extends Phaser.State {
 		this.endGameWidth = 350;
 	}
 
-	init(score,time) {
+	init(score, time) {
 		//this.gameType == 1 => arcade
 		//this.gameType == 0 => kiosk
 		this.gameType = 1;
@@ -21,7 +21,7 @@ class GameOver extends Phaser.State {
 		this.h = this.game.height;
 
 		// Mobile
-		if(this.game.width <= 500){
+		if (this.game.width <= 500) {
 			this.pannel_margin_left = 30;
 			this.intro_font = 22;
 			this.ok_width = 125;
@@ -34,39 +34,39 @@ class GameOver extends Phaser.State {
         }
 
         //  860 x 410
-        if(this.game.width > 500 && this.game.width <= 820 && this.game.height < 800 ){
-        	this.pannel_margin_left = 40;
-        	this.intro_font = 27;
-        	this.ok_width = 130;
-        	this.button_dis = 100;
-        	this.score_margin_top = 40;
-        	this.font_score = 27;
-        	this.submit_width = 125;
-        	this.animatorWidth = 290;
+        if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
+			this.pannel_margin_left = 40;
+			this.intro_font = 27;
+			this.ok_width = 130;
+			this.button_dis = 100;
+			this.score_margin_top = 40;
+			this.font_score = 27;
+			this.submit_width = 125;
+			this.animatorWidth = 290;
         }
 
         // Tablet
-        if(this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800 ){
-        	this.pannel_margin_left = 40;
-        	this.intro_font = 40;
-        	this.ok_width = 170;
-        	this.button_dis = 100;
-        	this.score_margin_top = 60;
-        	this.font_score = 32;
-        	this.submit_width = 170;
-        	this.animatorWidth = 385;
+        if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
+			this.pannel_margin_left = 40;
+			this.intro_font = 40;
+			this.ok_width = 170;
+			this.button_dis = 100;
+			this.score_margin_top = 60;
+			this.font_score = 32;
+			this.submit_width = 170;
+			this.animatorWidth = 385;
         }
 
         // Windows
-        if(this.game.width > 820) {
-        	this.pannel_margin_left = 75;
-        	this.intro_font = 50;
-        	this.ok_width = 230;
-        	this.button_dis = 100;
-        	this.score_margin_top = 75;
-        	this.font_score = 40;
-        	this.submit_width = 205;
-        	this.animatorWidth = 502;
+        if (this.game.width > 820) {
+			this.pannel_margin_left = 75;
+			this.intro_font = 50;
+			this.ok_width = 230;
+			this.button_dis = 100;
+			this.score_margin_top = 75;
+			this.font_score = 40;
+			this.submit_width = 205;
+			this.animatorWidth = 502;
         }
 	}
 	create() {
@@ -77,7 +77,7 @@ class GameOver extends Phaser.State {
 		this._drawAnimatorSwing();
 		this._drawEndGame();
 		this.pauseGame = this._drawPauseGame();
-		
+
 	}
 
 	_drawAnimatorSwing() {
@@ -85,9 +85,9 @@ class GameOver extends Phaser.State {
 
 		cc.animations.add('walk');
 
-    	cc.animations.play('walk', 15, true);
+		cc.animations.play('walk', 15, true);
+		cc.scale.setTo(.6);
 
-		cc.scale.setTo(this.animatorWidth/250);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
@@ -141,20 +141,20 @@ class GameOver extends Phaser.State {
 	/**
 	 * Custom function
 	 */
-	 _drawBackground() {
+	_drawBackground() {
 
-		if(1420/this.w >= 1420/this.h) {
+		if (1420 / this.w >= 1420 / this.h) {
             var bg_h = this.h;
-            var bg_w = 1420*this.h/1420;
-        }else{
+            var bg_w = 1420 * this.h / 1420;
+        } else {
             var bg_w = this.w;
-            var bg_h = 1420*this.w/1420;
+            var bg_h = 1420 * this.w / 1420;
         }
 
-        let bg = this.game.add.image(this.w/2, this.h, "background");
+        let bg = this.game.add.image(this.w / 2, this.h, "background");
         bg.width = bg_w;
         bg.height = bg_h;
-        bg.anchor.setTo(0.5,1);
+        bg.anchor.setTo(0.5, 1);
 
 
 		return bg;
@@ -178,16 +178,16 @@ class GameOver extends Phaser.State {
 		};
 
 		let text;
-		if(this.w <= 500) {
-			text = this.add.text(50, 10 , 'FIX THE LEAK', style);
-			text.y = (this.panelHeight - text.height) /2;
+		if (this.w <= 500) {
+			text = this.add.text(50, 10, 'FIX THE LEAK', style);
+			text.y = (this.panelHeight - text.height) / 2;
 		} else {
-			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAK', style);	
+			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAK', style);
 			text.anchor.setTo(0.5);
 		}
 
-		
-		
+
+
 		cc.addChild(text);
 		cc.addChild(this.menuButton);
 
@@ -230,30 +230,30 @@ class GameOver extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25,'pause');
+		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 '+this.intro_font+'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center'
 		};
 
-	
-		const text2 = this.add.text(this.game.width / 2, panelHeight/3 + this.panelHeight + 25, 'GOING TO THE MENU \nWILL END THE GAME', style);
+
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight + 25, 'GOING TO THE MENU \nWILL END THE GAME', style);
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.button_dis, panelHeight/3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight/3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
@@ -282,7 +282,7 @@ class GameOver extends Phaser.State {
 		});
 	}
 
-	actionContinueClick(){
+	actionContinueClick() {
 		let tween_pause = this.add.tween(this.pauseGame);
 
 
@@ -293,7 +293,7 @@ class GameOver extends Phaser.State {
 
 		tween_pause.onComplete.add(() => {
 			this.time.events.resume();
-		});	
+		});
 	}
 
 	_drawOverlay() {
@@ -313,7 +313,7 @@ class GameOver extends Phaser.State {
 	_drawAnimator() {
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.animatorWidth/502);
+		cc.scale.setTo(this.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -324,14 +324,14 @@ class GameOver extends Phaser.State {
 		cc.width = this.endGameWidth;
 
 		let txtScore = this.createText(cc._width / 2, 0, 'TIME:', {
-			font: '600 '+this.font_score+'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
 			strokeThickness: 3
 		});
 		txtScore.anchor.setTo(0.5);
 
-		let totalScore = this.createText(cc._width / 2, 60, this.time_play+'s', {
+		let totalScore = this.createText(cc._width / 2, 60, this.time_play + 's', {
 			font: '600 70px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
@@ -339,7 +339,7 @@ class GameOver extends Phaser.State {
 		});
 		totalScore.anchor.setTo(0.5);
 
-		let txtName = this.createText(cc._width / 2, 120 , 'NAME:', {
+		let txtName = this.createText(cc._width / 2, 120, 'NAME:', {
 			fill: '#46c6f2'
 		});
 
@@ -349,33 +349,33 @@ class GameOver extends Phaser.State {
 
 		this.nameInput = this.createInput(0, 140, this.endGameWidth, this.endGameHeight);
 
-		if(localStorage.getItem('fix_user_name')){
+		if (localStorage.getItem('fix_user_name')) {
             this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
-        }else{
+        } else {
             this.nameInput.canvasInput.value("");
         }
 
 		//this.nameInput.canvasInput.value('');
 
-		let txtEmail = this.createText(cc._width / 2, 210 , 'EMAIL:', {
+		let txtEmail = this.createText(cc._width / 2, 210, 'EMAIL:', {
 			fill: '#46c6f2'
 		});
 
 		txtEmail.anchor.setTo(0.5);
-		
+
 		this.emailInput = this.createInput(0, 230, this.endGameWidth, this.endGameHeight);
 
-		if(localStorage.getItem('fix_user_email')){
+		if (localStorage.getItem('fix_user_email')) {
             this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
-        }else{
+        } else {
             this.emailInput.canvasInput.value('');
         }
 
 
-		let button = this.add.button(cc._width / 2, 320 , 'submit-button', this.actionSubmitOnClick.bind(this));
+		let button = this.add.button(cc._width / 2, 320, 'submit-button', this.actionSubmitOnClick.bind(this));
 		button.anchor.setTo(0.5);
 
-		button.scale.setTo(this.submit_width / 204 );
+		button.scale.setTo(this.submit_width / 204);
 
 		cc.addChild(txtScore);
 		cc.addChild(totalScore);
@@ -394,7 +394,7 @@ class GameOver extends Phaser.State {
 
 	createText(x = 0, y = 0, txt, options = {}) {
 		let style = {
-			font: '600 '+this.font_score+'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: 200,
@@ -406,14 +406,14 @@ class GameOver extends Phaser.State {
 	}
 
 
-	createInput(x, y, input_width, input_height){
-	    var bmd = this.add.bitmapData(input_width, 50);    
-	    var myInput = this.game.add.sprite(x, y, bmd);
-	    
+	createInput(x, y, input_width, input_height) {
+		var bmd = this.add.bitmapData(input_width, 50);
+		var myInput = this.game.add.sprite(x, y, bmd);
 
-	    myInput.canvasInput = new CanvasInput({
-	      canvas: bmd.canvas,
-	        font: '18px Arial',
+
+		myInput.canvasInput = new CanvasInput({
+			canvas: bmd.canvas,
+			font: '18px Arial',
 			fill: '#000',
 			fontWeight: 'bold',
 			width: input_width - 40,
@@ -423,22 +423,22 @@ class GameOver extends Phaser.State {
 			borderColor: '#000',
 			height: 20,
 			borderRadius: 6,
-	    });
+		});
 
-	    myInput.inputEnabled = true;
-	    myInput.input.useHandCursor = true;    
-	    myInput.events.onInputUp.add((sprite) => this.inputFocus(sprite));
+		myInput.inputEnabled = true;
+		myInput.input.useHandCursor = true;
+		myInput.events.onInputUp.add((sprite) => this.inputFocus(sprite));
 
-	    return myInput;
-	  }
+		return myInput;
+	}
 
-	  inputFocus(sprite){
-	    sprite.canvasInput.focus();
-	  }
+	inputFocus(sprite) {
+		sprite.canvasInput.focus();
+	}
 
 	validateEmail(email) {
-	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	  return re.test(email);
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(email);
 	}
 
 	actionSubmitOnClick() {
@@ -447,21 +447,21 @@ class GameOver extends Phaser.State {
 		var user_name = this.nameInput.canvasInput.value();
 		var user_email = this.emailInput.canvasInput.value();
 
-		if(user_name.trim() == "" || user_name.trim() == undefined){
+		if (user_name.trim() == "" || user_name.trim() == undefined) {
             this.nameInput.canvasInput.backgroundColor('#ffc6c6');
             flag = false;
-        }else{
+        } else {
             this.nameInput.canvasInput.backgroundColor('#fff');
         }
 
-        if(user_email.trim() == "" || user_email.trim() == undefined || !this.validateEmail(user_email.trim()) ){
+        if (user_email.trim() == "" || user_email.trim() == undefined || !this.validateEmail(user_email.trim())) {
             this.emailInput.canvasInput.backgroundColor('#ffc6c6');
             flag = false;
-        }else{
+        } else {
             this.emailInput.canvasInput.backgroundColor('#fff');
         }
 
-        if(flag == false){
+        if (flag == false) {
             return false;
         }
 
@@ -479,9 +479,9 @@ class GameOver extends Phaser.State {
 				type: this.gameType
 			})
 		}).then((response) => {
-			 localStorage.setItem('fix_user_name',user_name);
-             localStorage.setItem('fix_user_email',user_email);
-             this.state.start('intro');
+			localStorage.setItem('fix_user_name', user_name);
+			localStorage.setItem('fix_user_email', user_email);
+			this.state.start('intro');
 			// return response.json();
 
 		}).then((json) => {
