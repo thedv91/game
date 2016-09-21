@@ -364,17 +364,18 @@ class Intro extends Phaser.State {
 		cc.height = this.start_width * 72 / 180;
 
 		cc.left = this.start_left;
-		cc.y = this.world.height + 100;
+		//cc.y = this.world.height + 100;
+		cc.y = this.panelHeight + this.start_margin_top;
 
-		let tween = this.add.tween(cc);
-		tween.to({
-			y: this.panelHeight + this.start_margin_top,
-			alpha: 1
-		}, this.animateDuration, Phaser.Easing.Circular.Out);
-		tween.start();
+		// let tween = this.add.tween(cc);
+		// tween.to({
+		// 	y: this.panelHeight + this.start_margin_top,
+		// 	alpha: 1
+		// }, this.animateDuration, Phaser.Easing.Circular.Out);
+		// tween.start();
 
-		tween.onComplete.add(() => {
-		});
+		// tween.onComplete.add(() => {
+		// });
 
 
 		return cc;
@@ -471,14 +472,16 @@ class Intro extends Phaser.State {
 			alpha: 0
 		}, this.animateDuration, Phaser.Easing.Cubic.InOut, true);
 
-		tweenButton.to({
-			y: this.world._height + 100,
-			alpha: 0
-		}, this.animateDuration, Phaser.Easing.Cubic.InOut, true);
+		// tweenButton.to({
+		// 	y: this.world._height + 100,
+		// 	alpha: 0
+		// }, this.animateDuration, Phaser.Easing.Cubic.InOut, true);
 
-		tweenButton.onComplete.add(() => {
-			this.state.start('game', true, false, this.level, 0, 0);
-		});
+		// tweenButton.onComplete.add(() => {
+		// 	this.state.start('game', true, false, this.level, 0, 0);
+		// });
+
+		this.state.start('game', true, false, this.level, 0, 0);
 
 	}
 
