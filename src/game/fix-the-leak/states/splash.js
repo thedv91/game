@@ -15,7 +15,7 @@ class Splash extends Phaser.State {
 
         splashScreen.onComplete.add(() => {
             this.state.start('intro');
-            //this.state.start('game');
+            // this.state.start('game');
             // this.state.start('game-over', true, false, 23, 52);
         });
 		splashScreen.start();

@@ -3,7 +3,6 @@ var winState = {
     create: function() {
         var _self = this;
 
-
         enableClickMenu = true;
         // Config for panel
         if(game.width <= 810){
@@ -19,12 +18,21 @@ var winState = {
             intro_font = '20px';
             menu_font = '26px';
             match_the_pair_left = w/4;
-            font_thanks = '40px';
+            font_thanks = '44px';
 
             // Config for input
-            input_width = 180;
+            input_width = 240;
             input_height = 18;
-            info_winner_left = w/2 - 120;
+            info_winner_left = w/2 - 140;
+
+            end_score_width = 50;
+            font_size_name = 24;
+            info_bet = 10;
+
+            tree_margin_bottom = 90;
+            input_margin_top = 145;
+            margin2Input = 50;
+            lineSpacing = 10;
         }
         if(game.width > 500 && game.width <= 820){
             panel_margin_left = 30;
@@ -36,7 +44,36 @@ var winState = {
             input_width = 300;
             input_height = 20;
             info_winner_left = w/2 - 180;
+
+            end_score_width = 70;
+            font_size_name = 30;
+            info_bet = 15;
+
+            tree_margin_bottom = 65;
+            input_margin_top = 145;
+            margin2Input = 50;
+            lineSpacing = 10;
         }
+
+        if(game.width < 820 && game.height >= 820){
+            intro_font = '36px';
+            menu_font = '36px';
+            font_thanks = '50px';
+
+            input_width = 450;
+            input_height = 35;
+            info_winner_left = w/2 - 250;
+
+            end_score_width = 70;
+            font_size_name = 30;
+            info_bet = 15;
+
+            tree_margin_bottom = 65;
+            input_margin_top = 230;
+            margin2Input = 70;
+            lineSpacing = 25;
+        }
+
         if(game.width > 820) {
            panel_margin_left = 44;
             intro_font = '34px';
@@ -44,9 +81,18 @@ var winState = {
             font_thanks = '48px';
 
             // Config for input
-            input_width = 400;
-            input_height = 25;
-            info_winner_left = w/2 - 240;
+            input_width = 450;
+            input_height = 35;
+            info_winner_left = w/2 - 250;
+
+            end_score_width = 80;
+            font_size_name = 34;
+            info_bet = 20;
+
+            tree_margin_bottom = 65;
+            input_margin_top = 230;
+            margin2Input = 70;
+            lineSpacing = 25;
         }
 
 
@@ -60,39 +106,46 @@ var winState = {
             font: font_thanks+" AvenirNextLTProHeavyCn",
             fill: "#3f5405"
         });
+
         thank_you.anchor.setTo(0.5,1);
 
-        text_winner = game.add.text(game.world.centerX, panel_height + 50, "MOVES \tTIME", {
-            font: menu_font+" AvenirNextLTProHeavyCn",
-            fill: "#b0da40",
-            align: "center",
-            tabs: 70
+        var style = { font: menu_font+" AvenirNextLTProHeavyCn", fill: "#b0da40", boundsAlignH: "center", boundsAlignV: "top" };
+        var style_bottom = { font: font_thanks+" AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "top" };
+
+        var end_moves = game.add.text(game.world.centerX - end_score_width, panel_height + 30, 'MOVES \n', style);
+        end_moves.setTextBounds(0, 0, 0, 0);
+        
+        end_moves_number = game.add.text(game.world.centerX - end_score_width, panel_height + 70, moves , style_bottom);
+        end_moves_number.setTextBounds(0, 0, 0, 0);
+
+
+        var end_time = game.add.text(game.world.centerX + end_score_width, panel_height + 30, 'TIME \n', style);
+        end_time.setTextBounds(0, 0, 0, 0);
+        end_time_number = game.add.text(game.world.centerX + end_score_width, panel_height + 70, time +'s' , style_bottom);
+        end_time_number.setTextBounds(0, 0, 0, 0);
+
+        info_winner = game.add.text(info_winner_left, panel_height + input_margin_top + 40, " NAME:\nEMAIL:", {
+            font: font_size_name+"px AvenirNextLTProHeavyCn",
+            fill: "#b0da40"
         });
 
+        if((game.width < 820 && game.height >= 820) || game.width > 820) {
+            info_winner.y = panel_height + input_margin_top + 55;
+        }
 
-        var time_display = 120 - time;
-        scrore_winner = game.add.text(game.world.centerX + 35, panel_height + 100, moves+" \t"+time_display+"s", {
-            font: font_thanks+" AvenirNextLTProHeavyCn",
-            fill: "#fff",
-            tabs: 70
-        });
-
-        text_winner.anchor.set(0.5);
-        scrore_winner.anchor.set(0.5);
-
-
-
-        nameUser = this.createInput(game.world.centerX- input_width/2, panel_height + 150 - input_height /2,input_width,input_height);
+        info_winner.anchor.setTo(0.5);
+        info_winner.lineSpacing = lineSpacing;
+        nameUser = this.createInput(info_winner_left + info_winner.width /2 + info_bet, panel_height + input_margin_top - input_height /2,input_width,input_height);
 
         if(localStorage.getItem('user_name')){
             nameUser.canvasInput.value(localStorage.getItem('user_name'));
         }else{
             nameUser.canvasInput.value("");
         }
-        game.add.tween(nameUser);
+        // game.add.tween(nameUser);
 
         //User Email
-        emailUser = this.createInput(game.world.centerX- input_width/2, panel_height + 200 - input_height /2,input_width,input_height);
+        emailUser = this.createInput(info_winner_left + info_winner.width /2 + info_bet, panel_height + input_margin_top + margin2Input - input_height /2,input_width,input_height);
 
         if(localStorage.getItem('user_email')){
             emailUser.canvasInput.value(localStorage.getItem('user_email'));
@@ -100,18 +153,14 @@ var winState = {
             emailUser.canvasInput.value('');
         }
 
-        game.add.tween(emailUser);
+        // game.add.tween(emailUser);
 
-        info_winner = game.add.text(info_winner_left, panel_height + 190, " NAME:\nEMAIL:", {
-            font: "30px AvenirNextLTProHeavyCn",
-            fill: "#b0da40",
-            tabs: 140
-        });
-
-        info_winner.anchor.setTo(0.5);
-        info_winner.lineSpacing = 10;
+        
 
         var submitBtn  =  game.add.button(w/2, panel_height + 270 , 'submit', this.submitInfo, this);
+        if((game.width < 820 && game.height >= 820) || game.width > 820) {
+            submitBtn.y =  panel_height + 400;
+        }
         submitBtn.input.useHandCursor = true;
         submitBtn.anchor.setTo(0.5);
     },
@@ -181,7 +230,7 @@ var winState = {
             return false;
         }
 
-        var score = this.finalScore(moves,120 - time);
+        var score = this.finalScore(moves,time);
 
 
         var params = {
@@ -189,7 +238,7 @@ var winState = {
             user_email: user_email,
             score: score,
             moves: moves,
-            time: 120- time,
+            time: time,
             type: game_type
         };
 
@@ -222,7 +271,7 @@ var winState = {
 
 
     createInput: function(x, y, width, height){
-        var bmd = this.add.bitmapData(500, 42);
+        var bmd = this.add.bitmapData(600, 50);
         var myInput = this.game.add.sprite(x, y, bmd);
 
         myInput.canvasInput = new CanvasInput({
@@ -235,7 +284,8 @@ var winState = {
             borderColor: '#fff',
             backgroundColor: '#fff',
             height: height,
-            borderRadius: 6,
+            borderRadius: 12,
+            innerShadow: 'rgba(0, 0, 0, 0)'
         });
         myInput.inputEnabled = true;
         myInput.input.useHandCursor = true;

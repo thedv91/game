@@ -107,7 +107,7 @@ var menuState = {
         var style_normal = { font: "bold 17px AvenirNextLTProCn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
         var style_title = { font: "bold 24px AvenirNextLTProCn", fill: "#f6ecc9", textDecoration: "underline", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        rank_table.add(game.make.text(75, 110, 'HALL OFF FAME',  style_title));
+        rank_table.add(game.make.text(75, 110, 'HALL OF FAME',  style_title));
 
         var memory_email = localStorage.getItem('user_email');
 

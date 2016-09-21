@@ -19,12 +19,15 @@ import FixTheLeak from './game/fix-the-leak/game';
 
 if(window.innerHeight > 810) {
 
-	if(window.innerHeight > 980) {
+	if(window.innerHeight > 950) {
+	
 		new FixTheLeak('100%', '100%', 'app');
 	}else{
+	
 		new FixTheLeak(810, '100%', 'app');
 	}
 }else{
+	
 	let w = window.innerWidth;
 	let h = window.innerHeight;
 

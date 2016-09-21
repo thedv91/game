@@ -34,34 +34,52 @@ class Game extends Phaser.State {
 		// Mobile
 		if (this.game.width <= 500) {
 			this.pannel_margin_left = 30;
-			this.intro_font = 22;
+			this.intro_font = 24;
 			this.ok_width = 125;
 			this.button_dis = 80;
 			this.animatorWidth = 210;
 			this.smallScreen = true;
 			this.mapScreen = 1;
+
+			this.level_font = 27;
+			this.level_font_number = 40;
+			this.level_font_tabs = 100;
+			this.levelMargin = 10;
+			
         }
 
         if (this.game.width >= 500 && this.game.width < 800) {
 			this.mapScreen = 2;
+			
         }
 
         //  860 x 410
         if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
 			this.pannel_margin_left = 40;
-			this.intro_font = 27;
+			this.intro_font = 30;
 			this.ok_width = 130;
 			this.button_dis = 100;
 			this.animatorWidth = 270;
+			this.mapScreen = 3;
+
+			this.level_font = 27;
+			this.level_font_number = 40;
+			this.level_font_tabs = 100;
+			this.levelMargin = 10;
         }
 
         // Tablet
         if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
 			this.pannel_margin_left = 40;
-			this.intro_font = 40;
+			this.intro_font = 36;
 			this.ok_width = 170;
 			this.button_dis = 100;
 			this.animatorWidth = 385;
+
+			this.level_font = 40;
+			this.level_font_number = 46;
+			this.level_font_tabs = 120;
+			this.levelMargin = 10;
         }
 
         // Windows
@@ -71,6 +89,11 @@ class Game extends Phaser.State {
 			this.ok_width = 230;
 			this.button_dis = 100;
 			this.animatorWidth = 502;
+
+			this.level_font = 40;
+			this.level_font_number = 46;
+			this.level_font_tabs = 140;
+			this.levelMargin = 10;
         }
 
 
@@ -196,8 +219,8 @@ class Game extends Phaser.State {
     }
 
 	_drawScore() {
-		var style_top = { font: '500 27px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: 100 };
-		var style_under = { font: '500 40px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: 100 };
+		var style_top = { font: '500 '+this.level_font+'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
+		var style_under = { font: '500 '+this.level_font_number+'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
 
 		if (this.smallScreen) {
 
@@ -205,12 +228,12 @@ class Game extends Phaser.State {
 			this.text_score_top = this.add.text(this.game.width / 2 + 60, this.game.height - 150, this.level, style_under);
 
 			var text = this.add.text(this.game.width / 2, this.game.height - 100, "TIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.time_play + 's\t' + this.score_game, style_under);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70 + this.levelMargin, '  ' + this.time_play + 's\t' + this.score_game, style_under);
 
 		} else {
 
-			var text = this.add.text(this.game.width / 2, this.game.height - 100, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			var text = this.add.text(this.game.width / 2, this.game.height - 120, "LEVEL\tTIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - 90 + this.levelMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
 	}
@@ -286,7 +309,7 @@ class Game extends Phaser.State {
 
 
 		this.waters = this.game.add.group();
-		this.waters.y = -20;
+		//this.waters.y = -20;
 		this.waters.enableBody = true;
 
 
@@ -310,8 +333,6 @@ class Game extends Phaser.State {
 		this.waters.scale.setTo(scale_maps);
 
 		this.waters_group = this.waters.children;
-
-		console.log(this.waters_group);
 
 		for (var i = this.waters_group.length - 1; i >= 0; i--) {
 			this.waters_group[i].y = this.waters_group[i].y + this.panelHeight;
@@ -413,8 +434,8 @@ class Game extends Phaser.State {
 		 *Test end game
 		 */
 
-		// Go to submit score table - 150
-		if (this.score_game == 5) {
+		//Go to submit score table - 150
+		if (this.score_game == 150) {
 			this.time.events.pause();
 			setTimeout(() => {
 				this.state.start('game-over', true, false, this.score_game, this.time_play);
@@ -466,15 +487,16 @@ class Game extends Phaser.State {
 		cc.animations.add('walk');
 
 		cc.animations.play('walk', 15, true);
+		console.log(this.mapScreen);
 		switch (this.mapScreen) {
 			case 1:
-				cc.scale.setTo(.5);
+				cc.scale.setTo(.7);
 				break;
 			case 2:
-				cc.scale.setTo(.6);
+				cc.scale.setTo(1);
 				break;
 			case 3:
-				cc.scale.setTo(.6);
+				cc.scale.setTo(1);
 				break;
 			default:
 				cc.scale.setTo(1);
@@ -501,24 +523,26 @@ class Game extends Phaser.State {
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px ' + val.font,
+			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
-			align: 'center'
+			align: 'center',
+			fontWeight: 'bold'
 		};
 
 		const styleGuide = {
-			font: '500 ' + (this.intro_font - 5) + 'px ' + val.font,
+			font: '600 ' + (this.intro_font - 3) + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
-			align: 'center'
+			align: 'center',
+			fontWeight: 'bold'
 		};
 
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + 60, 120, 2, 'black');
-		lineHR.anchor.setTo(0.5);
-
-		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight + 25, 'INSTRUCTIONS', style);
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight , 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
 
-		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + 20, text1.width, 2, 'black');
+		lineHR.anchor.setTo(0.5);
+
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
 		text2.anchor.setTo(0.5);
 
 		this.okButton = this.add.button(this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.intro_font, 'ok-button', this.actionOkOnClick.bind(this));
@@ -639,10 +663,10 @@ class Game extends Phaser.State {
 		let text;
 		if (this.smallScreen) {
 
-			text = this.add.text(50, 10, 'FIX THE LEAK', style);
+			text = this.add.text(50, 10, 'FIX THE LEAKS', style);
 			text.y = (this.panelHeight - text.height) / 2;
 		} else {
-			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAK', style);
+			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAKS', style);
 			text.anchor.setTo(0.5);
 		}
 

@@ -326,10 +326,16 @@ class Intro extends Phaser.State {
 		let text = this.add.text(xText, this.text_margin_top, 'FIX THE LEAK', style);
 		let text2 = this.add.text(xText, 2 * this.text_margin_top, 'HALL OF FAME', style2);
 
+		console.log('text2.height '+text2.height);
+		let lineHR = this.add.tileSprite(xText, 2 * this.text_margin_top + 15  , text2.width, 2, 'black');
+		lineHR.anchor.setTo(0.5);
+
 		text.anchor.set(0.5);
 		text2.anchor.set(0.5);
+		lineHR.anchor.setTo(0.5);
 		bg2.addChild(text);
 		bg2.addChild(text2);
+		bg2.addChild(lineHR);
 
 		cc.addChild(bg1);
 		cc.addChild(bg2);

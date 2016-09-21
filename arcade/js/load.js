@@ -41,11 +41,12 @@ var loadState= {
         game.load.image('continue', 'assets/images/continue-green.png');
         game.load.image('ok', 'assets/images/ok-green.png');
         game.load.image('time-bg', 'assets/images/orange.png');
+        game.load.image('green-dark', 'assets/images/green.png');
 
         // Flip Card
         game.load.image('back', 'assets/items/back.png?Sdsfs');
         for(var i=0; i<= 18; i++){
-            game.load.image(''+i+'', 'assets/items/'+i+'.png');
+            game.load.image(''+i+'', 'assets/items/'+i+'.png?sss');
         }
 
         // End Game
@@ -60,6 +61,6 @@ var loadState= {
         // Call the menu state
         game.state.start('menu');
         // game.state.start('play');
-         // game.state.start('win');
+        //  game.state.start('win');
     }
 };
