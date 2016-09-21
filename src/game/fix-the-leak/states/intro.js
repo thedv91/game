@@ -172,9 +172,9 @@ class Intro extends Phaser.State {
 		this.loadLeaderboard();
 		this.panel = this._drawPanel();
 
-
-		this._drawPond();
 		this.button = this._drawStartButton();
+		this._drawPond();
+		
 	}
 
 	preRender() {

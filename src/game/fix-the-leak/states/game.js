@@ -75,6 +75,7 @@ class Game extends Phaser.State {
 			this.ok_width = 170;
 			this.button_dis = 100;
 			this.animatorWidth = 385;
+			this.mapScreen = 4;
 
 			this.level_font = 40;
 			this.level_font_number = 46;
@@ -89,6 +90,7 @@ class Game extends Phaser.State {
 			this.ok_width = 230;
 			this.button_dis = 100;
 			this.animatorWidth = 502;
+			this.mapScreen = 5;
 
 			this.level_font = 40;
 			this.level_font_number = 46;
@@ -275,7 +277,7 @@ class Game extends Phaser.State {
 		let map;
 		let layer;
 
-		if (this.mapScreen == 3) {
+		if (this.mapScreen >= 3) {
 			map = this.add.tilemap('map');
 			map.addTilesetImage('pipe');
 			map.addTilesetImage('waters');
@@ -314,7 +316,7 @@ class Game extends Phaser.State {
 
 
 		//  And now we convert all of the Tiled objects with an ID of 34 into sprites within the coins group
-		if (this.mapScreen == 3) {
+		if (this.mapScreen >= 3) {
 			map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
 
 		}
@@ -380,7 +382,6 @@ class Game extends Phaser.State {
 					break;
 				}
 				if (!checkDuplicate(indexes, rand)) {
-					console.log(rand);
 					indexes.push(rand);
 				}
 			}
@@ -486,8 +487,7 @@ class Game extends Phaser.State {
 
 		cc.animations.add('walk');
 
-		cc.animations.play('walk', 15, true);
-		console.log(this.mapScreen);
+		cc.animations.play('walk', 15, true);		
 		switch (this.mapScreen) {
 			case 1:
 				cc.scale.setTo(.7);
@@ -497,6 +497,10 @@ class Game extends Phaser.State {
 				break;
 			case 3:
 				cc.scale.setTo(1);
+				break;
+			case 4:
+			case 5:	
+				cc.scale.setTo(1.3);
 				break;
 			default:
 				cc.scale.setTo(1);

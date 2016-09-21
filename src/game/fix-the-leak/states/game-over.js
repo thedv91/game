@@ -85,7 +85,7 @@ class GameOver extends Phaser.State {
 			this.emailInputTop = 270;
 
 			this.submitTop = 400;
-			this.scaleWally = 1;
+			this.scaleWally = 1.3;
         }
 
         // Windows
@@ -109,7 +109,7 @@ class GameOver extends Phaser.State {
 			this.emailInputTop = 270;
 
 			this.submitTop = 400;
-			this.scaleWally = 1;
+			this.scaleWally = 1.3;
         }
 	}
 	create() {
