@@ -45,12 +45,12 @@ class Game extends Phaser.State {
 			this.level_font_number = 40;
 			this.level_font_tabs = 100;
 			this.levelMargin = 10;
-			
+
         }
 
         if (this.game.width >= 500 && this.game.width < 800) {
 			this.mapScreen = 2;
-			
+
         }
 
         //  860 x 410
@@ -219,8 +219,8 @@ class Game extends Phaser.State {
     }
 
 	_drawScore() {
-		var style_top = { font: '500 '+this.level_font+'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
-		var style_under = { font: '500 '+this.level_font_number+'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
+		var style_top = { font: '500 ' + this.level_font + 'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
+		var style_under = { font: '500 ' + this.level_font_number + 'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
 
 		if (this.smallScreen) {
 
@@ -523,23 +523,34 @@ class Game extends Phaser.State {
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
 		};
 
 		const styleGuide = {
-			font: '600 ' + (this.intro_font - 3) + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + (this.intro_font - 3) + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
 		};
 
-		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight , 'INSTRUCTIONS', style);
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
-
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + 20, text1.width, 2, 'black');
+		let cLine = 30;
+		switch (this.mapScreen) {
+			case 1:
+				cLine = 15;
+				break;
+			case 2:
+				cLine = 20;
+				break;
+			default:
+				cLine = 30;
+				break;
+		}
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + cLine, text1.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
 		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
