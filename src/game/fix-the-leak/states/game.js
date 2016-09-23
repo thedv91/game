@@ -325,7 +325,7 @@ class Game extends Phaser.State {
 
 		}
 		if (this.mapScreen == 1) {
-			map.createFromObjects('Object Layer 1', 1293, 'waters', 0, true, false, this.waters);
+			map.createFromObjects('Object Layer 1', 1293, 'water-small', 0, true, false, this.waters);
 		}
 
 		this.waters.callAll('animations.add', 'animations', 'spin');
@@ -334,7 +334,10 @@ class Game extends Phaser.State {
 
 		this.waters.scale.setTo(scale_maps);
 
-		this.waters_group = this.waters.children;
+		this.waters_group = this.waters.children.map(function (e, index) {
+			e.uniqueCheck = index;
+			return e;
+		});
 
 		for (var i = this.waters_group.length - 1; i >= 0; i--) {
 			this.waters_group[i].y = this.waters_group[i].y + this.panelHeight;
@@ -444,17 +447,17 @@ class Game extends Phaser.State {
 		}
 
 
-		this._resetImg();
+		this._resetImg(sprite);
 	}
 
-	_resetImg() {
+	_resetImg(sprite) {
 		this.waters_group = this.waters.children;
 
 		var flag = true;
 		var rand_idx = -1;
 		while (flag) {
 			rand_idx = Math.floor(Math.random() * (this.waters_group.length - 1));
-			if (this.waters_group[rand_idx].visible == true) {
+			if (this.waters_group[rand_idx].visible == true || sprite.uniqueCheck == this.waters_group[rand_idx].uniqueCheck) {
 				flag = true;
 			} else {
 				flag = false;
@@ -487,7 +490,7 @@ class Game extends Phaser.State {
 
 		cc.animations.add('walk');
 
-		cc.animations.play('walk', 15, true);		
+		cc.animations.play('walk', 15, true);
 		switch (this.mapScreen) {
 			case 1:
 				cc.scale.setTo(.7);
@@ -499,7 +502,7 @@ class Game extends Phaser.State {
 				cc.scale.setTo(1);
 				break;
 			case 4:
-			case 5:	
+			case 5:
 				cc.scale.setTo(1.3);
 				break;
 			default:
