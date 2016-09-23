@@ -19,35 +19,35 @@ class FixTheLeakController extends Controller
     {
 
         $user_email = $request->input('email');
-        $type = $request->input('type');
+        $type       = $request->input('type');
 
-        $fixs = FixTheLeak::where('type',$type)->get();
-        $user = FixTheLeak::where('email',$user_email)->where('type',$type)->first();
+        $fixs = FixTheLeak::where('type', $type)->get();
+        $user = FixTheLeak::where('email', $user_email)->where('type', $type)->first();
 
-        if(count($user) < 1) {
+        if (count($user) < 1) {
             $rank = -1;
-        }else{
+        } else {
 
             $user_time = $user->score;
 
             $rank = 1;
-            foreach ($fixs as $key=> $fix){
-                
-                if( ($fix->score < $user_time && $type == 1) || ($fix->score > $user_time && $type == 0)) {
+            foreach ($fixs as $key => $fix) {
+
+                if (($fix->score < $user_time && $type == 1) || ($fix->score > $user_time && $type == 0)) {
                     $rank++;
                 }
 
             }
 
         }
+        $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
+        // if ($type == 1) {
+        //     $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
+        // } else {
+        //     $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
+        // }
 
-        if($type == 1) {
-            $datas = $this->model->where('type',$type)->orderBy('score', 'ASC')->limit(6)->get();
-        }else{
-            $datas = $this->model->where('type',$type)->orderBy('score', 'DESC')->limit(6)->get();
-        }
-        
-        return response()->json(['tops'=> $datas, 'rank'=> $rank]);
+        return response()->json(['tops' => $datas, 'rank' => $rank]);
     }
 
     /**
@@ -61,20 +61,20 @@ class FixTheLeakController extends Controller
         // var_dump($request->all());die();
         // var_dump(1);die();
         $user_email = $request->input('email');
-        $type = $request->input('type');
+        $type       = $request->input('type');
 
-        $fixs = FixTheLeak::where('type',$type)->get();
-        $user = FixTheLeak::where('email',$user_email)->where('type',$type)->first();
+        $fixs = FixTheLeak::where('type', $type)->get();
+        $user = FixTheLeak::where('email', $user_email)->where('type', $type)->first();
 
-        if(count($user) < 1) {
+        if (count($user) < 1) {
             $rank = -1;
-        }else{
+        } else {
 
             $user_time = $user->time;
 
             $rank = 1;
-            foreach ($fixs as $key=> $fix){
-                if($fix->score <= $user_time ) {
+            foreach ($fixs as $key => $fix) {
+                if ($fix->score <= $user_time) {
                     $rank++;
                 }
 
@@ -82,10 +82,9 @@ class FixTheLeakController extends Controller
 
         }
 
-
         $datas = $this->model->orderBy('score', 'ASC')->limit(6)->get();
         // return response()->json($datas);
-        return response()->json(['tops'=> $datas, 'rank'=> $rank]);
+        return response()->json(['tops' => $datas, 'rank' => $rank]);
     }
 
     /**
@@ -108,25 +107,24 @@ class FixTheLeakController extends Controller
     {
         $datas = \Request::all();
 
-        $fix = FixTheLeak::where('email',$datas['email'])->where('type', $datas['type'])->first();
+        $fix = FixTheLeak::where('email', $datas['email'])->where('type', $datas['type'])->first();
 
-        if(count($fix) < 1){
-            $fix = new FixTheLeak();
+        if (count($fix) < 1) {
+            $fix        = new FixTheLeak();
             $fix->score = $request->score;
-        }else{
-            if(($fix->score > $request->score) && $datas['type'] == 1) {
-                $fix->score = $request->score;        
+        } else {
+            if (($fix->score > $request->score) && $datas['type'] == 1) {
+                $fix->score = $request->score;
             }
 
-            if( ($fix->score < $request->score) && $datas['type'] == 0) {
-                $fix->score = $request->score;        
+            if (($fix->score < $request->score) && $datas['type'] == 0) {
+                $fix->score = $request->score;
             }
         }
 
-
         $fix->name  = $request->name;
         $fix->email = $request->email;
-        $fix->type = $request->type;
+        $fix->type  = $request->type;
         try {
             $fix->save();
             return response()->json($fix);
@@ -134,7 +132,6 @@ class FixTheLeakController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
-
 
     /**
      * Display the specified resource.
