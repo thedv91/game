@@ -15,10 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('fix-the-leak/kiosk', function () {
+    return view('game.fix-the-leak.kiosk');
+});
+Route::get('fix-the-leak/arcade', function () {
+    return view('game.fix-the-leak.arcade');
+});
+
 Route::any('memory/save-info', 'MemoryController@saveInfo');
 Route::any('memory/ranks', 'MemoryController@getHeightScore');
-
-
 
 Route::group(['namespace' => 'Api', 'prefix' => 'api/v1', 'middleware' => 'cors'], function () {
     Route::resource('fix-the-leak', 'FixTheLeakController');

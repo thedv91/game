@@ -16,9 +16,9 @@ class CreateMemoryTable extends Migration
             $table->increments('id');
             $table->string('name', 255);
             $table->string('email', 255);
-            $table->integer('moves');
-            $table->integer('time');
-            $table->float('score');
+            $table->integer('moves')->unsigned();
+            $table->integer('time')->unsigned();
+            $table->float('score')->unsigned();
 
             $table->timestamps();
             $table->softDeletes();

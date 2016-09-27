@@ -38,7 +38,11 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title">Game Development</div>
+                <h1>Match the Wally</h1>
+                <a href="/match-the-wally/kiosk">Kiosk</a> | <a href="/match-the-wally/arcade">Arcade</a>
+                <h1>Fix the Pipes</h1>
+                <a href="/fix-the-leak/kiosk">Kiosk</a> | <a href="/fix-the-leak/arcade">Arcade</a>
             </div>
         </div>
     </body>

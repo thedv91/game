@@ -117,7 +117,7 @@ var menuState = {
         * */
         $.ajax({
             type: "GET",
-            url: "../api/public/memory/ranks",
+            url: "/memory/ranks",
             data: {
                 'email': memory_email,
                 'type': game_type
