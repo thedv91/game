@@ -353,4 +353,6 @@ wp-content/plugins/hello.php
 /readme.html
 /license.txt
 bower_components
+/node_modules
+/**/node_modules/*
 /.vscode
