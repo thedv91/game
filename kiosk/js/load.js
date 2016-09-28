@@ -1,24 +1,24 @@
-var loadState= {
+var loadState = {
 
     // The preload function is another standard Phaser function that we
     // use to define and load our assets
-    preload: function() {
+    preload: function () {
         game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
 
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        
+
         game.scale.pageAlignVertically = true;
         game.scale.pageAlignHorizontally = true;
         w = game.width;
         h = game.height;
         // Add a loading label on the screen
         var loadingLabel = game.add.text(80, 150, 'loading...',
-            {font: '30px Courier', fill: '#ffffff'});
+            { font: '30px Courier', fill: '#ffffff' });
 
 
-         if(h >=768){
+        if (h >= 768) {
             game.load.image('bg_play', 'assets/images/big_screen/bg_play.png?sddas');
-        }else{
+        } else {
             game.load.image('bg_play', 'assets/images/small_screen/bg_play.png?ssads');
         }
         // Menu Stage
@@ -27,7 +27,7 @@ var loadState= {
         game.load.image('board', 'assets/images/board.png');
         game.load.image('tree', 'assets/images/tree.png?svvf');
 
-        game.load.spritesheet('wally-animation', 'assets/images/wally-swing.png?ds', 300, 500, 49);      
+        game.load.spritesheet('wally-animation', 'assets/images/wally-swing.png?ds', 300, 500, 49);
 
         game.load.spritesheet('start', 'assets/images/start.png?sd', 170, 60);
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
@@ -45,8 +45,8 @@ var loadState= {
 
         // Flip Card
         game.load.image('back', 'assets/items/back.png?Sdsfs');
-        for(var i=0; i<= 18; i++){
-            game.load.image(''+i+'', 'assets/items/'+i+'.png?sd');
+        for (var i = 0; i <= 18; i++) {
+            game.load.image('' + i + '', 'assets/items/' + i + '.png?sd');
         }
 
         // End Game
@@ -54,7 +54,7 @@ var loadState= {
 
     },
 
-    create: function() {
+    create: function () {
 
         console.log(game.width, game.height);
 

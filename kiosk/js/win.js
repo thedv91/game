@@ -1,6 +1,6 @@
 var winState = {
 
-    create: function() {
+    create: function () {
         var _self = this;
 
         enableClickMenu = true;
@@ -173,7 +173,7 @@ var winState = {
         submitBtn.anchor.setTo(0.5);
     },
 
-    resize: function() {
+    resize: function () {
         w = game.width;
         h = game.height;
 
@@ -210,12 +210,12 @@ var winState = {
 
     },
 
-    finalScore: function(moves, time) {
+    finalScore: function (moves, time) {
         // var score = 1000 000 00001/(moves + time * 2)
         return moves + time;
     },
 
-    submitInfo: function() {
+    submitInfo: function () {
         var flag = true;
         var user_name = nameUser.canvasInput.value();
         var user_email = emailUser.canvasInput.value();
@@ -255,12 +255,12 @@ var winState = {
             url: "/memory/save-info",
             dataType: "JSON",
             data: params,
-            success: function(response) {
+            success: function (response) {
                 if (response.status == 1) {
                     localStorage.setItem('user_name', user_name);
                     localStorage.setItem('user_email', user_email);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         game.state.start('menu');
                     });
 
@@ -272,13 +272,13 @@ var winState = {
 
     },
 
-    inputFocus: function(sprite) {
+    inputFocus: function (sprite) {
         sprite.canvasInput.focus();
     },
 
 
 
-    createInput: function(x, y, width, height) {
+    createInput: function (x, y, width, height) {
         var bmd = this.add.bitmapData(600, 50);
         var myInput = this.game.add.sprite(x, y, bmd);
 
@@ -302,7 +302,7 @@ var winState = {
         return myInput;
     },
     // The restart function calls the menu state
-    restart: function() {
+    restart: function () {
         game.state.start('menu');
     }
 }
