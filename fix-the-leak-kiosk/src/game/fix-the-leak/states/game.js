@@ -1,8 +1,15 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import debugLayout from 'phaser-debug-layout';
+import BgOverlay from '../objects/BgOverlay';
+import OkButton from './../objects/OkButton';
+import Map from './../objects/Map';
+import MapSmall from './../objects/MapSmall';
+import MapNormal from './../objects/MapNormal';
+import BaseState from './base';
+import { getInitData } from './../ultis/ScreenType';
 
-class Game extends Phaser.State {
+export default class Game extends Phaser.State {
 	constructor() {
 		super();
 		this.panelHeight = 60;
@@ -16,65 +23,64 @@ class Game extends Phaser.State {
 		this.level = 1;
 		this.score_game = 0;
 
+
 	}
 
 	init(level, score, time) {
+		this.screenData = getInitData(this.game);
 		this.level = level;
 		this.score_game = score;
 		this.time_play = time;
 		this.smallScreen = false;
-		// mapScreen = 1 => device width < 500
-		// mapScreen = 2 => device width >= 500 && device width < 800
-		// mapScreen = 3 => device width >= 800 
-		this.mapScreen = 3;
 
 		this.w = this.game.width;
 		this.h = this.game.height;
 
-		// Mobile
-		if (this.game.width <= 500) {
-			this.pannel_margin_left = 30;
-			this.intro_font = 22;
-			this.ok_width = 125;
-			this.button_dis = 80;
-			this.animatorWidth = 210;
-			this.smallScreen = true;
-			this.mapScreen = 1;
-        }
+		// // Mobile
 
-        if (this.game.width >= 500 && this.game.width < 800) {
-			this.mapScreen = 2;
-        }
+		// if (this.game.width <= 500) {
+		// 	this.screenData.pannel_margin_left = 30;
+		// 	this.screenData.intro_font = 22;
+		// 	this.screenData.ok_width = 125;
+		// 	this.screenData.button_dis = 80;
+		// 	this.screenData.animatorWidth = 210;
+		// 	this.smallScreen = true;
+		// 	this.screenData.mapScreen = 1;
+        // }
 
-        //  860 x 410
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 27;
-			this.ok_width = 130;
-			this.button_dis = 100;
-			this.animatorWidth = 270;
-			this.mapScreen = 3;
-        }
+        // if (this.game.width >= 500 && this.game.width < 800) {
+		// 	this.screenData.mapScreen = 2;
+        // }
 
-        // Tablet
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 40;
-			this.ok_width = 170;
-			this.button_dis = 100;
-			this.animatorWidth = 385;
-			this.mapScreen = 4;
-        }
+        // //  860 x 410
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 27;
+		// 	this.screenData.ok_width = 130;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 270;
+		// 	this.screenData.mapScreen = 3;
+        // }
 
-        // Windows
-        if (this.game.width > 820) {
-			this.pannel_margin_left = 75;
-			this.intro_font = 50;
-			this.ok_width = 230;
-			this.button_dis = 100;
-			this.animatorWidth = 502;
-			this.mapScreen = 5;
-        }
+        // // Tablet
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 40;
+		// 	this.screenData.ok_width = 170;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 385;
+		// 	this.screenData.mapScreen = 4;
+        // }
+
+        // // Windows
+        // if (this.game.width > 820) {
+		// 	this.screenData.pannel_margin_left = 75;
+		// 	this.screenData.intro_font = 50;
+		// 	this.screenData.ok_width = 230;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 502;
+		// 	this.screenData.mapScreen = 5;
+        // }
 
 
 	}
@@ -86,12 +92,6 @@ class Game extends Phaser.State {
 		this._drawBackground();
 		this.bgOverlay = this._drawOverlay();
 
-		// let music = this.add.audio('background', 1, false);
-
-		/*setTimeout(() => {
-			music.play();
-		}, 600);*/
-
 		this.map = this._drawPipes();
 
 		this._drawAnimator();
@@ -100,10 +100,6 @@ class Game extends Phaser.State {
 		this.intro = this._drawIntroduction();
 		this._drawPanel();
 		this.pauseGame = this._drawPauseGame();
-
-		/*setTimeout(() => {
-			this._showPanelEndGame();
-		}, 1000);*/
 
 		this._drawScore();
 
@@ -170,9 +166,7 @@ class Game extends Phaser.State {
 	}
 
 	update() {
-		// if(this.time_play >= 10){
-		// 	this.panelEndGame;
-		// }
+
 	}
 
 	/**
@@ -212,12 +206,12 @@ class Game extends Phaser.State {
 			var text_top = this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
 			this.text_score_top = this.add.text(this.game.width / 2 + 60, this.game.height - 150, this.level, style_under);
 
-			var text = this.add.text(this.game.width / 2, this.game.height - 100, "TIME\tSCORE", style_top);
+			var text = this.add.text(this.game.width / 2, this.game.height - 100, 'TIME\tSCORE', style_top);
 			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.time_play + 's\t' + this.score_game, style_under);
 
 		} else {
 
-			var text = this.add.text(this.game.width / 2, this.game.height - 100, "LEVEL\tTIME\tSCORE", style_top);
+			var text = this.add.text(this.game.width / 2, this.game.height - 100, 'LEVEL\tTIME\tSCORE', style_top);
 			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
@@ -242,7 +236,8 @@ class Game extends Phaser.State {
 	}
 
 	_drawOverlay() {
-		let cc = this.add.tileSprite(0, this.panelHeight, this.game.width, this.game.height - this.panelHeight, 'black');
+		//let cc = this.add.tileSprite(0, this.panelHeight, this.game.width, this.game.height - this.panelHeight, 'black');
+		let cc = this.add.existing(new BgOverlay(this.game, 0, this.panelHeight, this.game.width, this.game.height - this.panelHeight));
 		cc.alpha = 0.8;
 		cc.top = this.game.height;
 
@@ -256,37 +251,11 @@ class Game extends Phaser.State {
 	}
 
 	_drawPipes() {
-		let scale_maps;
-		let map;
 		let layer;
-
-		switch (this.mapScreen) {
-			case 1:
-				map = this.add.tilemap('map-small');
-				map.addTilesetImage('pipe_small');
-				map.addTilesetImage('water-small');
-				scale_maps = this.game.width / 408;
-				break;
-			case 2:
-				map = this.add.tilemap('map-normal');
-				map.addTilesetImage('pipe_normal');
-				map.addTilesetImage('water-normal');
-				scale_maps = this.game.width / 492;
-				break;
-			case 3:
-				map = this.add.tilemap('map');
-				map.addTilesetImage('pipe');
-				map.addTilesetImage('waters');
-				scale_maps = this.game.width / 768;
-				break;
-			default:
-				map = this.add.tilemap('map');
-				map.addTilesetImage('pipe');
-				map.addTilesetImage('waters');
-				scale_maps = this.game.width / 768;
-				break;
-		}
-
+		let scale_maps = this.screenData.scale_maps;
+		let map = this.add.tilemap(this.screenData.map);
+		map.addTilesetImage(this.screenData.pipes);
+		map.addTilesetImage(this.screenData.water);
 
 		layer = map.createLayer('Tile Layer 1');
 		layer.fixedToCamera = false;
@@ -298,22 +267,9 @@ class Game extends Phaser.State {
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		this.waters = this.game.add.group();
+		console.log(this.waters);
 		this.waters.enableBody = true;
-
-		switch (this.mapScreen) {
-			case 1:
-				map.createFromObjects('Object Layer 1', 1294, 'water-small', 0, true, false, this.waters);
-				break;
-			case 2:
-				map.createFromObjects('Object Layer 1', 1067, 'water-normal', 0, true, false, this.waters);
-				break;
-			case 3:
-				map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
-				break;
-			default:
-				map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
-				break;
-		}
+		map.createFromObjects('Object Layer 1', this.screenData.gid, this.screenData.water, 0, true, false, this.waters);
 
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
@@ -437,20 +393,11 @@ class Game extends Phaser.State {
 			rand_idx = Math.floor(Math.random() * (this.waters_group.length - 1));
 			if (this.waters_group[rand_idx].visible == true || sprite.uniqueCheck == this.waters_group[rand_idx].uniqueCheck) {
 				flag = true;
-			}  else {
+			} else {
 				flag = false;
 				this.waters_group[rand_idx].visible = true
 			}
 		}
-
-		/*var temp = [];
-		for(var i = 0; i < this.waters_group.length; i++){
-			let x = this.waters_group[i];
-			if(x.visible == true) {
-				temp.push(i);
-			}
-		}
-		console.log(temp);*/
 
 	}
 
@@ -466,8 +413,7 @@ class Game extends Phaser.State {
 			} else {
 				this.waters_group[rand_idx].visible = true
 			}
-		} else {
-			console.log('hello ' + this.waters_group[rand_idx]);
+		} else {			
 			this.waters_group[rand_idx].visible = true
 		}
 
@@ -476,7 +422,7 @@ class Game extends Phaser.State {
 	_drawAnimator() {
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.animatorWidth / 502);
+		cc.scale.setTo(this.screenData.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -488,15 +434,33 @@ class Game extends Phaser.State {
 		cc.animations.add('walk');
 
 		cc.animations.play('walk', 15, true);
+		switch (this.screenData.mapScreen) {
+			case 1:
+				cc.scale.setTo(.7);
+				break;
+			case 2:
+				cc.scale.setTo(1);
+				break;
+			case 3:
+				cc.scale.setTo(.7);
+				break;
+			case 4:
+			case 5:
+				cc.scale.setTo(1.3);
+				break;
+			default:
+				cc.scale.setTo(1);
+				break;
+		}
 
-		cc.scale.setTo(this.animatorWidth / 250);
+		//cc.scale.setTo(this.screenData.animatorWidth / 250);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
 	}
 
 	_drawIntroduction() {
-		const panelWidth = this.game.width - 2 * this.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -504,33 +468,46 @@ class Game extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
-			align: 'center'
+			align: 'center',
+			fontWeight: 'bold'
 		};
 
-		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight + 25, 'INSTRUCTIONS', style);
+		const styleGuide = {
+			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
+			fill: '#000000',
+			align: 'center',
+			fontWeight: 'bold'
+		};
+
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
-		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', style);
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
+		lineHR.anchor.setTo(0.5);
+
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
 		text2.anchor.setTo(0.5);
 
-		this.okButton = this.add.button(this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.intro_font, 'ok-button', this.actionOkOnClick.bind(this));
+		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.actionOkOnClick.bind(this));
+		this.okButton = this.add.existing(this.okButton);
 		this.okButton.anchor.setTo(0.5);
 		this.okButton.alpha = 1;
 		this.okButton.lock = true;
 
-		let button_scale = this.ok_width / 124;
+		let button_scale = this.screenData.ok_width / 124;
 		this.okButton.scale.setTo(button_scale);
 
 		cc.addChild(bg);
 		cc.addChild(text1);
+		cc.addChild(lineHR);
 		cc.addChild(text2);
 		cc.addChild(this.okButton);
 
@@ -539,7 +516,7 @@ class Game extends Phaser.State {
 
 	_drawPauseGame() {
 
-		const panelWidth = this.game.width - 2 * this.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -547,14 +524,14 @@ class Game extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center'
 		};
@@ -564,13 +541,13 @@ class Game extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
@@ -681,8 +658,7 @@ class Game extends Phaser.State {
 		this.map.destroy;
 
 		/*let tween_map = this.add.tween(this._drawPipes);
-
-		console.log(tween_map)
+		
 		tween_map.to({
 			x: this.world.width,
 		}, 1000, Phaser.Easing.Cubic.Out, true);
@@ -790,6 +766,3 @@ class Game extends Phaser.State {
 		// });
 	}
 }
-
-
-export default Game;

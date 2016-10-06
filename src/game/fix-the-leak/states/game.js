@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import val from './../variables';
-
+import BgOverlay from './../objects/BgOverlay';
+import OkButton from './../objects/OkButton';
 class Game extends Phaser.State {
 	constructor() {
 		super();
@@ -30,7 +31,6 @@ class Game extends Phaser.State {
 
 		this.w = this.game.width;
 		this.h = this.game.height;
-
 		// Mobile
 		if (this.game.width <= 500) {
 			this.pannel_margin_left = 30;
@@ -103,22 +103,18 @@ class Game extends Phaser.State {
 
 	create() {
 		var _self = this;
-		this.drawPanelGlobal = this._drawPanel();
 
 		this._drawBackground();
 		this.bgOverlay = this._drawOverlay();
 
 		// this.music = this.add.audio('background', 1, false);
-
-
-
 		this.map = this._drawPipes();
 
 		this._drawAnimator();
 		this._drawAnimatorSwing();
 
 		this.intro = this._drawIntroduction();
-		this._drawPanel();
+		this.drawPanelGlobal = this._drawPanel();
 		this.pauseGame = this._drawPauseGame();
 
 		/*setTimeout(() => {
@@ -259,15 +255,16 @@ class Game extends Phaser.State {
 	}
 
 	_drawOverlay() {
-		let cc = this.add.tileSprite(0, this.panelHeight, this.game.width, this.game.height - this.panelHeight, 'black');
+		//let cc = this.add.tileSprite(0, this.panelHeight, this.game.width, this.game.height - this.panelHeight, 'black');
+		let cc = this.add.existing(new BgOverlay(this.game, 0, this.panelHeight, this.game.width, this.game.height - this.panelHeight));
 		cc.alpha = 0.8;
-		cc.top = this.game.height;
+		// cc.top = this.game.height;
 
-		let tween = this.add.tween(cc);
-		tween.to({
-			alpha: 0.8,
-			top: this.panelHeight
-		}, 500, Phaser.Easing.Bounce.Out, true);
+		// let tween = this.add.tween(cc);
+		// tween.to({
+		// 	alpha: 0.8,
+		// 	top: this.panelHeight
+		// }, 500, Phaser.Easing.Bounce.Out, true);
 
 		return cc;
 	}
@@ -277,25 +274,25 @@ class Game extends Phaser.State {
 		let map;
 		let layer;
 
-		if (this.mapScreen >= 3) {
-			map = this.add.tilemap('map');
-			map.addTilesetImage('pipe');
-			map.addTilesetImage('waters');
-			scale_maps = this.game.width / 768;
-		}
-
-		if (this.mapScreen == 2) {
-			map = this.add.tilemap('map-normal');
-			map.addTilesetImage('pipe_normal');
-			map.addTilesetImage('water-normal');
-			scale_maps = this.game.width / 492;
-		}
-
-		if (this.mapScreen == 1) {
-			map = this.add.tilemap('map-small');
-			map.addTilesetImage('pipe_small');
-			map.addTilesetImage('water-small');
-			scale_maps = this.game.width / 408;
+		switch (this.mapScreen) {
+			case 1:
+				map = this.add.tilemap('map-small');
+				map.addTilesetImage('pipe_small');
+				map.addTilesetImage('water-small');
+				scale_maps = this.game.width / 408;
+				break;
+			case 2:
+				map = this.add.tilemap('map-normal');
+				map.addTilesetImage('pipe_normal');
+				map.addTilesetImage('water-normal');
+				scale_maps = this.game.width / 492;
+				break;
+			default:
+				map = this.add.tilemap('map');
+				map.addTilesetImage('pipe');
+				map.addTilesetImage('waters');
+				scale_maps = this.game.width / 768;
+				break;
 		}
 
 
@@ -477,6 +474,7 @@ class Game extends Phaser.State {
 	}
 
 	_drawAnimator() {
+		console.log(this.mapScreen);
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
 		cc.scale.setTo(this.animatorWidth / 502);
@@ -499,7 +497,7 @@ class Game extends Phaser.State {
 				cc.scale.setTo(1);
 				break;
 			case 3:
-				cc.scale.setTo(1);
+				cc.scale.setTo(.7);
 				break;
 			case 4:
 			case 5:
@@ -563,7 +561,8 @@ class Game extends Phaser.State {
 		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
 		text2.anchor.setTo(0.5);
 
-		this.okButton = this.add.button(this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.intro_font, 'ok-button', this.actionOkOnClick.bind(this));
+		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.intro_font, this.actionOkOnClick.bind(this));
+		this.add.existing(this.okButton);
 		this.okButton.anchor.setTo(0.5);
 		this.okButton.alpha = 1;
 		this.okButton.lock = true;
@@ -696,7 +695,7 @@ class Game extends Phaser.State {
 
 		tween.to({
 			y: 0
-		}, 500, Phaser.Easing.Bounce.Out, true);
+		}, 1000, Phaser.Easing.Exponential.Out, true);
 
 		tween.onComplete.add(() => {
 			this.menuButton.lock = true;

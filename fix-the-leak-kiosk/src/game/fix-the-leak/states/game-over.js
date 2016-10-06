@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
+import { getInitData } from './../ultis/ScreenType';
 
 
 class GameOver extends Phaser.State {
@@ -13,6 +14,7 @@ class GameOver extends Phaser.State {
 	init(score,time) {
 		//this.gameType == 1 => arcade
 		//this.gameType == 0 => kiosk
+		this.screenData = getInitData(this.game);
 		this.gameType = 0;
 		this.score_game = score;
 		this.time_play = time;
@@ -31,6 +33,11 @@ class GameOver extends Phaser.State {
 			this.font_score = 27;
 			this.submit_width = 125;
 			this.animatorWidth = 210;
+			this.mapScreen = 1;
+        }
+
+		if (this.game.width >= 500 && this.game.width < 800) {
+			this.mapScreen = 2;
         }
 
         //  860 x 410
@@ -42,7 +49,8 @@ class GameOver extends Phaser.State {
         	this.score_margin_top = 40;
         	this.font_score = 27;
         	this.submit_width = 125;
-        	this.animatorWidth = 290;
+			this.animatorWidth = 290;
+			this.mapScreen = 3;
         }
 
         // Tablet
@@ -54,7 +62,8 @@ class GameOver extends Phaser.State {
         	this.score_margin_top = 60;
         	this.font_score = 32;
         	this.submit_width = 170;
-        	this.animatorWidth = 385;
+			this.animatorWidth = 385;
+			this.mapScreen = 4;
         }
 
         // Windows
@@ -66,7 +75,8 @@ class GameOver extends Phaser.State {
         	this.score_margin_top = 75;
         	this.font_score = 40;
         	this.submit_width = 205;
-        	this.animatorWidth = 502;
+			this.animatorWidth = 502;
+			this.mapScreen = 5;
         }
 	}
 	create() {
@@ -312,7 +322,25 @@ class GameOver extends Phaser.State {
 
     	cc.animations.play('walk', 15, true);
 
-		cc.scale.setTo(this.animatorWidth/250);
+		switch (this.mapScreen) {
+			case 1:
+				cc.scale.setTo(.7);
+				break;
+			case 2:
+				cc.scale.setTo(1);
+				break;
+			case 3:
+				cc.scale.setTo(.7);
+				break;
+			case 4:
+			case 5:
+				cc.scale.setTo(1.3);
+				break;
+			default:
+				cc.scale.setTo(1);
+				break;
+		}
+		//cc.scale.setTo(this.animatorWidth/250);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
@@ -420,7 +448,6 @@ class GameOver extends Phaser.State {
 			padding: 8,
 			borderWidth: 0,
 			borderColor: '#000',
-			height: 20,
 			borderRadius: 6,
 	    });
 

@@ -129,7 +129,6 @@ class Intro extends Phaser.State {
 		this.score_game = 0;
 		this.time_play = 0;
 
-
 		// this.panel = this.add.group();
 		// this.panel.x = this.world.centerX;
 		// this.panel.y = -400;
