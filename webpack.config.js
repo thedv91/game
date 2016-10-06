@@ -14,8 +14,15 @@ module.exports = {
 	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
 	output: {
 		path: './dist',
-		filename: 'app.bundle.js'
+		filename: 'app.bundle.js',
+		libraryTarget: 'var',
+        library: 'QsoftGame'
 	},
+	externals: {
+        // require("jquery") is external and available
+        //  on the global var jQuery
+        "Phaser": "Phaser"
+    },
 	watch: true,
 	plugins: [
 		new webpack.DefinePlugin({

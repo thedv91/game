@@ -46,11 +46,11 @@ import FixTheLeakApp from './game/fix-the-leak/game';
 // 	}
 
 // }
-export default function Memory(w, h, dom) {
+export function Memory(w, h, dom) {
 	return new MemoryApp(w, h, dom);
+
 }
 export function FixTheLeak(dom) {
-
 	if (window.innerHeight > 810) {
 
 		if (window.innerHeight > 950) {
@@ -80,4 +80,5 @@ export function FixTheLeak(dom) {
 		}
 
 	}
+
 }

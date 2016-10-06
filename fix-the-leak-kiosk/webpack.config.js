@@ -14,8 +14,15 @@ module.exports = {
 	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
 	output: {
 		path: './dist',
-		filename: 'app.bundle.js'
+		filename: 'app.bundle.js',
+		libraryTarget: 'var',
+        library: 'QsoftGame'
 	},
+	externals: {
+        // require("jquery") is external and available
+        //  on the global var jQuery
+        "Phaser": "Phaser"
+    },
 	watch: true,
 	plugins: [
 		new webpack.DefinePlugin({
@@ -23,8 +30,8 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.OccurrenceOrderPlugin(),
+		// new webpack.optimize.UglifyJsPlugin(),
+		// new webpack.optimize.OccurrenceOrderPlugin(),
 		new BrowserSyncPlugin({
 			// browse to http://localhost:3000/ during development, 
 			// ./dist directory is being served 
