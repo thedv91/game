@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
-
+import { getInitData } from './../ultis/ScreenType';
 
 class GameOver extends Phaser.State {
 	constructor() {
@@ -13,6 +13,7 @@ class GameOver extends Phaser.State {
 	init(score, time) {
 		//this.gameType == 1 => arcade
 		//this.gameType == 0 => kiosk
+		this.screenData = getInitData(this.game);
 		this.gameType = 1;
 		this.score_game = score;
 		this.time_play = time;
@@ -21,96 +22,96 @@ class GameOver extends Phaser.State {
 		this.h = this.game.height;
 
 		// Mobile
-		if (this.game.width <= 500) {
-			this.pannel_margin_left = 30;
-			this.intro_font = 22;
-			this.ok_width = 125;
-			this.button_dis = 80;
-			this.score_margin_top = 30;
+		// if (this.game.width <= 500) {
+		// 	this.screenData.pannel_margin_left = 30;
+		// 	this.screenData.intro_font = 22;
+		// 	this.screenData.ok_width = 125;
+		// 	this.screenData.button_dis = 80;
+		// 	this.screenData.score_margin_top = 30;
 
-			this.font_score = 27;
-			this.submit_width = 125;
-			this.animatorWidth = 210;
+		// 	this.screenData.font_score = 27;
+		// 	this.screenData.submit_width = 125;
+		// 	this.screenData.animatorWidth = 210;
 
-			this.endGameHeight = 20;
-			this.txtNameTop = 140;
-			this.nameInputTop = 160;
-			
-			this.txtEmailTop = 230;
-			this.emailInputTop = 250;
+		// 	this.screenData.endGameHeight = 20;
+		// 	this.screenData.txtNameTop = 140;
+		// 	this.screenData.nameInputTop = 160;
 
-			this.submitTop = 350;
-			this.scaleWally = 0.7;
-        }
+		// 	this.screenData.txtEmailTop = 230;
+		// 	this.screenData.emailInputTop = 250;
 
-        //  860 x 410
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 27;
-			this.ok_width = 130;
-			this.button_dis = 100;
-			this.score_margin_top = 40;
-			this.font_score = 27;
-			this.submit_width = 125;
-			this.animatorWidth = 290;
+		// 	this.screenData.submitTop = 350;
+		// 	this.screenData.scaleWally = 0.7;
+        // }
 
-			this.endGameHeight = 25;
-			this.txtNameTop = 140;
-			this.nameInputTop = 160;
+        // //  860 x 410
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 27;
+		// 	this.screenData.ok_width = 130;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.score_margin_top = 40;
+		// 	this.screenData.font_score = 27;
+		// 	this.screenData.submit_width = 125;
+		// 	this.screenData.animatorWidth = 290;
 
-			this.txtEmailTop = 230;
-			this.emailInputTop = 250;
+		// 	this.screenData.endGameHeight = 25;
+		// 	this.screenData.txtNameTop = 140;
+		// 	this.screenData.nameInputTop = 160;
 
-			this.submitTop = 360;
-			this.scaleWally = 1;
-        }
+		// 	this.screenData.txtEmailTop = 230;
+		// 	this.screenData.emailInputTop = 250;
 
-        // Tablet
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 40;
-			this.ok_width = 170;
-			this.button_dis = 100;
-			this.score_margin_top = 60;
-			this.font_score = 32;
-			this.submit_width = 170;
-			this.animatorWidth = 385;
-			this.endGameWidth = 450;
+		// 	this.screenData.submitTop = 360;
+		// 	this.screenData.scaleWally = 1;
+        // }
 
-			this.endGameHeight = 30;
-			this.txtNameTop = 140;
-			this.nameInputTop = 160;
+        // // Tablet
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 40;
+		// 	this.screenData.ok_width = 170;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.score_margin_top = 60;
+		// 	this.screenData.font_score = 32;
+		// 	this.screenData.submit_width = 170;
+		// 	this.screenData.animatorWidth = 385;
+		// 	this.endGameWidth = 450;
 
-			this.txtEmailTop = 250;
-			this.emailInputTop = 270;
+		// 	this.screenData.endGameHeight = 30;
+		// 	this.screenData.txtNameTop = 140;
+		// 	this.screenData.nameInputTop = 160;
 
-			this.submitTop = 400;
-			this.scaleWally = 1.3;
-        }
+		// 	this.screenData.txtEmailTop = 250;
+		// 	this.screenData.emailInputTop = 270;
 
-        // Windows
-        if (this.game.width > 820) {
-			this.pannel_margin_left = 75;
-			this.intro_font = 50;
-			this.ok_width = 230;
-			this.button_dis = 100;
-			this.score_margin_top = 75;
-			this.font_score = 40;
-			this.submit_width = 205;
-			this.animatorWidth = 502;
+		// 	this.screenData.submitTop = 400;
+		// 	this.screenData.scaleWally = 1.3;
+        // }
 
-			this.endGameWidth = 450;
+        // // Windows
+        // if (this.game.width > 820) {
+		// 	this.screenData.pannel_margin_left = 75;
+		// 	this.screenData.intro_font = 50;
+		// 	this.screenData.ok_width = 230;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.score_margin_top = 75;
+		// 	this.screenData.font_score = 40;
+		// 	this.screenData.submit_width = 205;
+		// 	this.screenData.animatorWidth = 502;
 
-			this.endGameHeight = 30;
-			this.txtNameTop = 140;
-			this.nameInputTop = 160;
+		// 	this.endGameWidth = 450;
 
-			this.txtEmailTop = 250;
-			this.emailInputTop = 270;
+		// 	this.screenData.endGameHeight = 30;
+		// 	this.screenData.txtNameTop = 140;
+		// 	this.screenData.nameInputTop = 160;
 
-			this.submitTop = 400;
-			this.scaleWally = 1.3;
-        }
+		// 	this.screenData.txtEmailTop = 250;
+		// 	this.screenData.emailInputTop = 270;
+
+		// 	this.screenData.submitTop = 400;
+		// 	this.screenData.scaleWally = 1.3;
+        // }
 	}
 	create() {
 		this._drawBackground();
@@ -128,8 +129,7 @@ class GameOver extends Phaser.State {
 		cc.animations.add('walk');
 
 		cc.animations.play('walk', 15, true);
-		cc.scale.setTo(this.scaleWally);
-
+		cc.scale.setTo(this.screenData.animatorScale);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
@@ -264,7 +264,7 @@ class GameOver extends Phaser.State {
 
 	_drawPauseGame() {
 
-		const panelWidth = this.game.width - 2 * this.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -272,14 +272,14 @@ class GameOver extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center'
 		};
@@ -289,13 +289,13 @@ class GameOver extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
@@ -355,7 +355,7 @@ class GameOver extends Phaser.State {
 	_drawAnimator() {
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.animatorWidth / 502);
+		cc.scale.setTo(this.screenData.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -363,17 +363,20 @@ class GameOver extends Phaser.State {
 
 	_drawEndGame() {
 		let cc = this.add.group();
-		cc.width = this.endGameWidth;
+		cc.width = this.screenData.inputWidth;
+		const gHeight = this.screenData.inputHeight + this.screenData.endgamePadding;
+		const inputHeight = this.screenData.inputHeight;
+		const endgamePadding = this.screenData.endgamePadding;
 
 		let txtScore = this.createText(cc._width / 2, 0, 'TIME:', {
-			font: '600 ' + this.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
 			strokeThickness: 3
 		});
 		txtScore.anchor.setTo(0.5);
 
-		let totalScore = this.createText(cc._width / 2, 60, this.time_play + 's', {
+		let totalScore = this.createText(cc._width / 2, gHeight, this.time_play + 's', {
 			font: '600 70px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
@@ -381,14 +384,14 @@ class GameOver extends Phaser.State {
 		});
 		totalScore.anchor.setTo(0.5);
 
-		let txtName = this.createText(cc._width / 2, this.txtNameTop, 'NAME:', {
+		let txtName = this.createText(cc._width / 2, gHeight * 2, 'NAME:', {
 			fill: '#46c6f2'
 		});
 
 		txtName.anchor.setTo(0.5);
 
 
-		this.nameInput = this.createInput(0, this.nameInputTop, this.endGameWidth, this.endGameHeight);
+		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.screenData.inputWidth, this.screenData.inputHeight);
 
 		if (localStorage.getItem('fix_user_name')) {
             this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
@@ -398,13 +401,13 @@ class GameOver extends Phaser.State {
 
 		//this.nameInput.canvasInput.value('');
 
-		let txtEmail = this.createText(cc._width / 2, this.txtEmailTop, 'EMAIL:', {
+		let txtEmail = this.createText(cc._width / 2, gHeight * 3 + inputHeight, 'EMAIL:', {
 			fill: '#46c6f2'
 		});
 
 		txtEmail.anchor.setTo(0.5);
 
-		this.emailInput = this.createInput(0, this.emailInputTop, this.endGameWidth, this.endGameHeight);
+		this.emailInput = this.createInput(0, gHeight * 4, this.screenData.inputWidth, this.screenData.inputHeight);
 
 		if (localStorage.getItem('fix_user_email')) {
             this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
@@ -413,10 +416,10 @@ class GameOver extends Phaser.State {
         }
 
 
-		let button = this.add.button(cc._width / 2, this.submitTop, 'submit-button', this.actionSubmitOnClick.bind(this));
+		let button = this.add.button(cc._width / 2, gHeight * 6, 'submit-button', this.actionSubmitOnClick.bind(this));
 		button.anchor.setTo(0.5);
 
-		button.scale.setTo(this.submit_width / 204);
+		button.scale.setTo(this.screenData.submitButtonScale);
 
 		cc.addChild(txtScore);
 		cc.addChild(totalScore);
@@ -427,7 +430,7 @@ class GameOver extends Phaser.State {
 		cc.addChild(button);
 		cc.centerX = this.game.width / 2;
 		//cc.centerY = this.game.height / 3;
-		cc.y = this.panelHeight + this.score_margin_top;
+		cc.y = this.panelHeight + this.screenData.score_margin_top;
 		// cc.scale.setTo(0);
 		return cc;
 
@@ -435,7 +438,7 @@ class GameOver extends Phaser.State {
 
 	createText(x = 0, y = 0, txt, options = {}) {
 		let style = {
-			font: '600 ' + this.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: 200,
@@ -448,22 +451,24 @@ class GameOver extends Phaser.State {
 
 
 	createInput(x, y, input_width, input_height) {
-		var bmd = this.add.bitmapData(input_width, 50);
+		var bmd = this.add.bitmapData(input_width, input_height);
 		var myInput = this.game.add.sprite(x, y, bmd);
 
 
 		myInput.canvasInput = new CanvasInput({
 			canvas: bmd.canvas,
-			font: '18px Arial',
+			fontSize: 18,
+			fontFamily: 'Arial',
 			fill: '#000',
 			fontWeight: 'bold',
-			width: input_width - 40,
-			height: input_height,
 			padding: 8,
+			width: input_width - 20,
+			height: input_height - 18,
 			borderWidth: 0,
 			borderColor: '#000',
-			borderRadius: 12,
-			innerShadow: 'rgba(0, 0, 0, 0)'
+			borderRadius: 6,
+			boxShadow: '1px 1px 0px #fff',
+			innerShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
 		});
 
 		myInput.inputEnabled = true;

@@ -4,8 +4,8 @@
 
 export default class Map extends Phaser.Tilemap {
 
-	constructor(game) {
-		super(game, 'map');
+	constructor(game,key) {
+		super(game, key);
 
 		// this.addTilesetImage('pipe');
 		// this.addTilesetImage('waters');

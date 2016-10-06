@@ -2,13 +2,12 @@ import Phaser from 'phaser';
 import val from './../variables';
 import BgOverlay from './../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
+import { getInitData } from './../ultis/ScreenType';
 class Game extends Phaser.State {
 	constructor() {
 		super();
 		this.panelHeight = 60;
 		this.endGameWidth = 300;
-
-
 		this.drawPanelGlobal;
 
 		this.text_score;
@@ -19,84 +18,79 @@ class Game extends Phaser.State {
 	}
 
 	init(level, score, time) {
+		this.screenData = getInitData(this.game);
 		this.level = level;
 		this.score_game = score;
 		this.time_play = time;
-		this.smallScreen = false;
-
-		// mapScreen = 1 => device width < 500
-		// mapScreen = 2 => device width >= 500 && device width < 800
-		// mapScreen = 3 => device width >= 800 
-		this.mapScreen = 3;
 
 		this.w = this.game.width;
 		this.h = this.game.height;
 		// Mobile
-		if (this.game.width <= 500) {
-			this.pannel_margin_left = 30;
-			this.intro_font = 24;
-			this.ok_width = 125;
-			this.button_dis = 80;
-			this.animatorWidth = 210;
-			this.smallScreen = true;
-			this.mapScreen = 1;
+		// if (this.game.width <= 500) {
+		// 	this.screenData.pannel_margin_left = 30;
+		// 	this.screenData.intro_font = 24;
+		// 	this.screenData.ok_width = 125;
+		// 	this.screenData.button_dis = 80;
+		// 	this.screenData.animatorWidth = 210;
+		// 	this.screenData.smallScreen = true;
+		// 	this.screenData.mapScreen = 1;
 
-			this.level_font = 27;
-			this.level_font_number = 40;
-			this.level_font_tabs = 100;
-			this.levelMargin = 10;
+		// 	this.screenData.level_font = 27;
+		// 	this.screenData.level_font_number = 40;
+		// 	this.screenData.level_font_tabs = 100;
+		// 	this.screenData.levelMargin = 10;
 
-        }
+        // }
 
-        if (this.game.width >= 500 && this.game.width < 800) {
-			this.mapScreen = 2;
+        // if (this.game.width >= 500 && this.game.width < 800) {
+		// 	this.screenData.mapScreen = 2;
 
-        }
+        // }
 
-        //  860 x 410
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 30;
-			this.ok_width = 130;
-			this.button_dis = 100;
-			this.animatorWidth = 270;
-			this.mapScreen = 3;
+        // //  860 x 410
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 30;
+		// 	this.screenData.ok_width = 130;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 270;
+		// 	this.screenData.mapScreen = 3;
 
-			this.level_font = 27;
-			this.level_font_number = 40;
-			this.level_font_tabs = 100;
-			this.levelMargin = 10;
-        }
+		// 	this.screenData.level_font = 27;
+		// 	this.screenData.level_font_number = 40;
+		// 	this.screenData.level_font_tabs = 100;
+		// 	this.screenData.levelMargin = 10;
+        // }
 
-        // Tablet
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-			this.pannel_margin_left = 40;
-			this.intro_font = 36;
-			this.ok_width = 170;
-			this.button_dis = 100;
-			this.animatorWidth = 385;
-			this.mapScreen = 4;
+        // // Tablet
+        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
+		// 	this.screenData.pannel_margin_left = 40;
+		// 	this.screenData.intro_font = 36;
+		// 	this.screenData.ok_width = 170;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 385;
+		// 	this.screenData.mapScreen = 4;
 
-			this.level_font = 40;
-			this.level_font_number = 46;
-			this.level_font_tabs = 120;
-			this.levelMargin = 10;
-        }
+		// 	this.screenData.level_font = 40;
+		// 	this.screenData.level_font_number = 46;
+		// 	this.screenData.level_font_tabs = 120;
+		// 	this.screenData.levelMargin = 10;
+        // }
 
-        // Windows
-        if (this.game.width > 820) {
-			this.pannel_margin_left = 75;
-			this.intro_font = 50;
-			this.ok_width = 230;
-			this.button_dis = 100;
-			this.animatorWidth = 502;
-			this.mapScreen = 5;
+        // // Windows
+        // if (this.game.width > 820) {
+		// 	this.screenData.pannel_margin_left = 75;
+		// 	this.screenData.intro_font = 50;
+		// 	this.screenData.ok_width = 230;
+		// 	this.screenData.button_dis = 100;
+		// 	this.screenData.animatorWidth = 502;
+		// 	this.screenData.mapScreen = 5;
 
-			this.level_font = 40;
-			this.level_font_number = 46;
-			this.level_font_tabs = 140;
-			this.levelMargin = 10;
-        }
+		// 	this.screenData.level_font = 40;
+		// 	this.screenData.level_font_number = 46;
+		// 	this.screenData.level_font_tabs = 140;
+		// 	this.screenData.levelMargin = 10;
+        // }
 
 
 	}
@@ -208,7 +202,7 @@ class Game extends Phaser.State {
 	_updateTime() {
 
         this.time_play = this.time_play + 1;
-        if (this.smallScreen) {
+        if (this.screenData.smallScreen) {
 			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
         } else {
 			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
@@ -217,21 +211,28 @@ class Game extends Phaser.State {
     }
 
 	_drawScore() {
-		var style_top = { font: '500 ' + this.level_font + 'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
-		var style_under = { font: '500 ' + this.level_font_number + 'px AvenirNextLTPro-HeavyCn', fill: "#fff", tabs: this.level_font_tabs };
+		var style_top = {
+			font: '500 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			fill: "#fff",
+			tabs: this.screenData.tabs
+		};
+		var style_under = {
+			font: '500 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			fill: "#fff",
+			tabs: this.screenData.tabs
+		};
 
-		if (this.smallScreen) {
-
-			var text_top = this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
+		if (this.screenData.smallScreen) {
+			this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
 			this.text_score_top = this.add.text(this.game.width / 2 + 60, this.game.height - 150, this.level, style_under);
 
-			var text = this.add.text(this.game.width / 2, this.game.height - 100, "TIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70 + this.levelMargin, '  ' + this.time_play + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - 100, "TIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.time_play + 's\t' + this.score_game, style_under);
 
 		} else {
 
-			var text = this.add.text(this.game.width / 2, this.game.height - 120, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 90 + this.levelMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - 100, "LEVEL\tTIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
 	}
@@ -270,30 +271,32 @@ class Game extends Phaser.State {
 	}
 
 	_drawPipes() {
-		let scale_maps;
-		let map;
 		let layer;
+		let scale_maps = this.screenData.scale_maps;
+		let map = this.add.tilemap(this.screenData.map);
+		map.addTilesetImage(this.screenData.pipes);
+		map.addTilesetImage(this.screenData.water);
 
-		switch (this.mapScreen) {
-			case 1:
-				map = this.add.tilemap('map-small');
-				map.addTilesetImage('pipe_small');
-				map.addTilesetImage('water-small');
-				scale_maps = this.game.width / 408;
-				break;
-			case 2:
-				map = this.add.tilemap('map-normal');
-				map.addTilesetImage('pipe_normal');
-				map.addTilesetImage('water-normal');
-				scale_maps = this.game.width / 492;
-				break;
-			default:
-				map = this.add.tilemap('map');
-				map.addTilesetImage('pipe');
-				map.addTilesetImage('waters');
-				scale_maps = this.game.width / 768;
-				break;
-		}
+		// switch (this.screenData.mapScreen) {
+		// 	case 1:
+		// 		map = this.add.tilemap('map-small');
+		// 		map.addTilesetImage('pipe_small');
+		// 		map.addTilesetImage('water-small');
+		// 		scale_maps = this.game.width / 408;
+		// 		break;
+		// 	case 2:
+		// 		map = this.add.tilemap('map-normal');
+		// 		map.addTilesetImage('pipe_normal');
+		// 		map.addTilesetImage('water-normal');
+		// 		scale_maps = this.game.width / 492;
+		// 		break;
+		// 	default:
+		// 		map = this.add.tilemap('map');
+		// 		map.addTilesetImage('pipe');
+		// 		map.addTilesetImage('waters');
+		// 		scale_maps = this.game.width / 768;
+		// 		break;
+		// }
 
 
 		layer = map.createLayer('Tile Layer 1');
@@ -308,22 +311,24 @@ class Game extends Phaser.State {
 
 
 		this.waters = this.game.add.group();
+		Object.assign(this.waters.pivot, this.screenData.pivot);
 		//this.waters.y = -20;
 		this.waters.enableBody = true;
+		map.createFromObjects('Object Layer 1', this.screenData.gid, this.screenData.water, 0, true, false, this.waters);
 
 
 		//  And now we convert all of the Tiled objects with an ID of 34 into sprites within the coins group
-		if (this.mapScreen >= 3) {
-			map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
+		// if (this.screenData.mapScreen >= 3) {
+		// 	map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
 
-		}
-		if (this.mapScreen == 2) {
-			map.createFromObjects('Object Layer 1', 1067, 'water-normal', 0, true, false, this.waters);
+		// }
+		// if (this.screenData.mapScreen == 2) {
+		// 	map.createFromObjects('Object Layer 1', 1067, 'water-normal', 0, true, false, this.waters);
 
-		}
-		if (this.mapScreen == 1) {
-			map.createFromObjects('Object Layer 1', 1293, 'water-small', 0, true, false, this.waters);
-		}
+		// }
+		// if (this.screenData.mapScreen == 1) {
+		// 	map.createFromObjects('Object Layer 1', 1293, 'water-small', 0, true, false, this.waters);
+		// }
 
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
@@ -399,7 +404,7 @@ class Game extends Phaser.State {
 		sprite.visible = false;
 		this.score_game++;
 
-		if (this.smallScreen) {
+		if (this.screenData.smallScreen) {
 			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
 		} else {
 			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
@@ -474,10 +479,9 @@ class Game extends Phaser.State {
 	}
 
 	_drawAnimator() {
-		console.log(this.mapScreen);
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.animatorWidth / 502);
+		cc.scale.setTo(this.screenData.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -489,31 +493,14 @@ class Game extends Phaser.State {
 		cc.animations.add('walk');
 
 		cc.animations.play('walk', 15, true);
-		switch (this.mapScreen) {
-			case 1:
-				cc.scale.setTo(.7);
-				break;
-			case 2:
-				cc.scale.setTo(1);
-				break;
-			case 3:
-				cc.scale.setTo(.7);
-				break;
-			case 4:
-			case 5:
-				cc.scale.setTo(1.3);
-				break;
-			default:
-				cc.scale.setTo(1);
-				break;
-		}
+		cc.scale.setTo(this.screenData.animatorScale);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
 	}
 
 	_drawIntroduction() {
-		const panelWidth = this.game.width - 2 * this.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -521,21 +508,21 @@ class Game extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '500 ' + this.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
 		};
 
 		const styleGuide = {
-			font: '500 ' + (this.intro_font - 3) + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
@@ -543,31 +530,19 @@ class Game extends Phaser.State {
 
 		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
-		let cLine = 30;
-		switch (this.mapScreen) {
-			case 1:
-				cLine = 15;
-				break;
-			case 2:
-				cLine = 20;
-				break;
-			default:
-				cLine = 30;
-				break;
-		}
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + cLine, text1.width, 2, 'black');
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
-		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
 		text2.anchor.setTo(0.5);
 
-		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.intro_font, this.actionOkOnClick.bind(this));
+		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.actionOkOnClick.bind(this));
 		this.add.existing(this.okButton);
 		this.okButton.anchor.setTo(0.5);
 		this.okButton.alpha = 1;
 		this.okButton.lock = true;
 
-		let button_scale = this.ok_width / 124;
+		let button_scale = this.screenData.ok_width / 124;
 		this.okButton.scale.setTo(button_scale);
 
 		cc.addChild(bg);
@@ -581,7 +556,7 @@ class Game extends Phaser.State {
 
 	_drawPauseGame() {
 
-		const panelWidth = this.game.width - 2 * this.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -589,14 +564,14 @@ class Game extends Phaser.State {
 		cc.x = -this.game.width;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.intro_font + 'px ' + val.font,
+			font: '600 ' + this.screenData.intro_font + 'px ' + val.font,
 			fill: '#000000',
 			align: 'center'
 		};
@@ -606,13 +581,13 @@ class Game extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
@@ -678,7 +653,7 @@ class Game extends Phaser.State {
 		};
 
 		let text;
-		if (this.smallScreen) {
+		if (this.screenData.smallScreen) {
 
 			text = this.add.text(50, 10, 'FIX THE LEAKS', style);
 			text.y = (this.panelHeight - text.height) / 2;

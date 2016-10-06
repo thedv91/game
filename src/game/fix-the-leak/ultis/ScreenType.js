@@ -25,6 +25,10 @@ export function getInitData(game) {
 		submit_width: 205,
 		submitButtonScale: 1,
 		endgamePadding: 20,
+		level_font: 40,
+		level_font_number: 46,
+		level_font_tabs: 140,
+		levelMargin: 10,
 		pivot: {}
 	};
 
@@ -54,7 +58,10 @@ export function getInitData(game) {
 			font_score: 20,
 			tabs: 70,
 			submitButtonScale: .6,
-			endgamePadding: 10
+			endgamePadding: 10,
+			level_font: 27,
+			level_font_number: 40,
+			level_font_tabs: 100,
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
@@ -82,6 +89,9 @@ export function getInitData(game) {
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 20,
+			level_font: 27,
+			level_font_number: 40,
+			level_font_tabs: 100,
 			pivot: {
 				y: 15
 			}
@@ -113,7 +123,10 @@ export function getInitData(game) {
 			font_score: 25,
 			tabs: 100,
 			submitButtonScale: .8,
-			endgamePadding: 10
+			endgamePadding: 10,
+			level_font: 27,
+			level_font_number: 40,
+			level_font_tabs: 100,
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1020) {
 		/**
@@ -139,6 +152,7 @@ export function getInitData(game) {
 			font_score: 30,
 			tabs: 100,
 			submitButtonScale: .8,
+			level_font_tabs: 120,
 			pivot: {
 				y: 10
 			}
@@ -192,9 +206,7 @@ export function getInitData(game) {
 				y: 10
 			}
 		});
-	}
-
-	console.log(data);
+	}	
 
 	return data;
 }
