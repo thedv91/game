@@ -8,8 +8,9 @@ import './../libs/canvasinput.js';
 
 
 
-import MemoryApp from './game/memory/app';
-import FixTheLeakApp from './game/fix-the-leak/game';
+//import MemoryApp from './game/memory/app';
+//import FixTheLeakKioskGame from './game/fix-the-leak/kiosk/game';
+import FixTheLeakArcadeGame from './game/fix-the-leak/arcade/game';
 
 
 //new FixTheLeak(810, '100%', 'app');	
@@ -46,19 +47,19 @@ import FixTheLeakApp from './game/fix-the-leak/game';
 // 	}
 
 // }
-export function Memory(w, h, dom) {
-	return new MemoryApp(w, h, dom);
+// export function Memory(w, h, dom) {
+// 	return new MemoryApp(w, h, dom);
 
-}
-export function FixTheLeak(dom) {
+// }
+export function FixTheLeakArcade(dom) {
 	if (window.innerHeight > 810) {
 
 		if (window.innerHeight > 950) {
 
-			new FixTheLeakApp('100%', '100%', dom);
+			new FixTheLeakArcadeGame('100%', '100%', dom);
 		} else {
 
-			new FixTheLeakApp(810, '100%', dom);
+			new FixTheLeakArcadeGame(810, '100%', dom);
 		}
 	} else {
 
@@ -66,19 +67,48 @@ export function FixTheLeak(dom) {
 		let h = window.innerHeight;
 
 		if (w <= 810) {
-			new FixTheLeakApp('100%', '100%', dom);
+			new FixTheLeakArcadeGame('100%', '100%', dom);
 		}
 
 		if (w > 810) {
 			let tile = 4 / 5;
 			if (w / h > tile) {
 				w = h * tile;
-				new FixTheLeakApp(w, '100%', dom);
+				new FixTheLeakArcadeGame(w, '100%', dom);
 			} else {
-				new FixTheLeakApp('100%', '100%', dom);
+				new FixTheLeakArcadeGame('100%', '100%', dom);
 			}
 		}
 
 	}
 
 }
+
+// export function FixTheLeakKiosk(dom) {
+// 	if (window.innerHeight > 810) {
+
+// 		if (window.innerHeight > 980) {
+// 			new FixTheLeakKioskGame('100%', '100%', dom);
+// 		} else {
+// 			new FixTheLeakKioskGame(810, '100%', dom);
+// 		}
+// 	} else {
+// 		let w = window.innerWidth;
+// 		let h = window.innerHeight;
+
+// 		if (w <= 810) {
+// 			new FixTheLeakKioskGame('100%', '100%', dom);
+// 		}
+
+// 		if (w > 810) {
+// 			let tile = 4 / 5;
+// 			if (w / h > tile) {
+// 				w = h * tile;
+// 				new FixTheLeakKioskGame(w, '100%', dom);
+// 			} else {
+// 				new FixTheLeakKioskGame('100%', '100%', dom);
+// 			}
+// 		}
+
+// 	}
+// }

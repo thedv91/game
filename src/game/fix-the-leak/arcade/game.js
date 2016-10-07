@@ -6,7 +6,7 @@ import GamePlay from './states/game';
 import Intro from './states/intro';
 import GameOver from './states/game-over';
 
-class LeakGame extends Phaser.Game {
+class ArcadeGame extends Phaser.Game {
 
 	constructor(width = 810, height = 640, id = 'fix-the-leak') {
 
@@ -22,4 +22,4 @@ class LeakGame extends Phaser.Game {
 	}
 }
 
-export default LeakGame;
+export default ArcadeGame;
