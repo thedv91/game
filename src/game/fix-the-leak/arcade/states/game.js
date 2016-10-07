@@ -25,72 +25,6 @@ class Game extends Phaser.State {
 
 		this.w = this.game.width;
 		this.h = this.game.height;
-		// Mobile
-		// if (this.game.width <= 500) {
-		// 	this.screenData.pannel_margin_left = 30;
-		// 	this.screenData.intro_font = 24;
-		// 	this.screenData.ok_width = 125;
-		// 	this.screenData.button_dis = 80;
-		// 	this.screenData.animatorWidth = 210;
-		// 	this.screenData.smallScreen = true;
-		// 	this.screenData.mapScreen = 1;
-
-		// 	this.screenData.level_font = 27;
-		// 	this.screenData.level_font_number = 40;
-		// 	this.screenData.level_font_tabs = 100;
-		// 	this.screenData.levelMargin = 10;
-
-        // }
-
-        // if (this.game.width >= 500 && this.game.width < 800) {
-		// 	this.screenData.mapScreen = 2;
-
-        // }
-
-        // //  860 x 410
-        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-		// 	this.screenData.pannel_margin_left = 40;
-		// 	this.screenData.intro_font = 30;
-		// 	this.screenData.ok_width = 130;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.animatorWidth = 270;
-		// 	this.screenData.mapScreen = 3;
-
-		// 	this.screenData.level_font = 27;
-		// 	this.screenData.level_font_number = 40;
-		// 	this.screenData.level_font_tabs = 100;
-		// 	this.screenData.levelMargin = 10;
-        // }
-
-        // // Tablet
-        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-		// 	this.screenData.pannel_margin_left = 40;
-		// 	this.screenData.intro_font = 36;
-		// 	this.screenData.ok_width = 170;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.animatorWidth = 385;
-		// 	this.screenData.mapScreen = 4;
-
-		// 	this.screenData.level_font = 40;
-		// 	this.screenData.level_font_number = 46;
-		// 	this.screenData.level_font_tabs = 120;
-		// 	this.screenData.levelMargin = 10;
-        // }
-
-        // // Windows
-        // if (this.game.width > 820) {
-		// 	this.screenData.pannel_margin_left = 75;
-		// 	this.screenData.intro_font = 50;
-		// 	this.screenData.ok_width = 230;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.animatorWidth = 502;
-		// 	this.screenData.mapScreen = 5;
-
-		// 	this.screenData.level_font = 40;
-		// 	this.screenData.level_font_number = 46;
-		// 	this.screenData.level_font_tabs = 140;
-		// 	this.screenData.levelMargin = 10;
-        // }
 
 
 	}
@@ -231,8 +165,8 @@ class Game extends Phaser.State {
 
 		} else {
 
-			this.add.text(this.game.width / 2, this.game.height - 100, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - 120, "LEVEL\tTIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.txtBottomMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
 	}
@@ -357,7 +291,7 @@ class Game extends Phaser.State {
 
 	// Start show water for Game Play
 	_startShowWater() {
-		var rands = this.array_rand(this.waters_group, 3);
+		let rands = this.array_rand(this.waters_group, 3);
 		this.waters_group[rands[0]].visible = true;
 		this.waters_group[rands[1]].visible = true;
 		this.waters_group[rands[2]].visible = true;
@@ -474,7 +408,7 @@ class Game extends Phaser.State {
 				temp.push(i);
 			}
 		}
-		console.log(temp);*/
+		*/
 
 	}
 
@@ -699,8 +633,6 @@ class Game extends Phaser.State {
 		this.map.destroy;
 
 		/*let tween_map = this.add.tween(this._drawPipes);
-
-		console.log(tween_map)
 		tween_map.to({
 			x: this.world.width,
 		}, 1000, Phaser.Easing.Cubic.Out, true);

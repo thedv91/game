@@ -445,9 +445,11 @@ class GameOver extends Phaser.State {
 			// return response.json();
 
 		}).then((json) => {
-			console.log(json);
+			if (process.env.NODE_ENV === 'development')
+				console.log(json);
 		}).catch((ex) => {
-			console.log('parsing failed', ex);
+			if (process.env.NODE_ENV === 'development')
+				console.log('parsing failed', ex);
 		});
 	}
 

@@ -6,6 +6,9 @@ var playState = {
             level = 1;
         }
 
+        screenData = new GameType(game);
+        console.log(screenData);
+
     },
     create: function () {
         var _self = this;

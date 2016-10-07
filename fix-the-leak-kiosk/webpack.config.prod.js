@@ -1,4 +1,3 @@
-require("babel-polyfill");
 var path = require('path');
 var webpack = require('webpack');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
@@ -27,12 +26,16 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('development')
+				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
 		new BrowserSyncPlugin({
+			// browse to http://localhost:3000/ during development, 
+			// ./dist directory is being served 
 			host: 'localhost',
-			port: 3000,
+			port: 4000,
 			open: true,
 			server: {
 				baseDir: ['./', './dist']

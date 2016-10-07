@@ -194,7 +194,8 @@ export function getInitData(game) {
 		});
 	}
 
-	console.log(data);
+	if (process.env.NODE_ENV === 'development')
+		console.log(data);
 
 	return data;
 }

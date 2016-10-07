@@ -1,8 +1,8 @@
-export function getInitData(game) {
-	const width = game.width;
-	const height = game.height;
-	let mapScreen;
-	let data = {
+function GameType(game) {
+	var width = game.width;
+	var height = game.height;
+	var mapScreen;
+	var data = {
 		mapScreen: 6,
 		pannel_margin_left: 75,
 		intro_font: 50,
@@ -25,11 +25,6 @@ export function getInitData(game) {
 		submit_width: 205,
 		submitButtonScale: 1,
 		endgamePadding: 20,
-		level_font: 40,
-		level_font_number: 46,
-		level_font_tabs: 140,
-		levelMargin: 10,
-		txtBottomMargin: 70,
 		pivot: {}
 	};
 
@@ -49,7 +44,7 @@ export function getInitData(game) {
 			smallScreen: true,
 			cLine: 15,
 			map: 'map-small',
-			gid: 1293,
+			gid: 1294,
 			pipes: 'pipe_small',
 			water: 'water-small',
 			scale_maps: width / 408,
@@ -59,10 +54,7 @@ export function getInitData(game) {
 			font_score: 20,
 			tabs: 70,
 			submitButtonScale: .6,
-			endgamePadding: 10,
-			level_font: 27,
-			level_font_number: 40,
-			level_font_tabs: 100,
+			endgamePadding: 10
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
@@ -76,7 +68,7 @@ export function getInitData(game) {
 			ok_width: 130,
 			button_dis: 100,
 			animatorWidth: 270,
-			animatorScale: 1,
+			animatorScale: .8,
 			cLine: 20,
 			map: 'map-normal',
 			gid: 1067,
@@ -90,9 +82,6 @@ export function getInitData(game) {
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 20,
-			level_font: 27,
-			level_font_number: 40,
-			level_font_tabs: 100,
 			pivot: {
 				y: 15
 			}
@@ -124,13 +113,7 @@ export function getInitData(game) {
 			font_score: 25,
 			tabs: 100,
 			submitButtonScale: .8,
-			endgamePadding: 10,
-			level_font: 27,
-			level_font_number: 40,
-			level_font_tabs: 100,
-			pivot: {
-				x: 20
-			}
+			endgamePadding: 10
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1020) {
 		/**
@@ -143,7 +126,6 @@ export function getInitData(game) {
 			des_font: 40,
 			ok_width: 230,
 			button_dis: 100,
-			animatorWidth: 270,
 			animatorScale: 1,
 			cLine: 30,
 			map: 'map',
@@ -157,7 +139,6 @@ export function getInitData(game) {
 			font_score: 30,
 			tabs: 100,
 			submitButtonScale: .8,
-			level_font_tabs: 120,
 			pivot: {
 				y: 10
 			}
@@ -212,9 +193,8 @@ export function getInitData(game) {
 			}
 		});
 	}
-	if (process.env.NODE_ENV === 'development') {
-		console.log(data);
-	}
+
+	console.log(data);
 
 	return data;
 }

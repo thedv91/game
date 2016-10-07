@@ -1,7 +1,6 @@
-require("babel-polyfill");
-var path = require('path');
-var webpack = require('webpack');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 
 // Phaser webpack config
 var phaserModule = path.join(__dirname, '/node_modules/phaser/');
@@ -10,7 +9,7 @@ var pixi = path.join(phaserModule, 'build/custom/pixi.js');
 var p2 = path.join(phaserModule, 'build/custom/p2.js');
 
 
-module.exports = {
+export default {
 	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
 	output: {
 		path: './dist',
@@ -27,10 +26,14 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('development')
+				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
 		new BrowserSyncPlugin({
+			// browse to http://localhost:3000/ during development, 
+			// ./dist directory is being served 
 			host: 'localhost',
 			port: 3000,
 			open: true,

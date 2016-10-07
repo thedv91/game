@@ -23,7 +23,7 @@ var w, h, menu_bg, margin_left, margin_top, TILE_SIZE;
 
 var game = new Phaser.Game("100%","100%", Phaser.CANVAS, 'gameDiv');
 
-
+var screenData;
 
 // Init Item
 var timeBg;

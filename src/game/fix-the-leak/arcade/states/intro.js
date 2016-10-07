@@ -173,7 +173,7 @@ class Intro extends Phaser.State {
 
 		this.button = this._drawStartButton();
 		this._drawPond();
-		
+
 	}
 
 	preRender() {
@@ -325,8 +325,9 @@ class Intro extends Phaser.State {
 		let text = this.add.text(xText, this.text_margin_top, 'FIX THE LEAK', style);
 		let text2 = this.add.text(xText, 2 * this.text_margin_top, 'HALL OF FAME', style2);
 
-		console.log('text2.height '+text2.height);
-		let lineHR = this.add.tileSprite(xText, 2 * this.text_margin_top + 15  , text2.width, 2, 'black');
+		if (process.env.NODE_ENV === 'development')
+			console.log('text2.height ' + text2.height);
+		let lineHR = this.add.tileSprite(xText, 2 * this.text_margin_top + 15, text2.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
 		text.anchor.set(0.5);
@@ -458,7 +459,8 @@ class Intro extends Phaser.State {
 			}
 			this.panelInside.addChild(panelLeader);
 		}).catch((ex) => {
-			console.log('parsing failed', ex);
+			if (process.env.NODE_ENV === 'development')
+				console.log('parsing failed', ex);
 		});
 	}
 
