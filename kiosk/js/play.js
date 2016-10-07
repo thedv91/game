@@ -23,32 +23,32 @@ var playState = {
         match_the_pair_left = w / 2;
 
         if (game.width <= 500) {
-            panel_margin_left = 12;
-            intro_margin_top = 135;
-            bold_font = "26px";
-            intro_font = '20px';
-            menu_font = '26px';
-            button_ok_margin = 40;
+            screenData.panel_margin_left = 12;
+            screenData.intro_margin_top = 135;
+            screenData.bold_font = "26px";
+            screenData.intro_font = '20px';
+            screenData.menu_font = '26px';
+            screenData.button_ok_margin = 40;
             match_the_pair_left = w / 4;
-            tree_margin_bottom = 90;
+            screenData.tree_margin_bottom = 90;
         }
         if (game.width > 500 && game.width <= 820) {
-            panel_margin_left = 30;
-            intro_margin_top = 90;
-            bold_font = "30px";
-            intro_font = '32px';
-            menu_font = '32px';
-            button_ok_margin = 40;
-            tree_margin_bottom = 65;
+            screenData.panel_margin_left = 30;
+            screenData.intro_margin_top = 90;
+            screenData.bold_font = "30px";
+            screenData.intro_font = '32px';
+            screenData.menu_font = '32px';
+            screenData.button_ok_margin = 40;
+            screenData.tree_margin_bottom = 65;
         }
         if (game.width > 820) {
-            intro_margin_top = 90;
-            panel_margin_left = 44;
-            bold_font = "42px";
-            intro_font = '42px';
-            menu_font = '42px';
-            button_ok_margin = 60;
-            tree_margin_bottom = 65;
+            screenData.intro_margin_top = 90;
+            screenData.panel_margin_left = 44;
+            screenData.bold_font = "42px";
+            screenData.intro_font = '42px';
+            screenData.menu_font = '42px';
+            screenData.button_ok_margin = 60;
+            screenData.tree_margin_bottom = 65;
         }
 
 
@@ -170,7 +170,7 @@ var playState = {
 
         // add Tree
         tree_play = game.cache.getImage('bg_play');
-        tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - tree_margin_bottom, 'bg_play');
+        tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - screenData.tree_margin_bottom, 'bg_play');
 
         // Add top menu
         // Here we create the ground.
@@ -448,34 +448,34 @@ var playState = {
 
     createIntro: function () {
 
-        menuIntro = game.add.sprite(panel_margin_left, 0, 'pause');
-        menuIntro.width = game.width - panel_margin_left * 2;
+        menuIntro = game.add.sprite(screenData.panel_margin_left, 0, 'pause');
+        menuIntro.width = game.width - screenData.panel_margin_left * 2;
         menuIntro.height = game.height - panel_height - 50;
         menuIntro.alpha = 0.95;
 
         game.add.tween(menuIntro).to({ y: panel_height + 25 }, 500, Phaser.Easing.Back.Out, true);
 
         //Text Bold
-        var text_bold = { font: bold_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+        var text_bold = { font: screenData.bold_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
         instructions = game.add.text(w / 2, 0, 'INSTRUCTIONS', text_bold);
         instructions.anchor.set(0.5, 1);
 
-        game.add.tween(instructions).to({ y: h / 2 - intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
+        game.add.tween(instructions).to({ y: h / 2 - screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
 
         lineHR = game.add.tileSprite(w / 2, 0, instructions.width, 2, 'green-dark');
         lineHR.anchor.setTo(0.5, 1);
-        game.add.tween(lineHR).to({ y: h / 2 - intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
+        game.add.tween(lineHR).to({ y: h / 2 - screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
 
 
         // Add text in center pause game
-        var style_level = { font: "bold " + intro_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+        var style_level = { font: "bold " + screenData.intro_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
         text_pause = game.add.text(w / 2, 0, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN " +
             "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
         text_pause.anchor.set(0.5, 1);
         text_pause.lineSpacing = 1;
 
 
-        game.add.tween(text_pause).to({ y: h / 2 - intro_margin_top + text_pause.height + 20 }, 1000, Phaser.Easing.Back.Out, true);
+        game.add.tween(text_pause).to({ y: h / 2 - screenData.intro_margin_top + text_pause.height + 20 }, 1000, Phaser.Easing.Back.Out, true);
 
 
         okBtn = game.add.button(w / 2, 0, 'ok', '', '');
@@ -483,7 +483,7 @@ var playState = {
         okBtn.onInputDown.add(this.initGame, this);
         okBtn.input.useHandCursor = true;
 
-        game.add.tween(okBtn).to({ y: h / 2 - intro_margin_top + text_pause.height + 20 + button_ok_margin }, 1000, Phaser.Easing.Back.Out, true);
+        game.add.tween(okBtn).to({ y: h / 2 - screenData.intro_margin_top + text_pause.height + 20 + screenData.button_ok_margin }, 1000, Phaser.Easing.Back.Out, true);
     },
 
     initGame: function () {
@@ -576,15 +576,15 @@ var playState = {
         game.time.events.pause();
 
         // Then add the menu
-        menu = game.add.sprite(panel_margin_left, 0, 'pause');
-        menu.width = game.width - panel_margin_left * 2;
+        menu = game.add.sprite(screenData.panel_margin_left, 0, 'pause');
+        menu.width = game.width - screenData.panel_margin_left * 2;
         menu.height = game.height - panel_height - 50;
         menu.alpha = 0.95;
 
         game.add.tween(menu).to({ y: panel_height + 25 }, 1000, Phaser.Easing.Bounce.Out, true);
 
         // Add text in center pause game
-        var style_level = { font: "bold " + menu_font + " AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
+        var style_level = { font: "bold " + screenData.menu_font + " AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
         text_pause = game.add.text(w / 2, 0, "GOING TO THE MENU \nWILL END THE GAME", style_level);
         text_pause.anchor.set(0.5, 1);
 
