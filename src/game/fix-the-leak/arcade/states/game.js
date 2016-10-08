@@ -30,21 +30,26 @@ class Game extends Phaser.State {
 		switch (this.level) {
 			case 1:
 				this.mission = 20;
+				this.points = 3;
 				this.nextMission = 45;
 				break;
 			case 2:
 				this.mission = 45;
+				this.points = 3;
 				this.nextMission = 75;
 				break;
 			case 3:
 				this.mission = 75;
+				this.points = 4;
 				this.nextMission = 110;
 				break;
 			case 4:
 				this.mission = 110;
+				this.points = 4;
 				this.nextMission = 150;
 				break;
 			case 5:
+				this.points = 5;
 				this.mission = 150;
 			default:
 				break;
@@ -317,10 +322,13 @@ class Game extends Phaser.State {
 
 	// Start show water for Game Play
 	_startShowWater() {
-		let rands = this.array_rand(this.waters_group, 3);
-		this.waters_group[rands[0]].visible = true;
-		this.waters_group[rands[1]].visible = true;
-		this.waters_group[rands[2]].visible = true;
+		let rands = this.array_rand(this.waters_group, this.points);
+		for (let i = 0; i < rands.length; i++) {
+			this.waters_group[rands[i]].visible = true;
+		}
+		// this.waters_group[rands[0]].visible = true;
+		// this.waters_group[rands[1]].visible = true;
+		// this.waters_group[rands[2]].visible = true;
 	}
 
 	array_rand(input, num_req) {

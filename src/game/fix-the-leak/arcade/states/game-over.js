@@ -21,97 +21,6 @@ class GameOver extends Phaser.State {
 		this.w = this.game.width;
 		this.h = this.game.height;
 
-		// Mobile
-		// if (this.game.width <= 500) {
-		// 	this.screenData.pannel_margin_left = 30;
-		// 	this.screenData.intro_font = 22;
-		// 	this.screenData.ok_width = 125;
-		// 	this.screenData.button_dis = 80;
-		// 	this.screenData.score_margin_top = 30;
-
-		// 	this.screenData.font_score = 27;
-		// 	this.screenData.submit_width = 125;
-		// 	this.screenData.animatorWidth = 210;
-
-		// 	this.screenData.endGameHeight = 20;
-		// 	this.screenData.txtNameTop = 140;
-		// 	this.screenData.nameInputTop = 160;
-
-		// 	this.screenData.txtEmailTop = 230;
-		// 	this.screenData.emailInputTop = 250;
-
-		// 	this.screenData.submitTop = 350;
-		// 	this.screenData.scaleWally = 0.7;
-        // }
-
-        // //  860 x 410
-        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-		// 	this.screenData.pannel_margin_left = 40;
-		// 	this.screenData.intro_font = 27;
-		// 	this.screenData.ok_width = 130;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.score_margin_top = 40;
-		// 	this.screenData.font_score = 27;
-		// 	this.screenData.submit_width = 125;
-		// 	this.screenData.animatorWidth = 290;
-
-		// 	this.screenData.endGameHeight = 25;
-		// 	this.screenData.txtNameTop = 140;
-		// 	this.screenData.nameInputTop = 160;
-
-		// 	this.screenData.txtEmailTop = 230;
-		// 	this.screenData.emailInputTop = 250;
-
-		// 	this.screenData.submitTop = 360;
-		// 	this.screenData.scaleWally = 1;
-        // }
-
-        // // Tablet
-        // if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-		// 	this.screenData.pannel_margin_left = 40;
-		// 	this.screenData.intro_font = 40;
-		// 	this.screenData.ok_width = 170;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.score_margin_top = 60;
-		// 	this.screenData.font_score = 32;
-		// 	this.screenData.submit_width = 170;
-		// 	this.screenData.animatorWidth = 385;
-		// 	this.endGameWidth = 450;
-
-		// 	this.screenData.endGameHeight = 30;
-		// 	this.screenData.txtNameTop = 140;
-		// 	this.screenData.nameInputTop = 160;
-
-		// 	this.screenData.txtEmailTop = 250;
-		// 	this.screenData.emailInputTop = 270;
-
-		// 	this.screenData.submitTop = 400;
-		// 	this.screenData.scaleWally = 1.3;
-        // }
-
-        // // Windows
-        // if (this.game.width > 820) {
-		// 	this.screenData.pannel_margin_left = 75;
-		// 	this.screenData.intro_font = 50;
-		// 	this.screenData.ok_width = 230;
-		// 	this.screenData.button_dis = 100;
-		// 	this.screenData.score_margin_top = 75;
-		// 	this.screenData.font_score = 40;
-		// 	this.screenData.submit_width = 205;
-		// 	this.screenData.animatorWidth = 502;
-
-		// 	this.endGameWidth = 450;
-
-		// 	this.screenData.endGameHeight = 30;
-		// 	this.screenData.txtNameTop = 140;
-		// 	this.screenData.nameInputTop = 160;
-
-		// 	this.screenData.txtEmailTop = 250;
-		// 	this.screenData.emailInputTop = 270;
-
-		// 	this.screenData.submitTop = 400;
-		// 	this.screenData.scaleWally = 1.3;
-        // }
 	}
 	create() {
 		this._drawBackground();
@@ -204,7 +113,7 @@ class GameOver extends Phaser.State {
 
 	_drawPanel() {
 		let cc = this.add.tileSprite(0, 0, this.game.width, this.panelHeight, 'blue');
-		cc.y = -this.panelHeight;
+		//cc.y = -this.panelHeight;
 		this.menuButton = this.add.button(0, this.panelHeight / 2, 'menu-button', this.actionMenuOnClick.bind(this));
 		this.menuButton.scale.setTo(0.6);
 		this.menuButton.anchor.setTo(0.5);
@@ -233,14 +142,14 @@ class GameOver extends Phaser.State {
 		cc.addChild(text);
 		cc.addChild(this.menuButton);
 
-		let tween = this.add.tween(cc);
-		tween.to({
-			y: 0
-		}, 500, Phaser.Easing.Bounce.Out, true);
+		// let tween = this.add.tween(cc);
+		// tween.to({
+		// 	y: 0
+		// }, 500, Phaser.Easing.Bounce.Out, true);
 
-		tween.onComplete.add(() => {
-			this.menuButton.lock = false;
-		});
+		// tween.onComplete.add(() => {
+		// 	this.menuButton.lock = false;
+		// });
 
 		return cc;
 	}
@@ -341,13 +250,13 @@ class GameOver extends Phaser.State {
 	_drawOverlay() {
 		let cc = this.add.tileSprite(0, this.panelHeight, this.game.width, this.game.height - this.panelHeight, 'black');
 		cc.alpha = 0.8;
-		cc.top = this.game.height;
-
-		let tween = this.add.tween(cc);
-		tween.to({
-			alpha: 0.8,
-			top: this.panelHeight
-		}, 500, Phaser.Easing.Bounce.Out, true);
+		
+		// cc.top = this.game.height;
+		// let tween = this.add.tween(cc);
+		// tween.to({
+		// 	alpha: 0.8,
+		// 	top: this.panelHeight
+		// }, 500, Phaser.Easing.Bounce.Out, true);
 
 		return cc;
 	}
