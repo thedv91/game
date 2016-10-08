@@ -51,11 +51,11 @@ var menuState = {
             var button_left = 120;
             var button_height = 430;
         }
-        var button = game.add.button(0, button_height, 'start', this.start, this, 1, 0, 2);
+        var button = game.add.button(0, screenData.startButtonPaddingTop, 'start', this.start, this, 1, 0, 2);
         game.add.tween(button).to({ x: button_left }, 1000, Phaser.Easing.Bounce.Out, true);
         button.input.useHandCursor = true;
 
-        this.createRankTable(rank_table_left, 0);
+        this.createRankTable(rank_table_left, screenData.rankPaddingTop);
 
     },
 

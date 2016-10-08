@@ -4,6 +4,10 @@ var bootState = {
 
     // The create function is a standard Phaser function, and is
     // automatically called
+    init: function () {
+        screenData = new GameType(game);
+    },
+
     create: function () {
 
         // Starting the physics system - in this case we are using the

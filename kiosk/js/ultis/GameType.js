@@ -25,6 +25,8 @@ function GameType(game) {
 		submit_width: 205,
 		submitButtonScale: 1,
 		endgamePadding: 20,
+		rankPaddingTop: 500,
+		startButtonPaddingTop: 950,
 		pivot: {}
 	};
 
@@ -54,7 +56,9 @@ function GameType(game) {
 			font_score: 20,
 			tabs: 70,
 			submitButtonScale: .6,
-			endgamePadding: 10
+			endgamePadding: 10,
+			rankPaddingTop: 0,
+			startButtonPaddingTop: 650,
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
@@ -82,6 +86,8 @@ function GameType(game) {
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 20,
+			rankPaddingTop: 0,
+			startButtonPaddingTop: 930,
 			pivot: {
 				y: 15
 			}
@@ -93,7 +99,6 @@ function GameType(game) {
 		 */
 		data = Object.assign({}, data, {
 			mapScreen: 3,
-
 			pannel_margin_left: 40,
 			intro_font: 30,
 			des_font: 25,
@@ -113,7 +118,9 @@ function GameType(game) {
 			font_score: 25,
 			tabs: 100,
 			submitButtonScale: .8,
-			endgamePadding: 10
+			endgamePadding: 10,
+			rankPaddingTop: 0,
+			startButtonPaddingTop: 430,
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1020) {
 		/**
@@ -139,6 +146,8 @@ function GameType(game) {
 			font_score: 30,
 			tabs: 100,
 			submitButtonScale: .8,
+			rankPaddingTop: 200,
+			startButtonPaddingTop: 650,
 			pivot: {
 				y: 10
 			}
@@ -167,6 +176,8 @@ function GameType(game) {
 			font_score: 40,
 			tabs: 120,
 			submitButtonScale: 1,
+			rankPaddingTop: 500,
+			startButtonPaddingTop: 950,
 			pivot: {
 				y: 10
 			}
@@ -188,6 +199,8 @@ function GameType(game) {
 			water: 'waters',
 			scale_maps: width / 768,
 			score_margin_top: 200,
+			rankPaddingTop: 600,
+			startButtonPaddingTop: 1050,
 			pivot: {
 				y: 10
 			}

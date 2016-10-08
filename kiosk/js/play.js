@@ -6,8 +6,8 @@ var playState = {
             level = 1;
         }
 
-        screenData = new GameType(game);
-        console.log(screenData);
+        // screenData = new GameType(game);
+        // console.log(screenData);
 
     },
     create: function () {
@@ -22,34 +22,34 @@ var playState = {
         }
         match_the_pair_left = w / 2;
 
-        if (game.width <= 500) {
-            screenData.panel_margin_left = 12;
-            screenData.intro_margin_top = 135;
-            screenData.bold_font = "26px";
-            screenData.intro_font = '20px';
-            screenData.menu_font = '26px';
-            screenData.button_ok_margin = 40;
-            match_the_pair_left = w / 4;
-            screenData.tree_margin_bottom = 90;
-        }
-        if (game.width > 500 && game.width <= 820) {
-            screenData.panel_margin_left = 30;
-            screenData.intro_margin_top = 90;
-            screenData.bold_font = "30px";
-            screenData.intro_font = '32px';
-            screenData.menu_font = '32px';
-            screenData.button_ok_margin = 40;
-            screenData.tree_margin_bottom = 65;
-        }
-        if (game.width > 820) {
-            screenData.intro_margin_top = 90;
-            screenData.panel_margin_left = 44;
-            screenData.bold_font = "42px";
-            screenData.intro_font = '42px';
-            screenData.menu_font = '42px';
-            screenData.button_ok_margin = 60;
-            screenData.tree_margin_bottom = 65;
-        }
+        // if (game.width <= 500) {
+        //     screenData.panel_margin_left = 12;
+        //     screenData.intro_margin_top = 135;
+        //     screenData.bold_font = "26px";
+        //     screenData.intro_font = '20px';
+        //     screenData.menu_font = '26px';
+        //     screenData.button_ok_margin = 40;
+        //     match_the_pair_left = w / 4;
+        //     screenData.tree_margin_bottom = 90;
+        // }
+        // if (game.width > 500 && game.width <= 820) {
+        //     screenData.panel_margin_left = 30;
+        //     screenData.intro_margin_top = 90;
+        //     screenData.bold_font = "30px";
+        //     screenData.intro_font = '32px';
+        //     screenData.menu_font = '32px';
+        //     screenData.button_ok_margin = 40;
+        //     screenData.tree_margin_bottom = 65;
+        // }
+        // if (game.width > 820) {
+        //     screenData.intro_margin_top = 90;
+        //     screenData.panel_margin_left = 44;
+        //     screenData.bold_font = "42px";
+        //     screenData.intro_font = '42px';
+        //     screenData.menu_font = '42px';
+        //     screenData.button_ok_margin = 60;
+        //     screenData.tree_margin_bottom = 65;
+        // }
 
 
 
@@ -269,6 +269,7 @@ var playState = {
 
 
     },
+    
     flipCard: function (sprite, pointer) {
         sprite.up = sprite.up || false;
         /*if (click) {

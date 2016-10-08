@@ -56,8 +56,6 @@ var loadState = {
 
     create: function () {
 
-        console.log(game.width, game.height);
-
         // Call the menu state
         game.state.start('menu');
         // game.state.start('play');
