@@ -11,8 +11,7 @@ class KioskGame extends Phaser.Game {
 	constructor(width = 810, height = 640, id = 'fix-the-leak') {
 
 		super(width, height, Phaser.CANVAS, id);
-		
-		
+				
 		this.state.add('boot', Boot);
 		this.state.add('splash', Splash);
 		this.state.add('intro', Intro);
