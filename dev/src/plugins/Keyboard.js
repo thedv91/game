@@ -11,10 +11,10 @@ export default class Keyboard extends Phaser.Plugin {
 	constructor(game, parent) {
 		super(game, parent);
 
-		this.canvas;
+		this.canvas =game.canvas;
 		this.canvasReady = false;
 		this.audioElement;
-		this.ctx;
+		this.ctx = game.context;
 		this.textarea;
 		this.w = 0;
 		this.h = 0;
@@ -39,7 +39,7 @@ export default class Keyboard extends Phaser.Plugin {
 
 		// JDR: move the keyboard down; note this is really very specific to our use case with the PQ Labs device on the big screen
 		this.startDrawX = 30;
-		this.startDrawY = 450;
+		this.startDrawY = 0;
 		this.currentType;
 
 		this.myKeyboard = {
@@ -136,8 +136,7 @@ export default class Keyboard extends Phaser.Plugin {
 		this.keys.push(keyMe);
 	}
 
-	drawKey(context, key) {
-
+	drawKey(context, key) {		
 		if (key.colorfill != null) {
 			context.fillStyle = key.colorfill;
 		}
@@ -331,8 +330,7 @@ export default class Keyboard extends Phaser.Plugin {
 	draw() {
 
 		// JDR: this sets the canvas full viewport
-		if (this.canvasReady == false) {
-
+		if (this.canvasReady == false) {			
 			var nw = window.innerWidth;
 			var nh = window.innerHeight;
 
@@ -373,8 +371,8 @@ export default class Keyboard extends Phaser.Plugin {
 	}
 
 	loadUp() {
-		this.canvas = this.game.canvas;
-		// this.ctx = canvas.getContext('2d');
+		// this.canvas = this.game.canvas;		
+		// this.ctx = this.canvas.getContext('2d');		
 		// console.log(this.ctx);
 		this.textarea = document.getElementById('testArea');
 

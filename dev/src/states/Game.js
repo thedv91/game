@@ -8,26 +8,27 @@
 import Logo from '../objects/Logo';
 import Demo from '../objects/Demo';
 import Test from '../objects/Test';
-//import Keyboard from '../plugins/Keyboard';
+import Keyboard from '../plugins/Keyboard';
 
 
 export default class Game extends Phaser.State {
 
 	create() {
-		console.log(CanvasInput);
 		// TODO: Replace this with really cool game code here :)
 		this.game.plugin = this.game.plugin || {};
 		//this.game.plugin.Keyboard = this.game.plugins.add(Keyboard);
 		//this.game.add.plugin(Fabrique.Plugins.InputField);		
 		const {centerX: x, centerY: y} = this.world;
+		let key = new Keyboard(this.game);
+		key.draw();
 		//this.add.existing(new Logo(this.game, x, y));
-		//this.add.existing(new Demo(this.game, x, y, this.actionOnClick));
+		//this.add.existing(new Demo(this.game, x, y, this.actionOnClick.bind(this)));
 
 
-		this.myInput = this.createInput(this.game.world.centerX, 50);
-		this.myInput.anchor.set(0.5);
-		this.myInput.canvasInput.value('Esto es la verga! :D');
-		this.myInput.canvasInput.focus();
+		// this.myInput = this.createInput(this.game.world.centerX, 50);
+		// this.myInput.anchor.set(0.5);
+		// this.myInput.canvasInput.value('Esto es la verga! :D');
+		// this.myInput.canvasInput.focus();
 	}
 
 	createInput(x, y) {
@@ -61,7 +62,9 @@ export default class Game extends Phaser.State {
 	}
 
 	actionOnClick() {
-		const key = new this.game.plugin.Keyboard.draw();
+		let key = new Keyboard(this.game);
+		key.draw();
+		//const key = new this.game.plugin.Keyboard.draw();
 	}
 
 }

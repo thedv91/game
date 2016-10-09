@@ -21,7 +21,7 @@ export default class Preload extends Phaser.State {
     // asset. Don't forget to `import` them first. Example:
     //this.add.plugin(MyPlugin/*, ... initialization parameters ... */);
 
-    this.state.start('Game');
+    this.state.start('Test');
   }
 
   // --------------------------------------------------------------------------

@@ -13,7 +13,7 @@ import './../libs/canvasinput.js';
 import * as states from './states';
 
 export function init() {
-  const game = new Phaser.Game(640, 480, Phaser.AUTO);
+  const game = new Phaser.Game(640, 480, Phaser.CANVAS);
 
   // Dynamically add all required game states.
   Object.entries(states).forEach(([key, state]) => game.state.add(key, state));

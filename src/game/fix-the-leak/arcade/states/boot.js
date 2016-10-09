@@ -83,6 +83,8 @@ class Boot extends Phaser.State {
 		this.load.image('blue', 'assets/fix-the-leak/blue.png');
 
 		this.load.image('panel', 'assets/panel/panel.png');
+		this.load.image('key', 'assets/sprites/key.png');
+		this.load.image('key_back', 'assets/sprites/key_back.png');
 
 
 		this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');

@@ -55,6 +55,9 @@ export default {
     }, {
       key: 'button',
       type: 'spritesheet'
+    }, {
+      key: 'key',
+      type: 'image'
     }],
 
   // -- General assets, used throughout the game.

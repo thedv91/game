@@ -2,7 +2,9 @@ import Phaser from 'phaser';
 import val from './../variables';
 import BgOverlay from './../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
-import { getInitData } from './../ultis/ScreenType';
+import { getInitData } from './../utils/ScreenType';
+import Keyboard from './../objects/Keyboard';
+
 class Game extends Phaser.State {
 	constructor() {
 		super();
@@ -13,8 +15,7 @@ class Game extends Phaser.State {
 		this.text_score;
 		this.time_play = 0;
 		this.level = 1;
-		this.score_game = 0;
-
+		this.score_game = 0;		
 	}
 
 	init(level, score, time) {
@@ -381,6 +382,8 @@ class Game extends Phaser.State {
 			/**
 			 *Test end game
 			 */
+			//this.state.start('game-over', true, false, this.score_game, this.time_play);
+			
 			if (this.level < 5) {
 				if (this.score_game == this.mission) {
 					this.level = this.level + 1;
@@ -388,6 +391,7 @@ class Game extends Phaser.State {
 					this._showUpLevel(this.level, this.score_game, this.time_play);
 				}
 			} else {
+
 				if (this.score_game == this.mission) {
 					this.time.events.pause();
 					setTimeout(() => {
