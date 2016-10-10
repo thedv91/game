@@ -29,7 +29,8 @@ export function getInitData(game) {
 		level_font_number: 46,
 		level_font_tabs: 140,
 		levelMargin: 10,
-		txtBottomMargin: 70,
+		scoreMargin: 70,
+		textNameMargin: 120,
 		pivot: {}
 	};
 
@@ -104,7 +105,6 @@ export function getInitData(game) {
 		 */
 		data = Object.assign({}, data, {
 			mapScreen: 3,
-
 			pannel_margin_left: 40,
 			intro_font: 30,
 			des_font: 25,
@@ -121,7 +121,7 @@ export function getInitData(game) {
 			score_margin_top: 40,
 			inputWidth: 350,
 			inputHeight: 40,
-			font_score: 25,
+			font_score: 30,
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 10,
@@ -154,8 +154,8 @@ export function getInitData(game) {
 			score_margin_top: 150,
 			inputWidth: 350,
 			inputHeight: 50,
-			font_score: 30,
-			tabs: 100,
+			font_score: 40,
+			tabs: 120,
 			submitButtonScale: .8,
 			level_font_tabs: 120,
 			pivot: {

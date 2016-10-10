@@ -25,6 +25,8 @@ export function getInitData(game) {
 		submit_width: 205,
 		submitButtonScale: 1,
 		endgamePadding: 20,
+		scoreMargin: 70,
+		textNameMargin: 120,
 		pivot: {}
 	};
 
@@ -110,7 +112,7 @@ export function getInitData(game) {
 			score_margin_top: 40,
 			inputWidth: 350,
 			inputHeight: 40,
-			font_score: 25,
+			font_score: 30,
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 10

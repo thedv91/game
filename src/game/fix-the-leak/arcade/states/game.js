@@ -69,7 +69,7 @@ class Game extends Phaser.State {
 
 		this._drawAnimator();
 		this._drawAnimatorSwing();
-
+		this._drawScore();
 		this.intro = this._drawIntroduction();
 		this.upLevel = this._drawUpLevel();
 		this.drawPanelGlobal = this._drawPanel();
@@ -78,8 +78,7 @@ class Game extends Phaser.State {
 		/*setTimeout(() => {
 			this._showPanelEndGame();
 		}, 1000);*/
-
-		this._drawScore();
+		
 
 		if (this.level == 1) {
 			_self._showIntroGame();
@@ -197,8 +196,8 @@ class Game extends Phaser.State {
 
 		} else {
 
-			this.add.text(this.game.width / 2, this.game.height - 120, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.txtBottomMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - this.screenData.textNameMargin, "LEVEL\tTIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.scoreMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
 	}

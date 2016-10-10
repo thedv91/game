@@ -44,12 +44,10 @@ export default class Game extends Phaser.State {
 
 		this._drawAnimator();
 		this._drawAnimatorSwing();
-
+		this._drawScore();
 		this.intro = this._drawIntroduction();
 		this._drawPanel();
-		this.pauseGame = this._drawPauseGame();
-
-		this._drawScore();
+		this.pauseGame = this._drawPauseGame();		
 
 		if (this.level == 1) {
 			_self._showIntroGame();
@@ -166,8 +164,8 @@ export default class Game extends Phaser.State {
 
 		} else {
 
-			this.add.text(this.game.width / 2, this.game.height - 100, 'LEVEL\tTIME\tSCORE', style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - this.screenData.textNameMargin, 'LEVEL\tTIME\tSCORE', style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.scoreMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
 
 		}
 	}
