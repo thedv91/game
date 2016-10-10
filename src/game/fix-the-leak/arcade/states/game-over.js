@@ -386,13 +386,28 @@ class GameOver extends Phaser.State {
 		console.log(this.nameKeyboard.keyboard);
 		if (this.emailKeyboard.keyboard.visible)
 			this.emailKeyboard.hidden();
-		this.nameKeyboard.show(this.game.width / 2, this.nameInput.worldPosition.y + 40);
+		switch (this.screenData.mapScreen) {
+			case 1:
+				break;
+			default:
+				this.nameKeyboard.show(this.game.width / 2, this.nameInput.worldPosition.y + 40);
+				break;
+		}
+
 	}
 
 	onEmailForus(e) {
 		if (this.nameKeyboard.keyboard.visible)
 			this.nameKeyboard.hidden();
-		this.emailKeyboard.show(this.game.width / 2, this.emailInput.worldPosition.y + 40);
+
+		switch (this.screenData.mapScreen) {
+			case 1:
+				break;
+			default:
+				this.emailKeyboard.show(this.game.width / 2, this.emailInput.worldPosition.y + 40);
+				break;
+		}
+
 	}
 
 	createText(x = 0, y = 0, txt, options = {}) {

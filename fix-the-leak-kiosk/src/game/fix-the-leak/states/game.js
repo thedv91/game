@@ -3,7 +3,7 @@ import val from './../variables';
 import debugLayout from 'phaser-debug-layout';
 import BgOverlay from '../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
-import { getInitData } from './../ultis/ScreenType';
+import { getInitData } from './../utils/ScreenType';
 
 export default class Game extends Phaser.State {
 	constructor() {

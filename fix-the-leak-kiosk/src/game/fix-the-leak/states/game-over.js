@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
-import { getInitData } from './../ultis/ScreenType';
-
+import { getInitData } from './../utils/ScreenType';
+import Keyboard from './../objects/Keyboard';
 
 class GameOver extends Phaser.State {
 	constructor() {
@@ -28,7 +28,38 @@ class GameOver extends Phaser.State {
 		this._drawAnimatorSwing();
 		this._drawEndGame();
 		this.pauseGame = this._drawPauseGame();
+		this.nameKeyboard = new Keyboard(this.game, 0, 0, this.handleNameClick.bind(this));
+		this.emailKeyboard = new Keyboard(this.game, 0, 0, this.handleEmailClick.bind(this));
 
+	}
+
+	handleClick(e, input) {
+		switch (e.type) {
+			case 1:
+				if (input.canvasInput._value)
+					input.canvasInput.value(input.canvasInput._value.slice(0, -1));
+				break;
+			case 3:
+			case 4:
+			case 5:
+				break;
+			case 2:
+			case 6:
+				input.canvasInput.value(input.canvasInput._value + ' ');
+				break;
+			default:
+				input.canvasInput.value(input.canvasInput._value + e.value);
+				break;
+		}
+
+	}
+
+	handleNameClick(e) {
+		this.handleClick(e, this.nameInput);
+	}
+
+	handleEmailClick(e) {
+		this.handleClick(e, this.emailInput);
 	}
 
 	loadRender() {
@@ -298,7 +329,9 @@ class GameOver extends Phaser.State {
 
 		txtName.anchor.setTo(0.5);
 
-		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.screenData.inputWidth, this.screenData.inputHeight);
+		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.screenData.inputWidth, this.screenData.inputHeight, {
+			onfocus: this.onNameForus.bind(this)
+		});
 
 		if (localStorage.getItem('fix_user_name')) {
             this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
@@ -312,7 +345,9 @@ class GameOver extends Phaser.State {
 
 		txtEmail.anchor.setTo(0.5);
 
-		this.emailInput = this.createInput(0, gHeight * 4, this.screenData.inputWidth, this.screenData.inputHeight);
+		this.emailInput = this.createInput(0, gHeight * 4, this.screenData.inputWidth, this.screenData.inputHeight, {
+			onfocus: this.onEmailForus.bind(this)
+		});
 
 		if (localStorage.getItem('fix_user_email')) {
             this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
@@ -356,7 +391,7 @@ class GameOver extends Phaser.State {
 	}
 
 
-	createInput(x, y, input_width, input_height) {
+	createInput(x, y, input_width, input_height, data = {}) {
 		var bmd = this.add.bitmapData(input_width, input_height);
 		var myInput = this.game.add.sprite(x, y, bmd);
 
@@ -375,6 +410,7 @@ class GameOver extends Phaser.State {
 			borderRadius: 6,
 			boxShadow: '1px 1px 0px #fff',
 			innerShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
+			onfocus: data.onfocus
 		});
 
 		//myInput.anchor.setTo(0.5, 0.5);
@@ -384,6 +420,34 @@ class GameOver extends Phaser.State {
 		myInput.events.onInputUp.add((sprite) => this.inputFocus(sprite));
 
 		return myInput;
+	}
+
+	onNameForus(e) {
+		console.log(this.nameKeyboard.keyboard);
+		if (this.emailKeyboard.keyboard.visible)
+			this.emailKeyboard.hidden();
+		switch (this.screenData.mapScreen) {
+			case 1:
+				break;
+			default:
+				this.nameKeyboard.show(this.game.width / 2, this.nameInput.worldPosition.y + 40);
+				break;
+		}
+
+	}
+
+	onEmailForus(e) {
+		if (this.nameKeyboard.keyboard.visible)
+			this.nameKeyboard.hidden();
+
+		switch (this.screenData.mapScreen) {
+			case 1:
+				break;
+			default:
+				this.emailKeyboard.show(this.game.width / 2, this.emailInput.worldPosition.y + 40);
+				break;
+		}
+
 	}
 
 	inputFocus(sprite) {
