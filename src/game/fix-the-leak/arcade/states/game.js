@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import val from './../variables';
 import BgOverlay from './../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
+import BeginButton from './../objects/BeginButton';
 import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
 
@@ -15,7 +16,7 @@ class Game extends Phaser.State {
 		this.text_score;
 		this.time_play = 0;
 		this.level = 1;
-		this.score_game = 0;		
+		this.score_game = 0;
 	}
 
 	init(level, score, time) {
@@ -36,21 +37,21 @@ class Game extends Phaser.State {
 				break;
 			case 2:
 				this.mission = 45;
-				this.points = 3;
+				this.points = 4;
 				this.nextMission = 75;
 				break;
 			case 3:
 				this.mission = 75;
-				this.points = 4;
+				this.points = 5;
 				this.nextMission = 110;
 				break;
 			case 4:
 				this.mission = 110;
-				this.points = 4;
+				this.points = 6;
 				this.nextMission = 150;
 				break;
 			case 5:
-				this.points = 5;
+				this.points = 7;
 				this.mission = 150;
 			default:
 				break;
@@ -78,7 +79,7 @@ class Game extends Phaser.State {
 		/*setTimeout(() => {
 			this._showPanelEndGame();
 		}, 1000);*/
-		
+
 
 		if (this.level == 1) {
 			_self._showIntroGame();
@@ -173,7 +174,7 @@ class Game extends Phaser.State {
 			}
 		}
 
-    }
+	}
 
 	_drawScore() {
 		var style_top = {
@@ -204,17 +205,17 @@ class Game extends Phaser.State {
 
 	_drawBackground() {
 		if (1420 / this.w >= 1420 / this.h) {
-            var bg_h = this.h;
-            var bg_w = 1420 * this.h / 1420;
-        } else {
-            var bg_w = this.w;
-            var bg_h = 1420 * this.w / 1420;
-        }
+			var bg_h = this.h;
+			var bg_w = 1420 * this.h / 1420;
+		} else {
+			var bg_w = this.w;
+			var bg_h = 1420 * this.w / 1420;
+		}
 
-        let bg = this.game.add.image(this.w / 2, this.h, "background");
-        bg.width = bg_w;
-        bg.height = bg_h;
-        bg.anchor.setTo(0.5, 1);
+		let bg = this.game.add.image(this.w / 2, this.h, "background");
+		bg.width = bg_w;
+		bg.height = bg_h;
+		bg.anchor.setTo(0.5, 1);
 
 
 		return bg;
@@ -382,7 +383,7 @@ class Game extends Phaser.State {
 			 *Test end game
 			 */
 			//this.state.start('game-over', true, false, this.score_game, this.time_play);
-			
+
 			if (this.level < 5) {
 				if (this.score_game == this.mission) {
 					this.level = this.level + 1;
@@ -466,7 +467,6 @@ class Game extends Phaser.State {
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
-
 		const style = {
 			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
@@ -475,10 +475,9 @@ class Game extends Phaser.State {
 		};
 
 		const styleGuide = {
-			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-DemiCn',
 			fill: '#000000',
-			align: 'center',
-			fontWeight: 'bold'
+			align: 'center'
 		};
 
 		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
@@ -513,7 +512,8 @@ class Game extends Phaser.State {
 			panelHeight = overlayHeight - 50;
 
 		let cc = this.add.group();
-		cc.x = -this.game.width;
+		// cc.x = -this.game.width;
+		cc.x = 0;
 		cc.alpha = 0;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
@@ -535,16 +535,16 @@ class Game extends Phaser.State {
 			align: 'center',
 			fontWeight: 'bold'
 		};
-
-		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'Level Up', style);
+		const upLevel = this.level + 1;
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'Level ' + upLevel, style);
 		text1.anchor.setTo(0.5);
 		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
-		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
-		text2.anchor.setTo(0.5);
+		// const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
+		// text2.anchor.setTo(0.5);
 
-		let okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
+		let okButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
 		this.add.existing(okButton);
 		okButton.anchor.setTo(0.5);
 		okButton.alpha = 1;
@@ -556,7 +556,7 @@ class Game extends Phaser.State {
 		cc.addChild(bg);
 		cc.addChild(text1);
 		cc.addChild(lineHR);
-		cc.addChild(text2);
+		// cc.addChild(text2);
 		cc.addChild(okButton);
 
 		return cc;
@@ -569,7 +569,8 @@ class Game extends Phaser.State {
 			panelHeight = overlayHeight - 50;
 
 		let cc = this.add.group();
-		cc.x = -this.game.width;
+		// cc.x = -this.game.width;
+		cc.x = 0;
 		cc.alpha = 0;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
@@ -612,11 +613,9 @@ class Game extends Phaser.State {
 
 		let tween_pause = this.add.tween(this.pauseGame);
 
-
 		tween_pause.to({
-			y: -100,
 			alpha: 0
-		}, 30, Phaser.Easing.Cubic.InOut, true);
+		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween_pause.onComplete.add(() => {
 			this.level = 1;
@@ -631,11 +630,9 @@ class Game extends Phaser.State {
 	actionContinueClick() {
 		let tween_pause = this.add.tween(this.pauseGame);
 
-
 		tween_pause.to({
-			x: 0,
 			alpha: 0
-		}, 1000, Phaser.Easing.Cubic.InOut, true);
+		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween_pause.onComplete.add(() => {
 			this.time.events.resume();
@@ -646,7 +643,8 @@ class Game extends Phaser.State {
 	_drawPanel() {
 		let cc = this.add.tileSprite(0, 0, this.game.width, this.panelHeight, 'blue');
 		//cc.y = -this.panelHeight;
-		this.menuButton = this.add.button(0, this.panelHeight / 2, 'menu-button', this.actionMenuOnClick.bind(this));
+		//let menuButton = new MenuButton(0, this.panelHeight / 2, this.actionMenuOnClick.bind(this));
+		this.menuButton = this.add.button(0, this.panelHeight / 2, 'menu-button', this.actionMenuOnClick.bind(this), this, 1, 0, 2);
 		this.menuButton.scale.setTo(0.6);
 		this.menuButton.anchor.setTo(0.5);
 		this.menuButton.right = this.game.width - this.menuButton.offsetX;
@@ -750,9 +748,8 @@ class Game extends Phaser.State {
 		this.menuButton.lock = true;
 		let tween = this.add.tween(this.upLevel);
 		tween.to({
-			x: 0,
 			alpha: 1
-		}, 1000, Phaser.Easing.Exponential.Out, true);
+		}, 500, Phaser.Easing.Linear.In, true);
 
 		tween.onComplete.add(() => {
 			this.okButton.lock = false;
@@ -765,9 +762,8 @@ class Game extends Phaser.State {
 			this.menuButton.lock = true;
 			let tween = this.add.tween(this.pauseGame);
 			tween.to({
-				x: 0,
 				alpha: 1
-			}, 1000, Phaser.Easing.Exponential.Out, true);
+			}, 500, Phaser.Easing.Linear.In, true);
 
 			tween.onComplete.add(() => {
 				this.menuButton.lock = true;
@@ -801,9 +797,8 @@ class Game extends Phaser.State {
 	nextLevelClick() {
 		let tween = this.add.tween(this.upLevel);
 		tween.to({
-			x: this.game.width,
 			alpha: 0
-		}, 1000, Phaser.Easing.Cubic.Out, true);
+		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween.onComplete.add(() => {
 			this.state.start('game', true, false, this.level, this.score_game, this.time_play)

@@ -27,10 +27,10 @@ class GameOver extends Phaser.State {
 		this._drawBackground();
 		this.bgOverlay = this._drawOverlay();
 		this._drawPanel();
-		this._drawAnimator();
-		this._drawAnimatorSwing();
 		this._drawEndGame();
 		this.pauseGame = this._drawPauseGame();
+		this._drawAnimator();
+		this._drawAnimatorSwing();
 		this.nameKeyboard = new Keyboard(this.game, 0, 0, this.handleNameClick.bind(this));
 		this.emailKeyboard = new Keyboard(this.game, 0, 0, this.handleEmailClick.bind(this));
 	}
@@ -129,17 +129,17 @@ class GameOver extends Phaser.State {
 	_drawBackground() {
 
 		if (1420 / this.w >= 1420 / this.h) {
-            var bg_h = this.h;
-            var bg_w = 1420 * this.h / 1420;
-        } else {
-            var bg_w = this.w;
-            var bg_h = 1420 * this.w / 1420;
-        }
+			var bg_h = this.h;
+			var bg_w = 1420 * this.h / 1420;
+		} else {
+			var bg_w = this.w;
+			var bg_h = 1420 * this.w / 1420;
+		}
 
-        let bg = this.game.add.image(this.w / 2, this.h, "background");
-        bg.width = bg_w;
-        bg.height = bg_h;
-        bg.anchor.setTo(0.5, 1);
+		let bg = this.game.add.image(this.w / 2, this.h, "background");
+		bg.width = bg_w;
+		bg.height = bg_h;
+		bg.anchor.setTo(0.5, 1);
 
 
 		return bg;
@@ -338,10 +338,10 @@ class GameOver extends Phaser.State {
 		});
 
 		if (localStorage.getItem('fix_user_name')) {
-            this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
-        } else {
-            this.nameInput.canvasInput.value("");
-        }
+			this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
+		} else {
+			this.nameInput.canvasInput.value("");
+		}
 
 		//this.nameInput.canvasInput.value('');
 
@@ -356,10 +356,10 @@ class GameOver extends Phaser.State {
 		});
 
 		if (localStorage.getItem('fix_user_email')) {
-            this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
-        } else {
-            this.emailInput.canvasInput.value('');
-        }
+			this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
+		} else {
+			this.emailInput.canvasInput.value('');
+		}
 
 
 		let button = this.add.button(cc._width / 2, gHeight * 6, 'submit-button', this.actionSubmitOnClick.bind(this));
@@ -468,22 +468,22 @@ class GameOver extends Phaser.State {
 		var user_email = this.emailInput.canvasInput.value();
 
 		if (user_name.trim() == "" || user_name.trim() == undefined) {
-            this.nameInput.canvasInput.backgroundColor('#ffc6c6');
-            flag = false;
-        } else {
-            this.nameInput.canvasInput.backgroundColor('#fff');
-        }
+			this.nameInput.canvasInput.backgroundColor('#ffc6c6');
+			flag = false;
+		} else {
+			this.nameInput.canvasInput.backgroundColor('#fff');
+		}
 
-        if (user_email.trim() == "" || user_email.trim() == undefined || !this.validateEmail(user_email.trim())) {
-            this.emailInput.canvasInput.backgroundColor('#ffc6c6');
-            flag = false;
-        } else {
-            this.emailInput.canvasInput.backgroundColor('#fff');
-        }
+		if (user_email.trim() == "" || user_email.trim() == undefined || !this.validateEmail(user_email.trim())) {
+			this.emailInput.canvasInput.backgroundColor('#ffc6c6');
+			flag = false;
+		} else {
+			this.emailInput.canvasInput.backgroundColor('#fff');
+		}
 
-        if (flag == false) {
-            return false;
-        }
+		if (flag == false) {
+			return false;
+		}
 
 
 		fetch(val.baseUrl + 'api/v1/fix-the-leak', {

@@ -6,20 +6,20 @@ class Boot extends Phaser.State {
 	init() {
 		// this.scale.setResizeCallback(this.gameResized, this);
 		// this.stage.disableVisibilityChange = true;
-        // this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        // this.scale.setMinMax(480, 260, 1024, 768);
-        // this.scale.pageAlignHorizontally = true;
-        // this.scale.pageAlignVertically = true;
+		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		// this.scale.setMinMax(480, 260, 1024, 768);
+		// this.scale.pageAlignHorizontally = true;
+		// this.scale.pageAlignVertically = true;
 
         /*this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;*/
 
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-        // this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+		// this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
-        this.game.scale.pageAlignVertically = true;
-        this.game.scale.pageAlignHorizontally = true;
+		this.game.scale.pageAlignVertically = true;
+		this.game.scale.pageAlignHorizontally = true;
 	}
 	create() {
 		if (process.env.NODE_ENV === 'development')
@@ -54,8 +54,8 @@ class Boot extends Phaser.State {
 		 */
 		this.load.image('start-button', 'assets/buttons/start_yellow.png');
 		// this.load.spritesheet('start-button', 'assets/buttons/start_button_sprite_sheet.png', 170, 60);
-		//this.load.spritesheet('menu-button', 'assets/buttons/menu_button_sprite_sheet.png', 170, 60);
-		this.load.spritesheet('menu-button', 'assets/buttons/menu_button.png', 170, 60);
+		this.load.spritesheet('begin-button', 'assets/buttons/begin_button_sprite_sheet.png', 159, 54);
+		this.load.spritesheet('menu-button', 'assets/buttons/menu_button_sprite_sheet.png', 170, 58);
 		//this.load.spritesheet('ok-button', 'assets/buttons/ok_button_sprite_sheet.png', 170, 60);
 		this.load.image('ok-button', 'assets/buttons/ok_button.png');
 		//this.load.spritesheet('submit-button', 'assets/buttons/submit_button_sprite_sheet.png', 170, 60);

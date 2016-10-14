@@ -7,10 +7,10 @@ export function getInitData(game) {
 		pannel_margin_left: 75,
 		intro_font: 50,
 		des_font: 40,
-		ok_width: 230,
+		ok_width: 120,
 		button_dis: 100,
-		animatorWidth: 502,
-		animatorScale: 1.5,
+		animatorWidth: 280,
+		animatorScale: .9,
 		cLine: 30,
 		map: 'map',
 		gid: 2561,
@@ -37,7 +37,7 @@ export function getInitData(game) {
 	/**
 	 * 414 x 736
 	 */
-	if (width <= 414) {
+	if (width <= 480) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
 			pannel_margin_left: 30,
@@ -65,7 +65,7 @@ export function getInitData(game) {
 			level_font_number: 40,
 			level_font_tabs: 100,
 		});
-	} else if (width <= 768 & width > 414 && height <= 1024) {
+	} else if (width <= 768 & width > 480 && height <= 1024) {
 		/**
 		 * 768 x 1024 
 		*/
@@ -76,8 +76,8 @@ export function getInitData(game) {
 			des_font: 28,
 			ok_width: 130,
 			button_dis: 100,
-			animatorWidth: 270,
-			animatorScale: 1,
+			animatorWidth: 240,
+			animatorScale: .8,
 			cLine: 20,
 			map: 'map-normal',
 			gid: 1067,
@@ -110,8 +110,8 @@ export function getInitData(game) {
 			des_font: 25,
 			ok_width: 130,
 			button_dis: 100,
-			animatorWidth: 270,
-			animatorScale: 1,
+			animatorWidth: 240,
+			animatorScale: .8,
 			cLine: 20,
 			map: 'map-normal',
 			gid: 1067,
@@ -201,6 +201,8 @@ export function getInitData(game) {
 			ok_width: 230,
 			button_dis: 100,
 			cLine: 30,
+			animatorWidth: 502,
+			animatorScale: 1.5,
 			map: 'map',
 			gid: 2561,
 			pipes: 'pipe',
@@ -212,7 +214,9 @@ export function getInitData(game) {
 			}
 		});
 	}
+
 	if (process.env.NODE_ENV === 'development') {
+		console.log(height);
 		console.log(data);
 	}
 
