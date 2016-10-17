@@ -6,6 +6,7 @@ import OkButton from './../objects/OkButton';
 import BeginButton from './../objects/BeginButton';
 import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
+import { LevelData } from './../data/GameData';
 
 class Game extends Phaser.State {
 	constructor() {
@@ -16,48 +17,23 @@ class Game extends Phaser.State {
 
 		this.text_score;
 		this.time_play = 0;
+
 		this.level = 1;
 		this.score_game = 0;
 	}
 
 	init(level, score, time) {
+		this.levelData = _.find(LevelData, { level: this.level });
 		this.gamePause = false;
 		this.screenData = getInitData(this.game);
-		this.level = level;
+		this.level = level || 1;
 		this.score_game = score;
-		this.time_play = time;
+		this.timeScale = this.levelData.time * 1000;
+		this.time_play = this.timeScale;
+		this.playGame = false;
 
 		this.w = this.game.width;
 		this.h = this.game.height;
-
-		switch (this.level) {
-			case 1:
-				this.mission = 20;
-				this.points = 3;
-				this.nextMission = 45;
-				break;
-			case 2:
-				this.mission = 45;
-				this.points = 4;
-				this.nextMission = 75;
-				break;
-			case 3:
-				this.mission = 75;
-				this.points = 5;
-				this.nextMission = 110;
-				break;
-			case 4:
-				this.mission = 110;
-				this.points = 6;
-				this.nextMission = 150;
-				break;
-			case 5:
-				this.points = 7;
-				this.mission = 150;
-			default:
-				break;
-		}
-
 	}
 
 	create() {
@@ -76,6 +52,7 @@ class Game extends Phaser.State {
 		this.upLevel = this._drawUpLevel();
 		this.drawPanelGlobal = this._drawPanel();
 		this.pauseGame = this._drawPauseGame();
+		this.panelGameOver = this._drawGameOver();
 
 		/*setTimeout(() => {
 			this._showPanelEndGame();
@@ -83,7 +60,7 @@ class Game extends Phaser.State {
 
 
 		if (this.level == 1) {
-			_self._showIntroGame();
+			this._showIntroGame();
 			/*setTimeout(() => {
 				_self.music.play();
 			}, 600);*/
@@ -92,14 +69,15 @@ class Game extends Phaser.State {
 			for (var i = this.waters_group.length - 1; i >= 0; i--) {
 				this.waters_group[i].visible = false;
 			}
-			setTimeout(function () {
-				_self._startShowWater();
+			setTimeout(() => {
+				this._startShowWater();
+				this.playGame = true;
 			}, 100);
 
 
-			this.time.events.loop(Phaser.Timer.SECOND, this._updateTime, this);
-			setTimeout(function () {
-				_self.menuButton.lock = false;
+			//this.time.events.loop(Phaser.Timer.SECOND, this._updateTime, this);
+			setTimeout(() => {
+				this.menuButton.lock = false;
 			}, 600);
 
 
@@ -148,9 +126,17 @@ class Game extends Phaser.State {
 	}
 
 	update() {
+		//console.log(this.game.time.elapsedMS);
 		// if(this.time_play >= 10){
 		// 	this.panelEndGame;
 		// }
+		if (!this.gameOver) {
+			if (this.playGame)
+				this._updateTime();
+			if (this.timeScale <= 0)
+				this.gameOver = true;
+		}
+
 	}
 
 	/**
@@ -167,14 +153,16 @@ class Game extends Phaser.State {
 	_updateTime() {
 
 		if (!this.gamePause) {
-			this.time_play = this.time_play + 1;
-			if (this.screenData.smallScreen) {
-				this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-			} else {
-				this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+			if (this.time_play > 0) {
+				//this.time_play = this.time_play + 1;
+				this.time_play = ((this.timeScale -= this.game.time.elapsedMS) / 1000).toFixed(1);
+				if (this.screenData.smallScreen) {
+					this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+				} else {
+					this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+				}
 			}
 		}
-
 	}
 
 	_drawScore() {
@@ -189,17 +177,19 @@ class Game extends Phaser.State {
 			tabs: this.screenData.tabs
 		};
 
+		let timePlay = (this.time_play / 1000).toFixed(1);
+
 		if (this.screenData.smallScreen) {
 			this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
 			this.text_score_top = this.add.text(this.game.width / 2 + 60, this.game.height - 150, this.level, style_under);
 
 			this.add.text(this.game.width / 2, this.game.height - 100, "TIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + this.time_play + 's\t' + this.score_game, style_under);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - 70, '  ' + timePlay + 's\t' + this.score_game, style_under);
 
 		} else {
 
 			this.add.text(this.game.width / 2, this.game.height - this.screenData.textNameMargin, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.scoreMargin, '  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game, style_under);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.scoreMargin, '  ' + this.level + '\t' + timePlay + 's\t' + this.score_game, style_under);
 
 		}
 	}
@@ -294,7 +284,7 @@ class Game extends Phaser.State {
 	// }
 
 	getRandomWater() {
-		return _.sampleSize(_.shuffle(this.allWaters), this.points);
+		return _.sampleSize(_.shuffle(this.allWaters), this.levelData.points);
 	}
 
 	array_rand(input, num_req) {
@@ -350,14 +340,14 @@ class Game extends Phaser.State {
 			//this.state.start('game-over', true, false, this.score_game, this.time_play);
 
 			if (this.level < 5) {
-				if (this.score_game == this.mission) {
+				if (this.score_game == this.levelData.mission) {
 					this.level = this.level + 1;
 					this.gamePause = true;
 					this._showUpLevel(this.level, this.score_game, this.time_play);
 				}
 			} else {
 
-				if (this.score_game == this.mission) {
+				if (this.score_game == this.levelData.mission) {
 					this.time.events.pause();
 					setTimeout(() => {
 						this.state.start('game-over', true, false, this.score_game, this.time_play);
@@ -565,6 +555,58 @@ class Game extends Phaser.State {
 		return cc;
 	}
 
+	_drawGameOver() {
+		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+			overlayHeight = this.game.height - this.panelHeight,
+			panelHeight = overlayHeight - 50;
+
+		let cc = this.add.group();
+		// cc.x = -this.game.width;
+		cc.x = 0;
+		cc.alpha = 0;
+		cc.width = this.game.width;
+		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		bg.width = panelWidth;
+		bg.height = panelHeight;
+		bg.alpha = 0.9;
+
+
+		const style = {
+			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			fill: '#000000',
+			align: 'center',
+			fontWeight: 'bold'
+		};
+
+		const styleGuide = {
+			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
+			fill: '#000000',
+			align: 'center',
+			fontWeight: 'bold'
+		};
+		const upLevel = this.level + 1;
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'GAME OVER', style);
+		text1.anchor.setTo(0.5);
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
+		lineHR.anchor.setTo(0.5);
+
+		let okButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
+		this.add.existing(okButton);
+		okButton.anchor.setTo(0.5);
+		okButton.alpha = 1;
+		okButton.lock = true;
+
+		let button_scale = this.screenData.ok_width / 124;
+		okButton.scale.setTo(button_scale);
+
+		cc.addChild(bg);
+		cc.addChild(text1);
+		cc.addChild(lineHR);
+		cc.addChild(okButton);
+
+		return cc;
+	}
+
 	actionEndGameClick() {
 
 		let tween_pause = this.add.tween(this.pauseGame);
@@ -592,6 +634,7 @@ class Game extends Phaser.State {
 
 		tween_pause.onComplete.add(() => {
 			this.time.events.resume();
+			this.gamePause = false;
 			this.menuButton.lock = false;
 		});
 	}
@@ -716,6 +759,7 @@ class Game extends Phaser.State {
 
 		if (!this.menuButton.lock) {
 			this.menuButton.lock = true;
+			this.gamePause = true;
 			let tween = this.add.tween(this.pauseGame);
 			tween.to({
 				alpha: 1
@@ -742,8 +786,9 @@ class Game extends Phaser.State {
 				this.intro.x = -this.game.width;
 				this.menuButton.lock = false;
 
+				this.playGame = true;
 				//this.paused = false;
-				this.time.events.loop(Phaser.Timer.SECOND, this._updateTime, this);
+				//this.time.events.loop(Phaser.Timer.SECOND, this._updateTime, this);
 				this.time.events.resume();
 				this._startShowWater();
 			});

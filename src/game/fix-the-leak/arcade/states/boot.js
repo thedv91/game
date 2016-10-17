@@ -82,7 +82,7 @@ class Boot extends Phaser.State {
 		this.load.image('pause', 'assets/fix-the-leak/pause.png');
 		this.load.image('blue', 'assets/fix-the-leak/blue.png');
 
-		this.load.image('panel', 'assets/panel/panel.png');
+		//this.load.image('panel', 'assets/panel/panel.png');
 		this.load.image('key', 'assets/sprites/key.png');
 		this.load.image('key_back', 'assets/sprites/key_back.png');
 

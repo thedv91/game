@@ -1,3 +1,5 @@
+import { Log } from './Log';
+
 export function getInitData(game) {
 	const width = game.width;
 	const height = game.height;
@@ -215,10 +217,8 @@ export function getInitData(game) {
 		});
 	}
 
-	if (process.env.NODE_ENV === 'development') {
-		console.log(height);
-		console.log(data);
-	}
+	Log.info(data);
+
 
 	return data;
 }

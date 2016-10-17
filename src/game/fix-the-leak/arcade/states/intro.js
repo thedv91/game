@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import val from './../variables';
+import { Log } from './../utils/Log';
 
 class Intro extends Phaser.State {
 	constructor() {
@@ -19,10 +20,10 @@ class Intro extends Phaser.State {
 		if (this.game.width <= 500) {
 			this.window_height = 160;
 			this.washstand_height = 245;
-            this.washstand_bottom = 50;
-            this.margin_right = 10;
+			this.washstand_bottom = 50;
+			this.margin_right = 10;
 
-            this.panelWidth = 380;
+			this.panelWidth = 380;
 			this.panelHeight = 445;
 			this.panelPadding = 25;
 			this.panel_left = (this.w - this.panelWidth) / 2;
@@ -41,16 +42,16 @@ class Intro extends Phaser.State {
 			this.rank_margin_top = 0;
 
 
-        }
+		}
 
-        //  860 x 410
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
-            this.window_height = 185;
-            this.washstand_height = 250;
-            this.washstand_bottom = 130;
-            this.margin_right = 150;
+		//  860 x 410
+		if (this.game.width > 500 && this.game.width <= 820 && this.game.height < 800) {
+			this.window_height = 185;
+			this.washstand_height = 250;
+			this.washstand_bottom = 130;
+			this.margin_right = 150;
 
-            this.panelWidth = 365;
+			this.panelWidth = 365;
 			this.panelHeight = 435;
 			this.panelPadding = 25;
 			this.panel_left = 50;
@@ -68,16 +69,16 @@ class Intro extends Phaser.State {
 			this.text_margin_top = 40;
 			this.margin_text = 30;
 			this.rank_margin_top = 0;
-        }
+		}
 
-        // Tablet
-        if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
-            this.window_height = 280;
-            this.washstand_height = 380;
-            this.washstand_bottom = 200;
-            this.margin_right = 60;
+		// Tablet
+		if (this.game.width > 500 && this.game.width <= 820 && this.game.height >= 800) {
+			this.window_height = 280;
+			this.washstand_height = 380;
+			this.washstand_bottom = 200;
+			this.margin_right = 60;
 
-            this.panelWidth = 540;
+			this.panelWidth = 540;
 			this.panelHeight = 640;
 			this.panelPadding = 30;
 			this.panel_left = 30;
@@ -94,16 +95,16 @@ class Intro extends Phaser.State {
 			this.text_margin_top = 50;
 			this.margin_text = 45;
 			this.rank_margin_top = 20;
-        }
+		}
 
-        // Windows
-        if (this.game.width > 820) {
-            this.window_height = 350;
-            this.washstand_height = 482;
-            this.washstand_bottom = 220;
-            this.margin_right = 60;
+		// Windows
+		if (this.game.width > 820) {
+			this.window_height = 350;
+			this.washstand_height = 482;
+			this.washstand_bottom = 220;
+			this.margin_right = 60;
 
-            this.panelWidth = 660;
+			this.panelWidth = 660;
 			this.panelHeight = 780;
 			this.panelPadding = 45;
 			this.panel_left = 70;
@@ -120,7 +121,7 @@ class Intro extends Phaser.State {
 			this.text_margin_top = 60;
 			this.margin_text = 50;
 			this.rank_margin_top = 30;
-        }
+		}
 	}
 
 	create() {
@@ -207,17 +208,17 @@ class Intro extends Phaser.State {
 		// let bg = this.add.sprite(this.world.centerX, this.world.centerY, 'background');
 
 		if (1420 / this.w >= 1420 / this.h) {
-            var bg_h = this.h;
-            var bg_w = 1420 * this.h / 1420;
-        } else {
-            var bg_w = this.w;
-            var bg_h = 1420 * this.w / 1420;
-        }
+			var bg_h = this.h;
+			var bg_w = 1420 * this.h / 1420;
+		} else {
+			var bg_w = this.w;
+			var bg_h = 1420 * this.w / 1420;
+		}
 
-        let bg = this.game.add.image(this.w / 2, this.h, "background");
-        bg.width = bg_w;
-        bg.height = bg_h;
-        bg.anchor.setTo(0.5, 1);
+		let bg = this.game.add.image(this.w / 2, this.h, "background");
+		bg.width = bg_w;
+		bg.height = bg_h;
+		bg.anchor.setTo(0.5, 1);
 
 
 		return bg;
@@ -280,14 +281,14 @@ class Intro extends Phaser.State {
 			cc.scale.setTo(temp_scale);
 			cc.x = this.w - 180;
 
-        }
-        if (this.game.width < 500) {
+		}
+		if (this.game.width < 500) {
 			var temp_scale = 2 * this.h / (300 * 5);
 			cc.scale.setTo(temp_scale);
 			cc.x = this.w - 100;
 			cc.y = this.h - 10;
 
-        }
+		}
 
 
 		return cc;
@@ -325,8 +326,7 @@ class Intro extends Phaser.State {
 		let text = this.add.text(xText, this.text_margin_top, 'FIX THE LEAK', style);
 		let text2 = this.add.text(xText, 2 * this.text_margin_top, 'HALL OF FAME', style2);
 
-		if (process.env.NODE_ENV === 'development')
-			console.log('text2.height ' + text2.height);
+		Log.debug('text2.height ' + text2.height);
 		let lineHR = this.add.tileSprite(xText, 2 * this.text_margin_top + 15, text2.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
@@ -412,7 +412,7 @@ class Intro extends Phaser.State {
 			},
 			body: JSON.stringify({
 				'email': fix_email,
-                'type': this.gameType
+				'type': this.gameType
 			})
 		}).then((response) => {
 			return response.json();
@@ -459,8 +459,7 @@ class Intro extends Phaser.State {
 			}
 			this.panelInside.addChild(panelLeader);
 		}).catch((ex) => {
-			if (process.env.NODE_ENV === 'development')
-				console.log('parsing failed', ex);
+			Log.debug('parsing failed', ex);
 		});
 	}
 
@@ -496,9 +495,9 @@ class Intro extends Phaser.State {
 		tween.start();
 
 		tween.onComplete.add(function () {
-            self.button.inputEnabled = true;
-            self.button.input.inputEnabled = true;
-        });
+			self.button.inputEnabled = true;
+			self.button.input.inputEnabled = true;
+		});
 	}
 }
 
