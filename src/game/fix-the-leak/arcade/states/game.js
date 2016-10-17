@@ -24,16 +24,20 @@ class Game extends Phaser.State {
 
 	init(level, score, time) {
 		this.levelData = _.find(LevelData, { level: this.level });
-		this.gamePause = false;
+		this.resetGame();
 		this.screenData = getInitData(this.game);
 		this.level = level || 1;
 		this.score_game = score;
 		this.timeScale = this.levelData.time * 1000;
 		this.time_play = this.timeScale;
-		this.playGame = false;
-
 		this.w = this.game.width;
 		this.h = this.game.height;
+	}
+
+	resetGame() {
+		this.gamePause = false;
+		this.gameOver = false;
+		this.playGame = false;
 	}
 
 	create() {
@@ -126,17 +130,15 @@ class Game extends Phaser.State {
 	}
 
 	update() {
-		//console.log(this.game.time.elapsedMS);
-		// if(this.time_play >= 10){
-		// 	this.panelEndGame;
-		// }
+
 		if (!this.gameOver) {
 			if (this.playGame)
 				this._updateTime();
-			if (this.timeScale <= 0)
+			if (this.time_play <= 0) {
 				this.gameOver = true;
+				this._showGameOver();
+			}
 		}
-
 	}
 
 	/**
@@ -276,12 +278,6 @@ class Game extends Phaser.State {
 		let rand_idx = _.random(0, this.waters_group.length - 1);
 		this.waters_group[rand_idx].visible = true;
 	}
-	// _startShowWater() {
-	// 	let rands = this.array_rand(this.waters_group, this.points);		
-	// 	for (let i = 0; i < rands.length; i++) {
-	// 		this.waters_group[rands[i]].visible = true;
-	// 	}
-	// }
 
 	getRandomWater() {
 		return _.sampleSize(_.shuffle(this.allWaters), this.levelData.points);
@@ -323,40 +319,44 @@ class Game extends Phaser.State {
 
 	// Click Water 
 	_clickWater(sprite) {
-		let _self = this;
 
-		if (!this.gamePause) {
-			sprite.visible = false;
-			this.score_game++;
+		if (this.gameOver)
+			return;
 
-			if (this.screenData.smallScreen) {
-				this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-			} else {
-				this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-			}
-			/**
-			 *Test end game
-			 */
-			//this.state.start('game-over', true, false, this.score_game, this.time_play);
+		if (this.gamePause)
+			return;
 
-			if (this.level < 5) {
-				if (this.score_game == this.levelData.mission) {
-					this.level = this.level + 1;
-					this.gamePause = true;
-					this._showUpLevel(this.level, this.score_game, this.time_play);
-				}
-			} else {
+		sprite.visible = false;
+		this.score_game++;
 
-				if (this.score_game == this.levelData.mission) {
-					this.time.events.pause();
-					setTimeout(() => {
-						this.state.start('game-over', true, false, this.score_game, this.time_play);
-					}, 1000);
-				}
-			}
-
-			this._resetImg(sprite);
+		if (this.screenData.smallScreen) {
+			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+		} else {
+			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
 		}
+		/**
+		 *Test end game
+		 */
+		//this.state.start('game-over', true, false, this.score_game, this.time_play);
+
+		if (this.level < (LevelData.length + 1)) {
+			if (this.score_game == this.levelData.mission) {
+				this.level = this.level + 1;
+				this.gamePause = true;
+				this._showUpLevel(this.level, this.score_game, this.time_play);
+			}
+		} else {
+
+			if (this.score_game == this.levelData.mission) {
+				this.time.events.pause();
+				setTimeout(() => {
+					this.state.start('game-over', true, false, this.score_game, this.time_play);
+				}, 1000);
+			}
+		}
+
+		this._resetImg(sprite);
+
 
 
 	}
@@ -572,37 +572,31 @@ class Game extends Phaser.State {
 
 
 		const style = {
-			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.screenData.intro_font + 'px ' + val.font,
 			fill: '#000000',
-			align: 'center',
-			fontWeight: 'bold'
+			align: 'center'
 		};
 
-		const styleGuide = {
-			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
-			fill: '#000000',
-			align: 'center',
-			fontWeight: 'bold'
-		};
-		const upLevel = this.level + 1;
-		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'GAME OVER', style);
-		text1.anchor.setTo(0.5);
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
-		lineHR.anchor.setTo(0.5);
 
-		let okButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
-		this.add.existing(okButton);
-		okButton.anchor.setTo(0.5);
-		okButton.alpha = 1;
-		okButton.lock = true;
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight + 25, 'GAME OVER', style);
+		text2.anchor.setTo(0.5);
 
-		let button_scale = this.screenData.ok_width / 124;
-		okButton.scale.setTo(button_scale);
+		// End Game Btn
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn.anchor.setTo(0.5);
+		this.endGameBtn.alpha = 1;
+		this.endGameBtn.lock = true;
+
+		// Continue Btn
+		this.tryAgain = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionTryAgainClick.bind(this), this, 1, 0, 2);
+		this.tryAgain.anchor.setTo(0.5);
+		this.tryAgain.alpha = 1;
+		this.tryAgain.lock = true;
 
 		cc.addChild(bg);
-		cc.addChild(text1);
-		cc.addChild(lineHR);
-		cc.addChild(okButton);
+		cc.addChild(text2);
+		cc.addChild(this.endGameBtn);
+		cc.addChild(this.tryAgain);
 
 		return cc;
 	}
@@ -755,6 +749,20 @@ class Game extends Phaser.State {
 		});
 
 	}
+
+	_showGameOver() {
+		this.menuButton.lock = true;
+		let tween = this.add.tween(this.panelGameOver);
+		tween.to({
+			alpha: 1
+		}, 500, Phaser.Easing.Linear.In, true);
+
+		tween.onComplete.add(() => {
+			this.okButton.lock = false;
+		});
+
+	}
+
 	actionMenuOnClick() {
 
 		if (!this.menuButton.lock) {
@@ -793,6 +801,10 @@ class Game extends Phaser.State {
 				this._startShowWater();
 			});
 		}
+	}
+
+	actionTryAgainClick() {
+		this.state.start('game', true, false, 1, 0, 0);
 	}
 
 	nextLevelClick() {
