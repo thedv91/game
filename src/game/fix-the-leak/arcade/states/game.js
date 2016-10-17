@@ -7,6 +7,7 @@ import BeginButton from './../objects/BeginButton';
 import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
 import { LevelData } from './../data/GameData';
+import { Log } from './../utils/Log';
 
 class Game extends Phaser.State {
 	constructor() {
@@ -132,8 +133,10 @@ class Game extends Phaser.State {
 	update() {
 
 		if (!this.gameOver) {
-			if (this.playGame)
+
+			if (this.playGame) {
 				this._updateTime();
+			}
 			if (this.time_play <= 0) {
 				this.gameOver = true;
 				this._showGameOver();
@@ -343,6 +346,7 @@ class Game extends Phaser.State {
 			if (this.score_game == this.levelData.mission) {
 				this.level = this.level + 1;
 				this.gamePause = true;
+				this.levelComplete = true;
 				this._showUpLevel(this.level, this.score_game, this.time_play);
 			}
 		} else {
@@ -407,6 +411,7 @@ class Game extends Phaser.State {
 		let cc = this.add.group();
 		cc.x = -this.game.width;
 		cc.alpha = 0;
+		cc.visible = false;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
@@ -461,6 +466,7 @@ class Game extends Phaser.State {
 		// cc.x = -this.game.width;
 		cc.x = 0;
 		cc.alpha = 0;
+		cc.visible = false;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
@@ -490,20 +496,20 @@ class Game extends Phaser.State {
 		// const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
 		// text2.anchor.setTo(0.5);
 
-		let okButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
-		this.add.existing(okButton);
-		okButton.anchor.setTo(0.5);
-		okButton.alpha = 1;
-		okButton.lock = true;
+		this.beginButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
+		this.add.existing(this.beginButton);
+		this.beginButton.anchor.setTo(0.5);
+		this.beginButton.alpha = 1;
+		this.beginButton.lock = true;
 
 		let button_scale = this.screenData.ok_width / 124;
-		okButton.scale.setTo(button_scale);
+		this.beginButton.scale.setTo(button_scale);
 
 		cc.addChild(bg);
 		cc.addChild(text1);
 		cc.addChild(lineHR);
 		// cc.addChild(text2);
-		cc.addChild(okButton);
+		cc.addChild(this.beginButton);
 
 		return cc;
 	}
@@ -518,6 +524,7 @@ class Game extends Phaser.State {
 		// cc.x = -this.game.width;
 		cc.x = 0;
 		cc.alpha = 0;
+		cc.visible = false;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
@@ -564,6 +571,7 @@ class Game extends Phaser.State {
 		// cc.x = -this.game.width;
 		cc.x = 0;
 		cc.alpha = 0;
+		cc.visible = false;
 		cc.width = this.game.width;
 		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
@@ -582,10 +590,10 @@ class Game extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
-		this.endGameBtn.anchor.setTo(0.5);
-		this.endGameBtn.alpha = 1;
-		this.endGameBtn.lock = true;
+		this.endGameOverBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameOverBtn.anchor.setTo(0.5);
+		this.endGameOverBtn.alpha = 1;
+		this.endGameOverBtn.lock = true;
 
 		// Continue Btn
 		this.tryAgain = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionTryAgainClick.bind(this), this, 1, 0, 2);
@@ -595,35 +603,41 @@ class Game extends Phaser.State {
 
 		cc.addChild(bg);
 		cc.addChild(text2);
-		cc.addChild(this.endGameBtn);
+		cc.addChild(this.endGameOverBtn);
 		cc.addChild(this.tryAgain);
 
 		return cc;
 	}
 
 	actionEndGameClick() {
+		Log.info('actionEndGameClick');
+		if (this.gamePause || this.gameOver) {
+			let tween_pause = this.add.tween(this.pauseGame);
 
-		let tween_pause = this.add.tween(this.pauseGame);
+			tween_pause.to({
+				alpha: 0,
+				visible: false
+			}, 500, Phaser.Easing.Linear.Out, true);
 
-		tween_pause.to({
-			alpha: 0
-		}, 500, Phaser.Easing.Linear.Out, true);
+			tween_pause.onComplete.add(() => {
+				this.level = 1;
+				this.score_game = 0;
+				this.time_play = 0;
 
-		tween_pause.onComplete.add(() => {
-			this.level = 1;
-			this.score_game = 0;
-			this.time_play = 0;
+				this.state.start('intro');
+			});
+		}
 
-			this.state.start('intro');
-		});
 
 	}
 
 	actionContinueClick() {
+		Log.info('actionContinueClick');
 		let tween_pause = this.add.tween(this.pauseGame);
 
 		tween_pause.to({
-			alpha: 0
+			alpha: 0,
+			visible: false
 		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween_pause.onComplete.add(() => {
@@ -727,7 +741,8 @@ class Game extends Phaser.State {
 		let tween = this.add.tween(this.intro);
 		tween.to({
 			x: 0,
-			alpha: 1
+			alpha: 1,
+			visible: true
 		}, 1000, Phaser.Easing.Exponential.Out, true);
 
 		tween.onComplete.add(() => {
@@ -741,7 +756,8 @@ class Game extends Phaser.State {
 		this.menuButton.lock = true;
 		let tween = this.add.tween(this.upLevel);
 		tween.to({
-			alpha: 1
+			alpha: 1,
+			visible: true
 		}, 500, Phaser.Easing.Linear.In, true);
 
 		tween.onComplete.add(() => {
@@ -754,7 +770,8 @@ class Game extends Phaser.State {
 		this.menuButton.lock = true;
 		let tween = this.add.tween(this.panelGameOver);
 		tween.to({
-			alpha: 1
+			alpha: 1,
+			visible: true
 		}, 500, Phaser.Easing.Linear.In, true);
 
 		tween.onComplete.add(() => {
@@ -764,13 +781,14 @@ class Game extends Phaser.State {
 	}
 
 	actionMenuOnClick() {
-
+		Log.info('actionMenuOnClick');
 		if (!this.menuButton.lock) {
 			this.menuButton.lock = true;
 			this.gamePause = true;
 			let tween = this.add.tween(this.pauseGame);
 			tween.to({
-				alpha: 1
+				alpha: 1,
+				visible: true
 			}, 500, Phaser.Easing.Linear.In, true);
 
 			tween.onComplete.add(() => {
@@ -782,12 +800,14 @@ class Game extends Phaser.State {
 	}
 
 	actionOkOnClick() {
+		Log.info('actionOkOnClick');
 		if (!this.okButton.lock) {
 			this.okButton.lock = true;
 			let tween = this.add.tween(this.intro);
 			tween.to({
 				x: this.game.width,
-				alpha: 0
+				alpha: 0,
+				visible: false
 			}, 1000, Phaser.Easing.Cubic.Out, true);
 
 			tween.onComplete.add(() => {
@@ -804,13 +824,20 @@ class Game extends Phaser.State {
 	}
 
 	actionTryAgainClick() {
+		Log.info('try again click');
+		if (!this.gameOver)
+			return;
 		this.state.start('game', true, false, 1, 0, 0);
 	}
 
 	nextLevelClick() {
+		Log.info('nextLevelClick');
+		if (!this.levelComplete)
+			return;
 		let tween = this.add.tween(this.upLevel);
 		tween.to({
-			alpha: 0
+			alpha: 0,
+			visible: false
 		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween.onComplete.add(() => {
@@ -819,6 +846,7 @@ class Game extends Phaser.State {
 	}
 
 	actionSubmitOnClick() {
+		Log.info('actionSubmitOnClick');
 		let tween = this.add.tween(this.panelEndGame.scale);
 		tween.to({
 			x: 0,
