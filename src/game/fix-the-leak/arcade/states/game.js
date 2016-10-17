@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import _ from 'lodash';
 import val from './../variables';
 import BgOverlay from './../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
@@ -243,28 +244,6 @@ class Game extends Phaser.State {
 		map.addTilesetImage(this.screenData.pipes);
 		map.addTilesetImage(this.screenData.water);
 
-		// switch (this.screenData.mapScreen) {
-		// 	case 1:
-		// 		map = this.add.tilemap('map-small');
-		// 		map.addTilesetImage('pipe_small');
-		// 		map.addTilesetImage('water-small');
-		// 		scale_maps = this.game.width / 408;
-		// 		break;
-		// 	case 2:
-		// 		map = this.add.tilemap('map-normal');
-		// 		map.addTilesetImage('pipe_normal');
-		// 		map.addTilesetImage('water-normal');
-		// 		scale_maps = this.game.width / 492;
-		// 		break;
-		// 	default:
-		// 		map = this.add.tilemap('map');
-		// 		map.addTilesetImage('pipe');
-		// 		map.addTilesetImage('waters');
-		// 		scale_maps = this.game.width / 768;
-		// 		break;
-		// }
-
-
 		layer = map.createLayer('Tile Layer 1');
 		layer.fixedToCamera = false;
 		layer.scale.setTo(scale_maps);
@@ -282,54 +261,40 @@ class Game extends Phaser.State {
 		this.waters.enableBody = true;
 		map.createFromObjects('Object Layer 1', this.screenData.gid, this.screenData.water, 0, true, false, this.waters);
 
-
-		//  And now we convert all of the Tiled objects with an ID of 34 into sprites within the coins group
-		// if (this.screenData.mapScreen >= 3) {
-		// 	map.createFromObjects('Object Layer 1', 2561, 'waters', 0, true, false, this.waters);
-
-		// }
-		// if (this.screenData.mapScreen == 2) {
-		// 	map.createFromObjects('Object Layer 1', 1067, 'water-normal', 0, true, false, this.waters);
-
-		// }
-		// if (this.screenData.mapScreen == 1) {
-		// 	map.createFromObjects('Object Layer 1', 1293, 'water-small', 0, true, false, this.waters);
-		// }
-
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
 
 
 		this.waters.scale.setTo(scale_maps);
 
-		this.waters_group = this.waters.children.map(function (e, index) {
+		this.allWaters = this.waters.children.map((e, index) => {
 			e.uniqueCheck = index;
+			e.y = e.y + this.panelHeight;
+			e.visible = false;
+			e.inputEnabled = true;
+			e.input.useHandCursor = true;
+			e.events.onInputDown.add(this._clickWater, this);
 			return e;
 		});
 
-		for (var i = this.waters_group.length - 1; i >= 0; i--) {
-			this.waters_group[i].y = this.waters_group[i].y + this.panelHeight;
-			this.waters_group[i].visible = false;
-			this.waters_group[i].inputEnabled = true;
-			this.waters_group[i].input.useHandCursor = true;
-
-			this.waters_group[i].inputEnabled = true;
-
-			this.waters_group[i].events.onInputDown.add(this._clickWater, this);
-		}
-
+		this.waters_group = this.getRandomWater();
 		return map;
 	}
 
 	// Start show water for Game Play
 	_startShowWater() {
-		let rands = this.array_rand(this.waters_group, this.points);
-		for (let i = 0; i < rands.length; i++) {
-			this.waters_group[rands[i]].visible = true;
-		}
-		// this.waters_group[rands[0]].visible = true;
-		// this.waters_group[rands[1]].visible = true;
-		// this.waters_group[rands[2]].visible = true;
+		let rand_idx = _.random(0, this.waters_group.length - 1);
+		this.waters_group[rand_idx].visible = true;
+	}
+	// _startShowWater() {
+	// 	let rands = this.array_rand(this.waters_group, this.points);		
+	// 	for (let i = 0; i < rands.length; i++) {
+	// 		this.waters_group[rands[i]].visible = true;
+	// 	}
+	// }
+
+	getRandomWater() {
+		return _.sampleSize(_.shuffle(this.allWaters), this.points);
 	}
 
 	array_rand(input, num_req) {
@@ -407,28 +372,19 @@ class Game extends Phaser.State {
 	}
 
 	_resetImg(sprite) {
-		this.waters_group = this.waters.children;
+		//this.waters_group = this.waters.children;
 
 		var flag = true;
-		var rand_idx = -1;
+		var rand_idx;
 		while (flag) {
-			rand_idx = Math.floor(Math.random() * (this.waters_group.length - 1));
-			if (this.waters_group[rand_idx].visible == true || sprite.uniqueCheck == this.waters_group[rand_idx].uniqueCheck) {
+			rand_idx = _.random(0, this.waters_group.length - 1)
+			if (this.waters_group[rand_idx].visible === true || sprite.uniqueCheck === this.waters_group[rand_idx].uniqueCheck) {
 				flag = true;
 			} else {
 				flag = false;
 				this.waters_group[rand_idx].visible = true
 			}
 		}
-
-		/*var temp = [];
-		for(var i = 0; i < this.waters_group.length; i++){
-			let x = this.waters_group[i];
-			if(x.visible == true) {
-				temp.push(i);
-			}
-		}
-		*/
 
 	}
 

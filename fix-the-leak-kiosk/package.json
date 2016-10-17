@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "jquery": "^3.0.0",
+    "lodash": "^4.16.4",
     "phaser": "^2.5.0",
     "phaser-debug-layout": "^1.2.2",
     "phaser-state-transition-plugin": "^0.1.6",

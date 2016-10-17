@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import _ from 'lodash';
 import val from './../variables';
 import debugLayout from 'phaser-debug-layout';
 import BgOverlay from '../objects/BgOverlay';
@@ -16,7 +17,6 @@ export default class Game extends Phaser.State {
 		this.time_play = 20;
 		this.level = 1;
 		this.score_game = 0;
-
 
 	}
 
@@ -47,7 +47,7 @@ export default class Game extends Phaser.State {
 		this._drawScore();
 		this.intro = this._drawIntroduction();
 		this._drawPanel();
-		this.pauseGame = this._drawPauseGame();		
+		this.pauseGame = this._drawPauseGame();
 
 		if (this.level == 1) {
 			_self._showIntroGame();
@@ -128,20 +128,20 @@ export default class Game extends Phaser.State {
 
 	_updateTime() {
 
-        this.time_play = this.time_play - 1;
-        if (this.screenData.smallScreen) {
+		this.time_play = this.time_play - 1;
+		if (this.screenData.smallScreen) {
 			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-        } else {
+		} else {
 			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-        }
+		}
 
-        if (this.time_play == 0) {
+		if (this.time_play == 0) {
 			setTimeout(() => {
 				this.state.start('game-over', true, false, this.score_game, this.time_play);
 			}, 200);
-        }
+		}
 
-    }
+	}
 
 	_drawScore() {
 		var style_top = {
@@ -172,17 +172,17 @@ export default class Game extends Phaser.State {
 
 	_drawBackground() {
 		if (1420 / this.w >= 1420 / this.h) {
-            var bg_h = this.h;
-            var bg_w = 1420 * this.h / 1420;
-        } else {
-            var bg_w = this.w;
-            var bg_h = 1420 * this.w / 1420;
-        }
+			var bg_h = this.h;
+			var bg_w = 1420 * this.h / 1420;
+		} else {
+			var bg_w = this.w;
+			var bg_h = 1420 * this.w / 1420;
+		}
 
-        let bg = this.game.add.image(this.w / 2, this.h, "background");
-        bg.width = bg_w;
-        bg.height = bg_h;
-        bg.anchor.setTo(0.5, 1);
+		let bg = this.game.add.image(this.w / 2, this.h, "background");
+		bg.width = bg_w;
+		bg.height = bg_h;
+		bg.anchor.setTo(0.5, 1);
 
 
 		return bg;

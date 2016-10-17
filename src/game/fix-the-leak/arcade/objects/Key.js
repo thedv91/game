@@ -6,12 +6,13 @@ export default class Key extends Phaser.TileSprite {
 
 	constructor(game, x, y, w, h, data = {}, cb) {
 		super(game, x, y, w, h, 'key');
-        this.startKey = data.startKey;
-        this.shiftKey = data.shiftKey;
-        this.type = data.type;
+		this.startKey = data.startKey;
+		this.shiftKey = data.shiftKey;
+		this.type = data.type;
 		this.w = data.w || w;
 		this.h = data.h || h;
 		this.inputEnabled = true;
+		this.input.useHandCursor = true;
 		this.cb = cb;
 		this.game = game;
 		this.game.keyboard = this.game.keyboard || {};
