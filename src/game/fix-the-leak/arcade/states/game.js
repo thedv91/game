@@ -18,19 +18,22 @@ class Game extends Phaser.State {
 
 		this.text_score;
 		this.time_play = 0;
+		this.totalTime = 0;
 
 		this.level = 1;
 		this.score_game = 0;
 	}
 
 	init(level, score, time) {
-		this.levelData = _.find(LevelData, { level: this.level });
-		this.resetGame();
-		this.screenData = getInitData(this.game);
 		this.level = level || 1;
 		this.score_game = score;
+		this.levelData = _.find(LevelData, { level: this.level });
+		Log.debug(this.levelData);
+		this.resetGame();
+		this.screenData = getInitData(this.game);
 		this.timeScale = this.levelData.time * 1000;
 		this.time_play = this.timeScale;
+		this.totalTime = time;
 		this.w = this.game.width;
 		this.h = this.game.height;
 	}
@@ -342,20 +345,26 @@ class Game extends Phaser.State {
 		 */
 		//this.state.start('game-over', true, false, this.score_game, this.time_play);
 
-		if (this.level < (LevelData.length + 1)) {
-			if (this.score_game == this.levelData.mission) {
+		if (this.level < LevelData.length) {
+			if (this.score_game === this.levelData.mission) {
 				this.level = this.level + 1;
 				this.gamePause = true;
 				this.levelComplete = true;
+				this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
+				Log.log(this.totalTime);
 				this._showUpLevel(this.level, this.score_game, this.time_play);
 			}
 		} else {
 
-			if (this.score_game == this.levelData.mission) {
+			if (this.score_game === this.levelData.mission) {
 				this.time.events.pause();
+				this.gamePause = true;
+				this.levelComplete = true;
+				this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
+				Log.log(this.totalTime);
 				setTimeout(() => {
-					this.state.start('game-over', true, false, this.score_game, this.time_play);
-				}, 1000);
+					this.state.start('game-over', true, false, this.score_game, this.totalTime.toFixed(1));
+				}, 500);
 			}
 		}
 
@@ -841,7 +850,7 @@ class Game extends Phaser.State {
 		}, 500, Phaser.Easing.Linear.Out, true);
 
 		tween.onComplete.add(() => {
-			this.state.start('game', true, false, this.level, this.score_game, this.time_play)
+			this.state.start('game', true, false, this.level, this.score_game, this.totalTime)
 		});
 	}
 
