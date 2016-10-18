@@ -14,7 +14,7 @@ export default class Game extends Phaser.State {
 		this.drawPanelGlobal;
 
 		this.text_score;
-		this.time_play = 20;
+		this.time_play = 45;
 		this.level = 1;
 		this.score_game = 0;
 
@@ -226,32 +226,37 @@ export default class Game extends Phaser.State {
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
 		this.waters.scale.setTo(scale_maps);
-		this.waters_group = this.waters.children.map(function (e, index) {
+		this.waters_group = this.waters.children.map((e, index) => {
 			e.uniqueCheck = index;
+			e.y = e.y + this.panelHeight;
+			e.visible = false;
+			e.inputEnabled = true;
+			e.input.useHandCursor = true;
+			e.events.onInputDown.add(this._clickWater, this);
 			return e;
 		});
 
 
-		for (var i = this.waters_group.length - 1; i >= 0; i--) {
-			this.waters_group[i].y = this.waters_group[i].y + this.panelHeight;
-			this.waters_group[i].visible = false;
-			this.waters_group[i].inputEnabled = true;
-			this.waters_group[i].input.useHandCursor = true;
-
-			this.waters_group[i].inputEnabled = true;
-
-			this.waters_group[i].events.onInputDown.add(this._clickWater, this);
-		}
+		// for (var i = this.waters_group.length - 1; i >= 0; i--) {
+		// 	this.waters_group[i].y = this.waters_group[i].y + this.panelHeight;
+		// 	this.waters_group[i].visible = false;
+		// 	this.waters_group[i].inputEnabled = true;
+		// 	this.waters_group[i].input.useHandCursor = true;
+		// 	this.waters_group[i].events.onInputDown.add(this._clickWater, this);
+		// }
 
 		return map;
 	}
 
 	// Start show water for Game Play
 	_startShowWater() {
-		var rands = this.array_rand(this.waters_group, 3);
-		this.waters_group[rands[0]].visible = true;
-		this.waters_group[rands[1]].visible = true;
-		this.waters_group[rands[2]].visible = true;
+		// var rands = this.array_rand(this.waters_group, 3);
+		// this.waters_group[rands[0]].visible = true;
+		// this.waters_group[rands[1]].visible = true;
+		// this.waters_group[rands[2]].visible = true;
+
+		let rand_idx = _.random(0, this.waters_group.length - 1);
+		this.waters_group[rand_idx].visible = true;
 	}
 
 	array_rand(input, num_req) {
@@ -339,10 +344,11 @@ export default class Game extends Phaser.State {
 	_resetImg(sprite) {
 		this.waters_group = this.waters.children;
 
-		var flag = true;
-		var rand_idx = -1;
+		let flag = true;
+		let rand_idx;
 		while (flag) {
-			rand_idx = Math.floor(Math.random() * (this.waters_group.length - 1));
+			//rand_idx = Math.floor(Math.random() * (this.waters_group.length - 1));
+			rand_idx = _.random(0, this.waters_group.length - 1)
 			if (this.waters_group[rand_idx].visible == true || sprite.uniqueCheck == this.waters_group[rand_idx].uniqueCheck) {
 				flag = true;
 			} else {

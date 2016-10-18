@@ -377,8 +377,8 @@ class Game extends Phaser.State {
 	_resetImg(sprite) {
 		//this.waters_group = this.waters.children;
 
-		var flag = true;
-		var rand_idx;
+		let flag = true;
+		let rand_idx;
 		while (flag) {
 			rand_idx = _.random(0, this.waters_group.length - 1)
 			if (this.waters_group[rand_idx].visible === true || sprite.uniqueCheck === this.waters_group[rand_idx].uniqueCheck) {
