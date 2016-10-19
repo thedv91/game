@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\FixTheLeak;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class FixTheLeakController extends Controller
@@ -18,34 +19,25 @@ class FixTheLeakController extends Controller
     public function getRank(Request $request)
     {
 
-        $user_email = $request->input('email');
-        $type       = $request->input('type');
-
-        $fixs = FixTheLeak::where('type', $type)->get();
-        $user = FixTheLeak::where('email', $user_email)->where('type', $type)->first();
-
-        if (count($user) < 1) {
-            $rank = -1;
-        } else {
-
-            $user_time = $user->score;
-
-            $rank = 1;
-            foreach ($fixs as $key => $fix) {
-
-                if (($fix->score < $user_time && $type == 1) || ($fix->score > $user_time && $type == 0)) {
-                    $rank++;
-                }
-
+        $user_email = $request->email;
+        $type       = $request->type;
+        try {
+            $user = $this->model->where('email', $user_email)->where('type', $type)->firstOrFail();
+            if ($type == 0) {
+                $rank = $this->model->where('score', '>', $user->score)->where('type', $type)->count();
+            } else {
+                $rank = $this->model->where('score', '<', $user->score)->where('type', $type)->count();
             }
 
+            $rank += 1;
+        } catch (ModelNotFoundException $e) {
+            $rank = -1;
         }
-        $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
-        // if ($type == 1) {
-        //     $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
-        // } else {
-        //     $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
-        // }
+        if ($type == 0) {
+            $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
+        } else {
+            $datas = $this->model->where('type', $type)->orderBy('score', 'ASC')->limit(6)->get();
+        }
 
         return response()->json(['tops' => $datas, 'rank' => $rank]);
     }

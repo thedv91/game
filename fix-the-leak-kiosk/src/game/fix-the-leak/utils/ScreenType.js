@@ -1,3 +1,5 @@
+import { Log } from './Log';
+
 export function getInitData(game) {
 	const width = game.width;
 	const height = game.height;
@@ -7,10 +9,10 @@ export function getInitData(game) {
 		pannel_margin_left: 75,
 		intro_font: 50,
 		des_font: 40,
-		ok_width: 230,
+		ok_width: 120,
 		button_dis: 100,
-		animatorWidth: 502,
-		animatorScale: 1.5,
+		animatorWidth: 280,
+		animatorScale: .9,
 		cLine: 30,
 		map: 'map',
 		gid: 2561,
@@ -184,6 +186,8 @@ export function getInitData(game) {
 			ok_width: 230,
 			button_dis: 100,
 			cLine: 30,
+			animatorWidth: 502,
+			animatorScale: 1.5,
 			map: 'map',
 			gid: 2561,
 			pipes: 'pipe',
@@ -196,8 +200,7 @@ export function getInitData(game) {
 		});
 	}
 
-	if (process.env.NODE_ENV === 'development')
-		console.log(data);
+	Log.info(data);
 
 	return data;
 }

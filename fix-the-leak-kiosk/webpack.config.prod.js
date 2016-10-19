@@ -15,13 +15,14 @@ module.exports = {
 		path: './dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
-        library: 'QsoftGame'
+		library: 'QsoftGame'
 	},
+	devtool: 'cheap-module-source-map',
 	externals: {
-        // require("jquery") is external and available
-        //  on the global var jQuery
-        "Phaser": "Phaser"
-    },
+		// require("jquery") is external and available
+		//  on the global var jQuery
+		"Phaser": "Phaser"
+	},
 	watch: true,
 	plugins: [
 		new webpack.DefinePlugin({
@@ -49,19 +50,19 @@ module.exports = {
 			include: path.join(__dirname, 'src'),
 			loader: 'babel-loader'
 		}, {
-				test: /pixi\.js/,
-				loader: 'expose?PIXI'
-			}, {
-				test: /phaser-split\.js$/,
-				loader: 'expose?Phaser'
-			}, {
-				test: /p2\.js/,
-				loader: 'expose?p2'
-			}, {
-				test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-				include: path.join(__dirname, 'assets'),
-				loader: 'file-loader?limit=100000'
-			}]
+			test: /pixi\.js/,
+			loader: 'expose?PIXI'
+		}, {
+			test: /phaser-split\.js$/,
+			loader: 'expose?Phaser'
+		}, {
+			test: /p2\.js/,
+			loader: 'expose?p2'
+		}, {
+			test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+			include: path.join(__dirname, 'assets'),
+			loader: 'file-loader?limit=100000'
+		}]
 	},
 	resolve: {
 		alias: {
