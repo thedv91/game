@@ -23,21 +23,13 @@ class FixTheLeakController extends Controller
         $type       = $request->type;
         try {
             $user = $this->model->where('email', $user_email)->where('type', $type)->firstOrFail();
-            if ($type == 0) {
-                $rank = $this->model->where('score', '>', $user->score)->where('type', $type)->count();
-            } else {
-                $rank = $this->model->where('score', '<', $user->score)->where('type', $type)->count();
-            }
-
+            $rank = $this->model->where('score', '>', $user->score)->where('type', $type)->count();            
             $rank += 1;
         } catch (ModelNotFoundException $e) {
             $rank = -1;
         }
-        if ($type == 0) {
-            $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();
-        } else {
-            $datas = $this->model->where('type', $type)->orderBy('score', 'ASC')->limit(6)->get();
-        }
+        
+        $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();        
 
         return response()->json(['tops' => $datas, 'rank' => $rank]);
     }

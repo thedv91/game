@@ -42,6 +42,7 @@ class Game extends Phaser.State {
 		this.gamePause = false;
 		this.gameOver = false;
 		this.playGame = false;
+		this.levelComplete = false;
 	}
 
 	create() {
@@ -135,14 +136,27 @@ class Game extends Phaser.State {
 
 	update() {
 
-		if (!this.gameOver) {
+		if (!this.levelComplete) {
 
 			if (this.playGame) {
 				this._updateTime();
 			}
 			if (this.time_play <= 0) {
-				this.gameOver = true;
-				this._showGameOver();
+				if (this.level < LevelData.length) {
+					this.level = this.level + 1;
+					this.gamePause = true;
+					this.levelComplete = true;
+					this._showUpLevel(this.level, this.score_game, this.time_play);
+				} else {
+
+					this.time.events.pause();
+					this.gamePause = true;
+					this.levelComplete = true;
+					setTimeout(() => {
+						this.state.start('game-over', true, false, this.score_game, this.totalTime.toFixed(1));
+					}, 500);
+				}
+
 			}
 		}
 	}
@@ -345,28 +359,28 @@ class Game extends Phaser.State {
 		 */
 		//this.state.start('game-over', true, false, this.score_game, this.time_play);
 
-		if (this.level < LevelData.length) {
-			if (this.score_game === this.levelData.mission) {
-				this.level = this.level + 1;
-				this.gamePause = true;
-				this.levelComplete = true;
-				this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
-				Log.log(this.totalTime);
-				this._showUpLevel(this.level, this.score_game, this.time_play);
-			}
-		} else {
+		// if (this.level < LevelData.length) {
+		// 	if (this.score_game === this.levelData.mission) {
+		// 		this.level = this.level + 1;
+		// 		this.gamePause = true;
+		// 		this.levelComplete = true;
+		// 		this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
+		// 		Log.log(this.totalTime);
+		// 		this._showUpLevel(this.level, this.score_game, this.time_play);
+		// 	}
+		// } else {
 
-			if (this.score_game === this.levelData.mission) {
-				this.time.events.pause();
-				this.gamePause = true;
-				this.levelComplete = true;
-				this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
-				Log.log(this.totalTime);
-				setTimeout(() => {
-					this.state.start('game-over', true, false, this.score_game, this.totalTime.toFixed(1));
-				}, 500);
-			}
-		}
+		// 	if (this.score_game === this.levelData.mission) {
+		// 		this.time.events.pause();
+		// 		this.gamePause = true;
+		// 		this.levelComplete = true;
+		// 		this.totalTime = parseFloat(this.totalTime) + parseFloat((this.levelData.time - this.time_play));
+		// 		Log.log(this.totalTime);
+		// 		setTimeout(() => {
+		// 			this.state.start('game-over', true, false, this.score_game, this.totalTime.toFixed(1));
+		// 		}, 500);
+		// 	}
+		// }
 
 		this._resetImg(sprite);
 
