@@ -482,7 +482,7 @@ class GameOver extends Phaser.State {
 		}
 
 		if (flag == false) {
-			return false;
+			return;
 		}
 
 

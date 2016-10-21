@@ -26,6 +26,7 @@ export function getInitData(game) {
 		tabs: 120,
 		submit_width: 205,
 		submitButtonScale: 1,
+		buttonScale: 1,
 		endgamePadding: 20,
 		level_font: 40,
 		level_font_number: 46,
@@ -39,7 +40,36 @@ export function getInitData(game) {
 	/**
 	 * 414 x 736
 	 */
-	if (width <= 480) {
+	if (width <= 375) {
+		data = Object.assign({}, data, {
+			mapScreen: 0,
+			pannel_margin_left: 30,
+			intro_font: 22,
+			des_font: 18,
+			ok_width: 125,
+			button_dis: 60,
+			animatorWidth: 160,
+			animatorScale: .5,
+			smallScreen: true,
+			cLine: 15,
+			map: 'map-mobile',
+			gid: 641,
+			pipes: 'pipe_mobile',
+			water: 'water-mobile',
+			scale_maps: width / 320,
+			score_margin_top: 30,
+			inputWidth: 160,
+			inputHeight: 25,
+			font_score: 20,
+			tabs: 70,
+			submitButtonScale: .6,
+			buttonScale: .8,
+			endgamePadding: 10,
+			level_font: 27,
+			level_font_number: 40,
+			level_font_tabs: 100,
+		});
+	} else if (width > 375 && width <= 480) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
 			pannel_margin_left: 30,

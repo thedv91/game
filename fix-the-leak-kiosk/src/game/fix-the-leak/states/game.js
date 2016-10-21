@@ -25,7 +25,6 @@ export default class Game extends Phaser.State {
 		this.level = level;
 		this.score_game = score;
 		this.time_play = time;
-		this.screenData.smallScreen = false;
 
 		this.w = this.game.width;
 		this.h = this.game.height;
@@ -154,6 +153,8 @@ export default class Game extends Phaser.State {
 			fill: "#fff",
 			tabs: this.screenData.tabs
 		};
+
+		let timePlay = (this.time_play / 1000).toFixed(1);
 
 		if (this.screenData.smallScreen) {
 			this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
@@ -440,6 +441,7 @@ export default class Game extends Phaser.State {
 		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.actionOkOnClick.bind(this));
 		this.okButton = this.add.existing(this.okButton);
 		this.okButton.anchor.setTo(0.5);
+		this.okButton.scale.setTo(this.screenData.buttonScale);
 		this.okButton.alpha = 1;
 		this.okButton.lock = true;
 
@@ -484,12 +486,14 @@ export default class Game extends Phaser.State {
 		// End Game Btn
 		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
+		this.endGameBtn.scale.setTo(this.screenData.buttonScale);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
 		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
+		this.continueBtn.scale.setTo(this.screenData.buttonScale);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
 
@@ -545,7 +549,7 @@ export default class Game extends Phaser.State {
 		this.menuButton.lock = true;
 
 		const style = {
-			font: '600 38px AvenirNextLTPro-UltLtCn',
+			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-UltLtCn',
 			fill: '#FFFFFF',
 			wordWrap: true,
 			wordWrapWidth: this.game.width,
@@ -554,7 +558,6 @@ export default class Game extends Phaser.State {
 
 		let text;
 		if (this.screenData.smallScreen) {
-
 			text = this.add.text(50, 10, 'FIX THE LEAK', style);
 			text.y = (this.panelHeight - text.height) / 2;
 		} else {

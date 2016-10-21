@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import { Log } from './../utils/Log';
+import { getInitData } from './../utils/ScreenType';
 
 class Intro extends Phaser.State {
 	constructor() {
@@ -122,6 +123,8 @@ class Intro extends Phaser.State {
 			this.margin_text = 50;
 			this.rank_margin_top = 30;
 		}
+
+		this.screenData = getInitData(this.game);
 	}
 
 	create() {
@@ -342,12 +345,22 @@ class Intro extends Phaser.State {
 		cc.x = -350;
 		cc.y = this.panel_margin_top;
 		cc.alpha = 1;
-
 		let tween = this.add.tween(cc);
-		tween.to({
-			x: this.panel_left,
-			alpha: 1
-		}, this.animateDuration, Phaser.Easing.Cubic.InOut);
+		switch (this.screenData.mapScreen) {
+			case 0:
+				cc.scale.setTo(.7);
+				tween.to({
+					x: 30,
+					alpha: 1
+				}, this.animateDuration, Phaser.Easing.Cubic.InOut);
+				break;
+			default:
+				tween.to({
+					x: this.panel_left,
+					alpha: 1
+				}, this.animateDuration, Phaser.Easing.Cubic.InOut);
+				break;
+		}
 		tween.start();
 
 		this.panelInside = bg2;
@@ -366,6 +379,14 @@ class Intro extends Phaser.State {
 		cc.left = this.start_left;
 		//cc.y = this.world.height + 100;
 		cc.y = this.panelHeight + this.start_margin_top;
+
+		switch (this.screenData.mapScreen) {
+			case 0:
+				cc.scale.setTo(.6);
+				cc.y = 350;
+				cc.left = 80;
+				break;
+		}
 
 		// let tween = this.add.tween(cc);
 		// tween.to({
