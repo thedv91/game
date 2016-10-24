@@ -11,6 +11,7 @@ import './../libs/canvasinput.js';
 //import MemoryApp from './game/memory/app';
 //import FixTheLeakKioskGame from './game/fix-the-leak/kiosk/game';
 import FixTheLeakArcadeGame from './game/fix-the-leak/arcade/game';
+import MatchThePairKioskGame from './game/match-the-pair/kiosk/game';
 
 
 //new FixTheLeak(810, '100%', 'app');	
@@ -52,13 +53,13 @@ import FixTheLeakArcadeGame from './game/fix-the-leak/arcade/game';
 
 // }
 export function FixTheLeakArcade(dom) {
+	//new FixTheLeakArcadeGame('100%', '100%', dom);
 	if (window.innerHeight > 810) {
-
-		if (window.innerHeight > 950) {
-
+		if (window.innerWidth >= 1024) {
+			new FixTheLeakArcadeGame(1280, 1011, dom);
+		} else if (window.innerHeight > 950) {
 			new FixTheLeakArcadeGame('100%', '100%', dom);
 		} else {
-
 			new FixTheLeakArcadeGame(810, '100%', dom);
 		}
 	} else {
@@ -81,9 +82,11 @@ export function FixTheLeakArcade(dom) {
 		}
 
 	}
-
 }
 
+export function MatchThePairKiosk(dom) {
+	new MatchThePairKioskGame('100%', '100%', dom);
+}
 // export function FixTheLeakKiosk(dom) {
 // 	if (window.innerHeight > 810) {
 

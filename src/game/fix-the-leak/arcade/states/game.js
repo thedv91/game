@@ -7,7 +7,7 @@ import BeginButton from './../objects/BeginButton';
 import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
 import { LevelData } from './../data/GameData';
-import { Log } from './../utils/Log';
+import { Log } from './../../../utils/Log';
 
 class Game extends Phaser.State {
 	constructor() {

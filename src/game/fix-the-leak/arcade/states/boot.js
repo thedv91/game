@@ -1,8 +1,11 @@
 import Phaser from 'phaser';
+
 class Boot extends Phaser.State {
+
 	constructor() {
 		super();
 	}
+
 	init() {
 		// this.scale.setResizeCallback(this.gameResized, this);
 		// this.stage.disableVisibilityChange = true;
@@ -15,12 +18,10 @@ class Boot extends Phaser.State {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;*/
 
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-		// this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;
 	}
+
 	create() {
 		if (process.env.NODE_ENV === 'development')
 			console.log('Loading assets done!');

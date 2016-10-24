@@ -1,4 +1,4 @@
-import { Log } from './Log';
+import { Log } from './../../../utils/Log';
 
 export function getInitData(game) {
 	const width = game.width;
@@ -34,8 +34,11 @@ export function getInitData(game) {
 		levelMargin: 10,
 		scoreMargin: 70,
 		textNameMargin: 120,
+		panelWidth: 660,
+		panelHeight: 780,
 		pivot: {}
 	};
+	Log.info(width, height);
 
 	/**
 	 * 414 x 736
@@ -68,8 +71,9 @@ export function getInitData(game) {
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
+
 		});
-	} else if (width > 375 && width <= 480) {
+	} else if (width > 375 && width <= 480 && height <= 668) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
 			pannel_margin_left: 30,
@@ -96,6 +100,8 @@ export function getInitData(game) {
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
+			panelWidth: 380,
+			panelHeight: 445,
 		});
 	} else if (width <= 768 & width > 480 && height <= 1024) {
 		/**
@@ -126,6 +132,8 @@ export function getInitData(game) {
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
+			panelWidth: 365,
+			panelHeight: 435,
 			pivot: {
 				y: 15
 			}
@@ -160,6 +168,8 @@ export function getInitData(game) {
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
+			panelWidth: 540,
+			panelHeight: 640,
 			pivot: {
 				x: 20
 			}
@@ -243,6 +253,38 @@ export function getInitData(game) {
 			score_margin_top: 200,
 			pivot: {
 				y: 10
+			}
+		});
+	} else if (width > 1080) {
+		data = Object.assign({}, data, {
+			mapScreen: 7,
+			pannel_margin_left: 40,
+			intro_font: 30,
+			des_font: 25,
+			ok_width: 130,
+			button_dis: 100,
+			animatorWidth: 240,
+			animatorScale: .8,
+			cLine: 20,
+			map: 'map',
+			gid: 2561,
+			pipes: 'pipe',
+			water: 'waters',
+			scale_maps: width / 768,
+			score_margin_top: 40,
+			inputWidth: 350,
+			inputHeight: 40,
+			font_score: 30,
+			tabs: 100,
+			submitButtonScale: .8,
+			endgamePadding: 10,
+			level_font: 27,
+			level_font_number: 40,
+			level_font_tabs: 100,
+			panelWidth: 550,
+			panelHeight: 640,
+			pivot: {
+				x: 20
 			}
 		});
 	}

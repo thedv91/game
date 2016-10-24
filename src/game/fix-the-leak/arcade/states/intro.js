@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import val from './../variables';
-import { Log } from './../utils/Log';
+import { Log } from './../../../utils/Log';
 import { getInitData } from './../utils/ScreenType';
 
 class Intro extends Phaser.State {
@@ -16,6 +16,7 @@ class Intro extends Phaser.State {
 		this.gameType = 1;
 		this.w = this.game.width;
 		this.h = this.game.height;
+		this.screenData = getInitData(this.game);
 
 		// Mobile
 		if (this.game.width <= 500) {
@@ -25,9 +26,9 @@ class Intro extends Phaser.State {
 			this.margin_right = 10;
 
 			this.panelWidth = 380;
-			this.panelHeight = 445;
+			//this.screenData.panelHeight = 445;
 			this.panelPadding = 25;
-			this.panel_left = (this.w - this.panelWidth) / 2;
+			this.panel_left = (this.w - this.screenData.panelWidth) / 2;
 			this.panel_margin_top = 10;
 
 			this.start_width = 160;
@@ -53,14 +54,14 @@ class Intro extends Phaser.State {
 			this.margin_right = 150;
 
 			this.panelWidth = 365;
-			this.panelHeight = 435;
+			//this.screenData.panelHeight = 435;
 			this.panelPadding = 25;
 			this.panel_left = 50;
 			this.panel_margin_top = 20;
 
 
 			this.start_width = 180;
-			this.start_left = this.panel_left + this.panelWidth / 2 - this.start_width / 2;
+			this.start_left = this.panel_left + this.screenData.panelWidth / 2 - this.start_width / 2;
 			this.start_margin_top = 40;
 
 			this.font_1 = '51px';
@@ -80,12 +81,12 @@ class Intro extends Phaser.State {
 			this.margin_right = 60;
 
 			this.panelWidth = 540;
-			this.panelHeight = 640;
+			//this.screenData.panelHeight = 640;
 			this.panelPadding = 30;
 			this.panel_left = 30;
 
 			this.start_width = 220;
-			this.start_left = this.panel_left + this.panelWidth / 2 - this.start_width / 2;
+			this.start_left = this.panel_left + this.screenData.panelWidth / 2 - this.start_width / 2;
 			this.panel_margin_top = 30;
 			this.start_margin_top = 100;
 
@@ -106,7 +107,7 @@ class Intro extends Phaser.State {
 			this.margin_right = 60;
 
 			this.panelWidth = 660;
-			this.panelHeight = 780;
+			//this.screenData.panelHeight = 780;
 			this.panelPadding = 45;
 			this.panel_left = 70;
 
@@ -124,7 +125,7 @@ class Intro extends Phaser.State {
 			this.rank_margin_top = 30;
 		}
 
-		this.screenData = getInitData(this.game);
+
 	}
 
 	create() {
@@ -298,13 +299,13 @@ class Intro extends Phaser.State {
 	}
 
 	_drawPanel() {
-		let panelHeight = this.panelHeight,
+		let panelHeight = this.screenData.panelHeight,
 			panelPadding = this.panelPadding;
 
 		let diff_padding = 15;
 		let cc = this.add.group();
-		let bg1 = this.add.tileSprite(0, 0, this.panelWidth, panelHeight, 'black');
-		let bg2 = this.add.tileSprite(0, 0, this.panelWidth - (panelPadding * 2), panelHeight - (panelPadding * 2 + diff_padding * 2), 'blue-green');
+		let bg1 = this.add.tileSprite(0, 0, this.screenData.panelWidth, panelHeight, 'black');
+		let bg2 = this.add.tileSprite(0, 0, this.screenData.panelWidth - (panelPadding * 2), panelHeight - (panelPadding * 2 + diff_padding * 2), 'blue-green');
 		bg2.left = panelPadding;
 		bg2.top = panelPadding + diff_padding;
 
@@ -313,7 +314,7 @@ class Intro extends Phaser.State {
 			font: '600 ' + this.font_1 + ' AvenirNextLTPro-UltLtCn',
 			fill: '#000000',
 			wordWrap: true,
-			wordWrapWidth: this.panelWidth,
+			wordWrapWidth: this.screenData.panelWidth,
 			align: 'center'
 		};
 
@@ -321,11 +322,11 @@ class Intro extends Phaser.State {
 			font: '600 ' + this.font_2 + ' AvenirNextLTPro-BoldCn',
 			fill: '#000000',
 			wordWrap: true,
-			wordWrapWidth: this.panelWidth,
+			wordWrapWidth: this.screenData.panelWidth,
 			align: 'center'
 		};
 
-		let xText = (this.panelWidth - (panelPadding * 2)) / 2;
+		let xText = (this.screenData.panelWidth - (panelPadding * 2)) / 2;
 		let text = this.add.text(xText, this.text_margin_top, 'FIX THE LEAK', style);
 		let text2 = this.add.text(xText, 2 * this.text_margin_top, 'HALL OF FAME', style2);
 
@@ -378,7 +379,7 @@ class Intro extends Phaser.State {
 
 		cc.left = this.start_left;
 		//cc.y = this.world.height + 100;
-		cc.y = this.panelHeight + this.start_margin_top;
+		cc.y = this.screenData.panelHeight + this.start_margin_top;
 
 		switch (this.screenData.mapScreen) {
 			case 0:
@@ -390,7 +391,7 @@ class Intro extends Phaser.State {
 
 		// let tween = this.add.tween(cc);
 		// tween.to({
-		// 	y: this.panelHeight + this.start_margin_top,
+		// 	y: this.screenData.panelHeight + this.start_margin_top,
 		// 	alpha: 1
 		// }, this.animateDuration, Phaser.Easing.Circular.Out);
 		// tween.start();
@@ -404,7 +405,7 @@ class Intro extends Phaser.State {
 
 	loadLeaderboard() {
 		var _self = this;
-		const wordWrapWidth = (this.panelWidth - (this.panelPadding * 2)) / 2;
+		const wordWrapWidth = (this.screenData.panelWidth - (this.panelPadding * 2)) / 2;
 		const styleName = {
 			font: '600 ' + this.font_3 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
@@ -421,7 +422,7 @@ class Intro extends Phaser.State {
 			align: 'right'
 		};
 		let panelLeader = this.add.group();
-		panelLeader.width = this.panelWidth;
+		panelLeader.width = this.screenData.panelWidth;
 		panelLeader.top = 120;
 
 		var fix_email = localStorage.getItem('fix_user_email');
@@ -443,7 +444,7 @@ class Intro extends Phaser.State {
 				let text = this.add.text(0, index * this.margin_text, element.name, styleName);
 				text.left = 60;
 				let score = this.add.text(0, index * this.margin_text, element.score + 'PTS', styleScore);
-				score.right = this.panelWidth - (this.panelPadding * 2) - 60;
+				score.right = this.screenData.panelWidth - (this.panelPadding * 2) - 60;
 				groupScore.addChild(text);
 				groupScore.addChild(score);
 				groupScore.alpha = 0;
@@ -470,7 +471,7 @@ class Intro extends Phaser.State {
 
 				my_rank.alpha = 0;
 
-				my_rank.x = (this.panelWidth - (this.panelPadding * 2)) / 2 - my_rank.width / 2;
+				my_rank.x = (this.screenData.panelWidth - (this.panelPadding * 2)) / 2 - my_rank.width / 2;
 				panelLeader.addChild(my_rank);
 
 				let tween_rank = this.add.tween(my_rank);
