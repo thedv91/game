@@ -372,7 +372,7 @@ class Intro extends Phaser.State {
 		cc.height = this.start_width * 72 / 180;
 
 		cc.left = this.start_left;
-		cc.y = this.world.height + 100;
+		cc.y = this.panelHeight + this.start_margin_top;
 
 		//let tween = this.add.tween(cc);
 		switch (this.screenData.mapScreen) {
