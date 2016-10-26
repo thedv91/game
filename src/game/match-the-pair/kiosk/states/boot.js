@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { Log } from './../../../utils/Log';
+import { Log } from 'utils/Log';
+import { getInitData } from './../ultis/ScreenType';
 
 class Boot extends Phaser.State {
 
@@ -8,10 +9,10 @@ class Boot extends Phaser.State {
 	}
 
 	init() {
+		this.game.screenData = getInitData(this.game);
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;
-		Log.info('boot');
 	}
 
 	create() {
@@ -31,6 +32,7 @@ class Boot extends Phaser.State {
 				scale: {
 					x: 1.4,
 					y: 1.4
+
 				}
 			}
 		});
@@ -41,9 +43,8 @@ class Boot extends Phaser.State {
 
 	preload() {
 		let game = this.game;
-		this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-
-		this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+		// this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+		// this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;

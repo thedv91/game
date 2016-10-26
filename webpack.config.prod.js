@@ -70,6 +70,8 @@ export default {
 			'pixi': pixi,
 			'p2': p2
 
-		}
+		},
+		extensions: ["", ".webpack.js", ".web.js", ".js"],
+		modulesDirectories: ["game", "node_modules"]
 	}
 };

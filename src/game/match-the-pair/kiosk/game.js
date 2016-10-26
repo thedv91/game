@@ -6,13 +6,13 @@ import Play from './states/play';
 import Load from './states/load';
 import Win from './states/win';
 import { getInitData } from './ultis/ScreenType';
+import { Log } from 'utils/Log';
 
 class KioskGame extends Phaser.Game {
 
 	constructor(width = 810, height = 640, id = 'match-the-pair') {
-
 		super(width, height, Phaser.CANVAS, id);
-		this.screenData = getInitData(this);
+		this.screenData = {};
 		this.state.add('boot', Boot);
 		this.state.add('splash', Splash);
 		this.state.add('load', Load);

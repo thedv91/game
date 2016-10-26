@@ -3,7 +3,6 @@ import { Log } from './../../../utils/Log';
 export function getInitData(game) {
 	const width = game.width;
 	const height = game.height;
-	let mapScreen;
 	let data = {
 		mapScreen: 6,
 		pannel_margin_left: 75,

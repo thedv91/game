@@ -22,8 +22,8 @@ Route::get('fix-the-leak/arcade', function () {
     return view('game.fix-the-leak.arcade');
 });
 
-Route::any('memory/save-info', 'MemoryController@saveInfo');
-Route::any('memory/ranks', 'MemoryController@getHeightScore');
+Route::any('memory/save-info', 'MemoryController@saveInfo')->middleware('cors');
+Route::any('memory/ranks', 'MemoryController@getHeightScore')->middleware('cors');
 
 Route::group(['namespace' => 'Api', 'prefix' => 'api/v1', 'middleware' => 'cors'], function () {
     Route::resource('fix-the-leak', 'FixTheLeakController');

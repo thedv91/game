@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Log } from './../../../utils/Log';
+import { Log } from 'utils/Log';
 
 class Splash extends Phaser.State {
 	init() {

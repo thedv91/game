@@ -1,9 +1,9 @@
-import { Log } from './../../../utils/Log';
+import { Log } from 'utils/Log';
 
 export function getInitData(game) {
 	const width = game.width;
 	const height = game.height;
-	let mapScreen;
+
 	var data = {
 		mapScreen: 6,
 		panel_margin_left: 44,
@@ -13,14 +13,24 @@ export function getInitData(game) {
 		menu_font: '42px',
 		button_ok_margin: 60,
 		tree_margin_bottom: 65,
-		rankPaddingTop: 500,
-		startButtonPaddingTop: 950,
-		pivot: {}
+		rankPaddingTop: 0,
+		startButtonPaddingTop: 500,
+		pivot: {},
+		end_score_width: 80,
+		font_thanks: '48px',
+		info_winner_left: width / 2 - 250,
+		info_bet: 20,
+		input_width: 450,
+		input_height: 35,
+		font_size_name: 34,
+		input_margin_top: 230,
+		margin2Input: 70,
+		lineSpacing: 25
 	};
 
 	/**
 	 * 414 x 736
-	 */
+		 */
 	if (width <= 414) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
@@ -33,11 +43,21 @@ export function getInitData(game) {
 			tree_margin_bottom: 90,
 			rankPaddingTop: 0,
 			startButtonPaddingTop: 650,
+			end_score_width: 50,
+			font_thanks: '44px',
+			info_winner_left: width / 2 - 140,
+			info_bet: 10,
+			input_width: 240,
+			input_height: 18,
+			font_size_name: 24,
+			input_margin_top: 145,
+			margin2Input: 50,
+			lineSpacing: 10
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
 		 * 768 x 1024 
-		*/
+			*/
 		data = Object.assign({}, data, {
 			mapScreen: 2,
 			panel_margin_left: 30,
@@ -51,13 +71,22 @@ export function getInitData(game) {
 			startButtonPaddingTop: 930,
 			pivot: {
 				y: 15
-			}
-
+			},
+			end_score_width: 70,
+			font_thanks: '40px',
+			info_winner_left: width / 2 - 180,
+			info_bet: 15,
+			input_width: 300,
+			input_height: 20,
+			font_size_name: 30,
+			input_margin_top: 145,
+			margin2Input: 50,
+			lineSpacing: 10
 		});
 	} else if (width <= 810 && width > 768 && height <= 640) {
 		/**
 		 * 810 x 640
-		 */
+			 */
 		data = Object.assign({}, data, {
 			mapScreen: 3,
 			panel_margin_left: 30,
@@ -69,11 +98,14 @@ export function getInitData(game) {
 			tree_margin_bottom: 65,
 			rankPaddingTop: 0,
 			startButtonPaddingTop: 430,
+			info_bet: 15,
+			font_size_name: 30
+
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1020) {
 		/**
 		 * 1080 x 1020
-		 */
+			 */
 		data = Object.assign({}, data, {
 			mapScreen: 4,
 			rankPaddingTop: 200,
@@ -85,7 +117,7 @@ export function getInitData(game) {
 	} else if (width <= 1080 && width > 810 && height <= 1320 && height > 1020) {
 		/**
 		 * 1080 x 1320
-		 */
+			 */
 		data = Object.assign({}, data, {
 			mapScreen: 5,
 			rankPaddingTop: 500,
@@ -97,7 +129,7 @@ export function getInitData(game) {
 	} else if (width <= 1080 && width > 810 && height <= 1420 && height > 1320) {
 		/**
 		 * 1080 x 1420
-		 */
+			 */
 		data = Object.assign({}, data, {
 			mapScreen: 6,
 			rankPaddingTop: 600,
@@ -108,7 +140,7 @@ export function getInitData(game) {
 		});
 	}
 
-	console.log(data);
+	Log.info(data);
 
 	return data;
 }

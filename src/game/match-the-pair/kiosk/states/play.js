@@ -1,26 +1,29 @@
+import { Log } from 'utils/Log';
+
 class Play extends Phaser.State {
 
 	init(level) {
-
-		if (!level) {
-			level = 1;
-		}
-
-		// screenData = new GameType(game);
-		// console.log(screenData);
+		this.level = level || 1;
+		this.time = 0;
+		this.moves = 0;
+		this.number_row = 2;
+		this.number_col = 2;
+		this.noMatch = false;
+		this.firstClick = null;
+		this.secondClick = null;
+		this.enableClickMenu = false;
 
 	}
 	create() {
 		let game = this.game;
-		var _self = this;
-		let enableClickMenu = false;
-		let panel_height, match_the_pair_left, initBg, level;
+		let match_the_pair_left, initBg, w = game.width;
 		// Config for panel
 		if (game.width <= 810) {
-			panel_height = 57;
+			this.panel_height = 57;
 		} else {
-			panel_height = 90;
+			this.panel_height = 90;
 		}
+
 		match_the_pair_left = w / 2;
 
 		// if (game.width <= 500) {
@@ -60,22 +63,26 @@ class Play extends Phaser.State {
 		initBg = this.initBackground();
 
 		// Show intro screen when loaded
-		if (level == 1) {
-			setTimeout(function () {
-				_self.createIntro();
+		if (this.level == 1) {
+			setTimeout(() => {
+				this.introPanel = this.createIntro();
 			}, 200);
 		} else {
-			setTimeout(function () {
-				_self.initGame();
+			setTimeout(() => {
+				this.initGame();
 			}, 200);
 
 		}
 
+		this.pauseGamePanel = this.drawPauseGame();
+
+		//this.game.state.start('win', true, false, 10, 100);
 	}
 
 	resize() {
-		w = game.width;
-		h = game.height;
+		let w = game.width, h = game.height,
+			bg_h, bg_w, menu_bg, tree_play, margin_left = this.margin_left, number_col = this.number_col, number_row = this.number_row,
+			TILE_SIZE, margin_top, ground, text, menuBtn, timeBg;
 
 		// BG
 		if (1208 / w >= 814 / h) {
@@ -97,35 +104,35 @@ class Play extends Phaser.State {
 
 
 		// Resize main Game
-		margin_left = w / 2 - number_col * TILE_SIZE / 2;
+		this.margin_left = w / 2 - number_col * TILE_SIZE / 2;
 
 		if (h < 1000) {
 
-			margin_top = h / 2 - number_row * TILE_SIZE / 2 - 200;
+			this.margin_top = h / 2 - number_row * TILE_SIZE / 2 - 200;
 
 
 			if ((number_row == 6 && number_col == 5) || (number_row == 5 && number_col == 6)) {
-				margin_top = h / 2 - number_row * TILE_SIZE / 2 - 60;
+				this.margin_top = h / 2 - number_row * TILE_SIZE / 2 - 60;
 
 			}
 
 			if (number_row == 6 && number_col == 6) {
-				margin_top = h / 2 - number_row * TILE_SIZE / 2 - 60;
+				this.margin_top = h / 2 - number_row * TILE_SIZE / 2 - 60;
 			}
 
 		} else {
 
-			margin_top = h / 2 - number_row * TILE_SIZE / 2;
+			this.margin_top = h / 2 - number_row * TILE_SIZE / 2;
 		}
 
 
 
-		for (var i = 0; i < number_row; i++) {
-			for (var j = 0; j < number_col; j++) {
-				var idx = i * number_col + j;
+		for (let i = 0; i < this.number_row; i++) {
+			for (let j = 0; j < this.number_col; j++) {
+				let idx = i * this.number_col + j;
 
-				movies[idx].x = margin_left + j * TILE_SIZE + TILE_SIZE / 2;
-				movies[idx].y = margin_top + i * TILE_SIZE;
+				movies[idx].x = this.margin_left + j * TILE_SIZE + TILE_SIZE / 2;
+				movies[idx].y = this.margin_top + i * TILE_SIZE;
 			}
 		}
 
@@ -139,7 +146,9 @@ class Play extends Phaser.State {
 
 	initBackground() {
 
-		var bg_w, bg_h;
+		let game = this.game, bg_w, bg_h, w = this.game.width, h = this.game.height,
+			menu_bg, wally_margin_bottom, wally_scale, wally_swing,
+			tree_play, ground, panel_height = this.panel_height, text, menuBtn, match_the_pair_left;
 
 		if (1208 / w >= 814 / h) {
 			bg_h = h;
@@ -157,11 +166,11 @@ class Play extends Phaser.State {
 		// Add wally swing
 
 		if (h >= 768) {
-			var wally_margin_bottom = 400;
-			var wally_scale = 0.7;
+			wally_margin_bottom = 400;
+			wally_scale = 0.7;
 		} else {
-			var wally_margin_bottom = 305;
-			var wally_scale = 0.5;
+			wally_margin_bottom = 305;
+			wally_scale = 0.5;
 		}
 
 		wally_swing = game.add.sprite(w / 2 - 10, h - wally_margin_bottom, 'wally-animation');
@@ -171,11 +180,11 @@ class Play extends Phaser.State {
 
 		// add Tree
 		tree_play = game.cache.getImage('bg_play');
-		tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - screenData.tree_margin_bottom, 'bg_play');
+		tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - this.game.screenData.tree_margin_bottom, 'bg_play');
 
 		// Add top menu
 		// Here we create the ground.
-		var platforms = game.add.group();
+		let platforms = game.add.group();
 		ground = platforms.create(0, 0, 'ground');
 		ground.width = w;
 		ground.height = panel_height;
@@ -199,21 +208,20 @@ class Play extends Phaser.State {
 		}
 
 		// Addd menu button
-		menuBtn = game.add.button(game.world.width - 160, panel_height / 2 - 18, 'menu-btn', this.clickMenu, this);
-		menuBtn.input.useHandCursor = true;
+		this.menuBtn = game.add.button(game.world.width - 160, panel_height / 2 - 18, 'menu-btn', this.clickMenu.bind(this), this);
+		this.menuBtn.input.useHandCursor = true;
 	}
 
     /*
      * Update time
      * */
 	updateTime() {
-
-		time++;
+		this.time++;
 		// text_bottom.text = level+' \t'+moves+' \t'+time+'s';
 
-		text_level_number.text = level;
-		text_moves_number.text = moves;
-		text_time_number.text = time + 's';
+		this.text_level_number.text = this.level;
+		this.text_moves_number.text = this.moves;
+		this.text_time_number.text = this.time + 's';
 	}
 
     /*
@@ -221,50 +229,51 @@ class Play extends Phaser.State {
      * */
 	initGamePlay(row, col) {
 
-
-		var total_card = row * col;
-		cards = [];
-		images = [];
-		movies = [];
-		total_open = 0;
+		let game = this.game;
+		let TILE_SIZE = this.TILE_SIZE;
+		let total_card = row * col;
+		this.cards = [];
+		this.images = [];
+		this.movies = [];
+		this.total_open = 0;
 
 
 		for (var i = 0; i < total_card / 2; i++) {
-			images.push(this.game.add.sprite(0, 0, '' + i));
-			images.push(this.game.add.sprite(0, 0, '' + i));
+			this.images.push(this.game.add.sprite(0, 0, '' + i));
+			this.images.push(this.game.add.sprite(0, 0, '' + i));
 		}
 
-		this.shuffle(images);
+		this.shuffle(this.images);
 
 
 		for (var i = 0; i < row; i++) {
 			for (var j = 0; j < col; j++) {
 				var idx = i * col + j;
 				// cards[idx] = this.game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE,'back');
-				cards[idx] = this.game.add.sprite(0, 0, 'back');
-				cards[idx].anchor.setTo(0.5, 0.5);
-				cards[idx].scale.x = 1;
-				cards[idx].scale.setTo(TILE_SIZE / cards[idx]._frame.width);
+				this.cards[idx] = this.game.add.sprite(0, 0, 'back');
+				this.cards[idx].anchor.setTo(0.5, 0.5);
+				this.cards[idx].scale.x = 1;
+				this.cards[idx].scale.setTo(TILE_SIZE / this.cards[idx]._frame.width);
 
 
-				images[idx].scale.setTo(TILE_SIZE / images[idx]._frame.width);
-				images[idx].anchor.setTo(0.5, 0.5);
+				this.images[idx].scale.setTo(TILE_SIZE / this.images[idx]._frame.width);
+				this.images[idx].anchor.setTo(0.5, 0.5);
 
 
-				movies[idx] = game.add.sprite(margin_left + j * TILE_SIZE + TILE_SIZE / 2, margin_top + i * TILE_SIZE);
+				this.movies[idx] = this.game.add.sprite(this.margin_left + j * TILE_SIZE + TILE_SIZE / 2, this.margin_top + i * TILE_SIZE);
 				// movies[idx] = game.add.sprite(j*TILE_SIZE, margin_top + i*TILE_SIZE);
 				// movies[idx].x = j*TILE_SIZE;
-				movies[idx].addChild(images[idx]);
-				movies[idx].addChild(cards[idx]);
-				movies[idx].events.onInputDown.add(this.doClick, this);
-				movies[idx].inputEnabled = true;
-				movies[idx].index = idx;
+				this.movies[idx].addChild(this.images[idx]);
+				this.movies[idx].addChild(this.cards[idx]);
+				this.movies[idx].events.onInputDown.add(this.doClick, this);
+				this.movies[idx].inputEnabled = true;
+				this.movies[idx].index = idx;
 
-				movies[idx].input.useHandCursor = true;
+				this.movies[idx].input.useHandCursor = true;
 
-				game.physics.arcade.enable(movies[idx]);
-				game.physics.arcade.enable(images[idx]);
-				game.physics.arcade.enable(cards[idx]);
+				this.game.physics.arcade.enable(this.movies[idx]);
+				this.game.physics.arcade.enable(this.images[idx]);
+				this.game.physics.arcade.enable(this.cards[idx]);
 			}
 		}
 
@@ -275,11 +284,11 @@ class Play extends Phaser.State {
 		sprite.up = sprite.up || false;
         /*if (click) {
             click = false;*/
-		var tween = game.add.tween(sprite.scale).to({
+		let tween = this.game.add.tween(sprite.scale).to({
 			x: 0
 		}, 100, Phaser.Easing.Linear.None, true);
-		tween.onComplete.add(function () {
-			var back = sprite.getChildAt(1);
+		tween.onComplete.add(() => {
+			let back = sprite.getChildAt(1);
 			if (sprite.up) {
 				back.visible = true;
 			} else {
@@ -287,82 +296,82 @@ class Play extends Phaser.State {
 			}
 
 			this.flipFake(sprite);
-		}, this);
+		});
 		// }
 
 	}
 
 	flipFake(sprite) {
-		var tween = game.add.tween(sprite.scale).to({
+		let tween = this.game.add.tween(sprite.scale).to({
 			x: 1
 		}, 200, Phaser.Easing.Linear.None, true);
-		tween.onComplete.add(function () {
-			click = true;
+		tween.onComplete.add(() => {
+			this.click = true;
 			sprite.up = !sprite.up;
 		}, this);
 	}
 
 	flipFakeCorrect(sprite) {
-		var tween = game.add.tween(sprite.scale).to({
+		let tween = this.game.add.tween(sprite.scale).to({
 			x: 0
 		}, 200, Phaser.Easing.Linear.None, true);
-		tween.onComplete.add(function () {
-			click = true;
+		tween.onComplete.add(() => {
+			this.click = true;
 			sprite.up = !sprite.up;
 		}, this);
 	}
 
 	doClick(sprite) {
-		var _self = this;
+		let w = this.game.width, h = this.game.height;
 
-
-		if (firstClick == null) {
-			moves++;
-			text_moves_number.text = moves;
+		if (this.firstClick == null) {
+			this.moves++;
+			this.text_moves_number.text = this.moves;
 
 			this.flipCard(sprite);
 
-			firstClick = sprite.index;
+			this.firstClick = sprite.index;
 		}
-		else if (secondClick == null) {
+		else if (this.secondClick == null) {
 
-			moves++;
-			text_moves_number.text = moves;
+			this.moves++;
+			this.text_moves_number.text = this.moves;
 			this.flipCard(sprite);
 
-			secondClick = sprite.index;
-			if (secondClick == firstClick) {
-				secondClick = null;
-				firstClick = null;
+			this.secondClick = sprite.index;
+			if (this.secondClick == this.firstClick) {
+				this.secondClick = null;
+				this.firstClick = null;
 				return;
 			}
 
 
-			if (images[firstClick].key === images[secondClick].key) {
+			if (this.images[this.firstClick].key === this.images[this.secondClick].key) {
 
-				setTimeout(function () {
-					_self.flipFakeCorrect(movies[firstClick]);
-					_self.flipFakeCorrect(movies[secondClick]);
+				setTimeout(() => {
+					this.flipFakeCorrect(this.movies[this.firstClick]);
+					this.flipFakeCorrect(this.movies[this.secondClick]);
 
 					// firstClick = null; secondClick = null;
 				}, 800);
-				setTimeout(function () {
-					firstClick = null; secondClick = null;
+				setTimeout(() => {
+					this.firstClick = null;
+					this.secondClick = null;
 				}, 1000);
 
-				total_open = total_open + 2;
+				this.total_open = this.total_open + 2;
 
 				// we have a match
-				score += 1;
+				this.score += 1;
 
 
-				if (total_open == number_col * number_row) {
+				if (this.total_open == this.number_col * this.number_row) {
 
-					setTimeout(function () {
-						cards = [];
-						images = [];
-						movies = [];
-						game.state.start('win');
+					setTimeout(() => {
+						this.cards = [];
+						this.images = [];
+						this.movies = [];
+						this.game.state.start('win');
 
 						// We start the win state
 
@@ -373,20 +382,20 @@ class Play extends Phaser.State {
 			else {
 				// no match
 				//score -= 5;
-				noMatch = true;
+				this.noMatch = true;
 			}
 		}
 		else {
 			return; // don't allow a third click, instead wait for the update loop to flip back after 0.5 seconds
 		}
 
-		clickTime = sprite.game.time.totalElapsedSeconds();
+		this.clickTime = sprite.game.time.totalElapsedSeconds();
 		// sprite.visible = false;
 		// images[sprite.index].visible = true;
 	}
 
 	shuffle(o) {
-		for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		for (let j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 		return o;
 	}
 
@@ -395,31 +404,32 @@ class Play extends Phaser.State {
      * */
 	managerTime() {
 
-		is_playing = 1;
+		this.is_playing = 1;
+		let w = this.game.width, h = this.game.height;
 
-		var style = { font: "24px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
-		var style_bottom = { font: "bold 40px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
+		let style = { font: "24px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
+		let style_bottom = { font: "bold 40px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
 
-		manager_time = game.add.group();
+		let manager_time = this.game.add.group();
 		manager_time.x = 0;
 		manager_time.y = h - 70;
 
 
-		var text_level = game.add.text(0, 0, 'LEVEL \n', style);
+		let text_level = this.game.add.text(0, 0, 'LEVEL \n', style);
 		text_level.setTextBounds(0, 0, 0, 0);
-		text_level_number = game.add.text(0, 25, level, style_bottom);
-		text_level_number.setTextBounds(0, 0, 0, 0);
+		this.text_level_number = this.game.add.text(0, 25, this.level, style_bottom);
+		this.text_level_number.setTextBounds(0, 0, 0, 0);
 
-		var text_moves = game.add.text(text_level.width + 20, 0, 'MOVES', style);
+		let text_moves = this.game.add.text(text_level.width + 20, 0, 'MOVES', style);
 		text_moves.setTextBounds(0, 0, 0, 0);
-		text_moves_number = game.add.text(text_level.width + 20, 25, moves, style_bottom);
-		text_moves_number.setTextBounds(0, 0, 0, 0);
+		this.text_moves_number = this.game.add.text(text_level.width + 20, 25, this.moves, style_bottom);
+		this.text_moves_number.setTextBounds(0, 0, 0, 0);
 
 
-		var text_time = game.add.text(text_level.width + text_moves.width + 30, 0, 'TIME', style);
+		let text_time = this.game.add.text(text_level.width + text_moves.width + 30, 0, 'TIME', style);
 		text_time.setTextBounds(0, 0, 0, 0);
-		text_time_number = game.add.text(text_level.width + text_moves.width + 30, 25, time + 's', style_bottom);
-		text_time_number.setTextBounds(0, 0, 0, 0);
+		this.text_time_number = this.game.add.text(text_level.width + text_moves.width + 30, 25, this.time + 's', style_bottom);
+		this.text_time_number.setTextBounds(0, 0, 0, 0);
 
 
 		// Add Level table
@@ -433,14 +443,14 @@ class Play extends Phaser.State {
 		// manager_time.add(text_bottom);
 
 		manager_time.add(text_level);
-		manager_time.add(text_level_number);
+		manager_time.add(this.text_level_number);
 		manager_time.add(text_moves);
-		manager_time.add(text_moves_number);
+		manager_time.add(this.text_moves_number);
 		manager_time.add(text_time);
-		manager_time.add(text_time_number);
+		manager_time.add(this.text_time_number);
 
 		let temp = (text_level.width + text_moves.width + text_time.width) / 2;
-		game.add.tween(manager_time).to({ x: w / 2 - temp }, 1000, Phaser.Easing.Bounce.Out, true);
+		this.game.add.tween(manager_time).to({ x: this.game.width / 2 - temp }, 1000, Phaser.Easing.Bounce.Out, true);
 
 	}
 
@@ -449,121 +459,127 @@ class Play extends Phaser.State {
      * */
 
 	createIntro() {
+		let cc = this.add.group();
+		let panel_height = this.panel_height;
+		let w = this.game.width, h = this.game.height;
+		this.menuIntro = this.game.add.sprite(this.game.screenData.panel_margin_left, panel_height + 25, 'pause');
+		this.menuIntro.width = this.game.width - this.game.screenData.panel_margin_left * 2;
+		this.menuIntro.height = this.game.height - panel_height - 50;
+		this.menuIntro.alpha = 0;
 
-		menuIntro = game.add.sprite(screenData.panel_margin_left, 0, 'pause');
-		menuIntro.width = game.width - screenData.panel_margin_left * 2;
-		menuIntro.height = game.height - panel_height - 50;
-		menuIntro.alpha = 0.95;
-
-		game.add.tween(menuIntro).to({ y: panel_height + 25 }, 500, Phaser.Easing.Back.Out, true);
+		this.game.add.tween(this.menuIntro).to({ alpha: 1 }, 500, Phaser.Easing.Linear.Out, true);
 
 		//Text Bold
-		var text_bold = { font: screenData.bold_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
-		instructions = game.add.text(w / 2, 0, 'INSTRUCTIONS', text_bold);
-		instructions.anchor.set(0.5, 1);
+		let text_bold = { font: this.game.screenData.bold_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+		this.instructions = this.game.add.text(this.game.width / 2, this.game.height / 2 - this.game.screenData.intro_margin_top, 'INSTRUCTIONS', text_bold);
+		this.instructions.anchor.set(0.5, 1);
 
-		game.add.tween(instructions).to({ y: h / 2 - screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
+		//this.game.add.tween(this.instructions).to({ y: this.game.height / 2 - this.game.screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
 
-		lineHR = game.add.tileSprite(w / 2, 0, instructions.width, 2, 'green-dark');
-		lineHR.anchor.setTo(0.5, 1);
-		game.add.tween(lineHR).to({ y: h / 2 - screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
+		this.lineHR = this.game.add.tileSprite(w / 2, h / 2 - this.game.screenData.intro_margin_top, this.instructions.width, 2, 'green-dark');
+		this.lineHR.anchor.setTo(0.5, 1);
+		//this.game.add.tween(this.lineHR).to({ y: h / 2 - this.game.screenData.intro_margin_top }, 1000, Phaser.Easing.Back.Out, true);
 
 
 		// Add text in center pause game
-		var style_level = { font: "bold " + screenData.intro_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
-		text_pause = game.add.text(w / 2, 0, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN " +
-			"\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
-		text_pause.anchor.set(0.5, 1);
-		text_pause.lineSpacing = 1;
+		let style_level = { font: "bold " + this.game.screenData.intro_font + " AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+		this.text_pause = this.game.add.text(w / 2, h / 2 - this.game.screenData.intro_margin_top + 20, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN" + "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
+		this.text_pause.anchor.set(0.5, 0);
+		this.text_pause.lineSpacing = 1;
 
 
-		game.add.tween(text_pause).to({ y: h / 2 - screenData.intro_margin_top + text_pause.height + 20 }, 1000, Phaser.Easing.Back.Out, true);
+		//this.game.add.tween(this.text_pause).to({ y: h / 2 - this.game.screenData.intro_margin_top + this.text_pause.height + 20 }, 1000, Phaser.Easing.Back.Out, true);
 
 
-		okBtn = game.add.button(w / 2, 0, 'ok', '', '');
-		okBtn.anchor.set(0.5);
-		okBtn.onInputDown.add(this.initGame, this);
-		okBtn.input.useHandCursor = true;
+		this.okBtn = this.game.add.button(w / 2, h / 2 - this.game.screenData.intro_margin_top + this.text_pause.height + 20 + this.game.screenData.button_ok_margin, 'ok', '', '');
+		this.okBtn.anchor.set(0.5);
+		this.okBtn.onInputDown.add(this.initGame, this);
+		this.okBtn.input.useHandCursor = true;
+		cc.add(this.menuIntro);
+		cc.add(this.instructions);
+		cc.add(this.lineHR);
+		cc.add(this.text_pause);
+		cc.add(this.okBtn);
+		return cc;
 
-		game.add.tween(okBtn).to({ y: h / 2 - screenData.intro_margin_top + text_pause.height + 20 + screenData.button_ok_margin }, 1000, Phaser.Easing.Back.Out, true);
+		//this.game.add.tween(this.okBtn).to({ alpha: 1 }, 1000, Phaser.Easing.Linear.Out, true);
 	}
 
 	initGame() {
+		this.enableClickMenu = true;
+		this.okBtn.destroy();
+		this.menuIntro.destroy();
+		this.instructions.destroy();
+		this.lineHR.destroy();
+		this.text_pause.destroy();
 
-		var _self = this;
-		enableClickMenu = true;
-		okBtn.destroy();
-		menuIntro.destroy();
-		instructions.destroy();
-		lineHR.destroy();
-		text_pause.destroy();
+		this.game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
 
-		game.time.events.loop(Phaser.Timer.SECOND, _self.updateTime, _self);
+		this.managerTime();
+		let w = this.game.width, h = this.game.height;
 
-		_self.managerTime();
-
-		switch (level) {
+		switch (this.level) {
 			case 1:
-				number_row = 4;
-				number_col = 4;
+				this.number_row = 4;
+				this.number_col = 4;
 				break;
 			case 2:
-				number_row = 4;
-				number_col = 5;
+				this.number_row = 4;
+				this.number_col = 5;
 				break;
 			case 3:
-				number_row = 5;
-				number_col = 6;
+				this.number_row = 5;
+				this.number_col = 6;
 				break;
 			case 4:
-				number_row = 6;
-				number_col = 5;
+				this.number_row = 6;
+				this.number_col = 5;
 				break;
 			case 5:
-				number_row = 6;
-				number_col = 6;
+				this.number_row = 6;
+				this.number_col = 6;
 				break;
 			default:
-				number_row = 4;
-				number_col = 4;
+				this.number_row = 4;
+				this.number_col = 4;
 				break;
 		}
 
-		if (game.width < 500) {
-			TILE_SIZE = (5 * w / 6) / number_col;
+		if (this.game.width < 500) {
+			this.TILE_SIZE = (5 * w / 6) / this.number_col;
 		} else {
-			TILE_SIZE = (3 * h / 7) / number_row;
+			this.TILE_SIZE = (3 * h / 7) / this.number_row;
 		}
 
 
-		margin_left = w / 2 - number_col * TILE_SIZE / 2;
+		this.margin_left = w / 2 - this.number_col * this.TILE_SIZE / 2;
 
 		if (h < 1000) {
 
-			margin_top = h / 2 - number_row * TILE_SIZE / 2 - 120;
+			this.margin_top = h / 2 - this.number_row * this.TILE_SIZE / 2 - 120;
 
 
-			if ((number_col == 6 && number_col == 5) || (number_col == 5 && number_col == 6)) {
+			if ((this.number_col == 6 && this.number_col == 5) || (this.number_col == 5 && this.number_col == 6)) {
 
-				margin_top = h / 2 - number_row * TILE_SIZE / 2 - 90;
+				this.margin_top = h / 2 - this.number_row * this.TILE_SIZE / 2 - 90;
 
 
 			}
 
-			if (number_row == 6 && number_col == 6) {
-				margin_top = h / 2 - number_row * TILE_SIZE / 2 - 100;
+			if (this.number_row == 6 && this.number_col == 6) {
+				this.margin_top = h / 2 - this.number_row * this.TILE_SIZE / 2 - 100;
 			}
 
 		} else {
 
-			margin_top = h / 2 - number_row * TILE_SIZE / 2;
+			this.margin_top = h / 2 - this.number_row * this.TILE_SIZE / 2;
 		}
 
-		if ((margin_top - TILE_SIZE / 2) <= panel_height) {
-			margin_top = panel_height + TILE_SIZE / 2 + 10;
+		if ((this.margin_top - this.TILE_SIZE / 2) <= this.panel_height) {
+			this.margin_top = this.panel_height + this.TILE_SIZE / 2 + 10;
 		}
 
-		_self.initGamePlay(number_row, number_col);
+		this.initGamePlay(this.number_row, this.number_col);
 
 
 	}
@@ -573,69 +589,97 @@ class Play extends Phaser.State {
      * */
 	clickMenu() {
 
-		if (!enableClickMenu) return false;
-		enableClickMenu = false;
-		game.time.events.pause();
+		if (!this.enableClickMenu)
+			return false;
+		this.enableClickMenu = false;
+		//this.game.time.events.pause();
 
-		// Then add the menu
-		menu = game.add.sprite(screenData.panel_margin_left, 0, 'pause');
-		menu.width = game.width - screenData.panel_margin_left * 2;
-		menu.height = game.height - panel_height - 50;
-		menu.alpha = 0.95;
+		Log.info('actionMenuOnClick');
+		if (!this.menuBtn.lock) {
+			this.menuBtn.lock = true;
+			this.gamePause = true;
+			let tween = this.add.tween(this.pauseGamePanel);
+			tween.to({
+				alpha: 1,
+				visible: true
+			}, 500, Phaser.Easing.Linear.In, true);
 
-		game.add.tween(menu).to({ y: panel_height + 25 }, 1000, Phaser.Easing.Bounce.Out, true);
+			tween.onComplete.add(() => {
+				this.menuButton.lock = true;
+				this.time.events.pause();
+			});
+		}
 
-		// Add text in center pause game
-		var style_level = { font: "bold " + screenData.menu_font + " AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
-		text_pause = game.add.text(w / 2, 0, "GOING TO THE MENU \nWILL END THE GAME", style_level);
-		text_pause.anchor.set(0.5, 1);
-
-		game.add.tween(text_pause).to({ y: h / 2 }, 1000, Phaser.Easing.Bounce.Out, true);
-
-		// Add two button
-		endGame = game.add.button(w / 2 - 160, 0, 'end-game', this.clickEndGame);
-		// endGame.scale.setTo(0.25);
-		endGame.input.useHandCursor = true;
-		game.add.tween(endGame).to({ y: h / 2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
-
-		continueGame = game.add.button(w / 2, 0, 'continue', this.clickContinueGame);
-		// continueGame.scale.setTo(0.25);
-		continueGame.input.useHandCursor = true;
-		game.add.tween(continueGame).to({ y: h / 2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
 
 	}
 
+	drawPauseGame() {
+		let w = this.game.width, h = this.game.height;
+		// Then add the menu
+		let cc = this.add.group();
+		cc.visible = false;
+		let bg = this.add.sprite(this.game.screenData.panel_margin_left, this.panel_height + 25, 'pause');
+		bg.width = this.game.width - this.game.screenData.panel_margin_left * 2;
+		bg.height = this.game.height - this.panel_height - 50;
+
+		//this.game.add.tween(this.menu).to({ y: this.panel_height + 25 }, 1000, Phaser.Easing.Bounce.Out, true);
+
+		// Add text in center pause game
+		let style_level = { font: "bold " + this.game.screenData.menu_font + " AvenirNextLTProHeavyCn", fill: "#455912", boundsAlignH: "center", boundsAlignV: "middle" };
+		let text_pause = this.game.add.text(w / 2, h / 2, "GOING TO THE MENU \nWILL END THE GAME", style_level);
+		text_pause.anchor.set(0.5, 1);
+
+		//this.game.add.tween(text_pause).to({ y: h / 2 }, 1000, Phaser.Easing.Bounce.Out, true);
+
+		// Add two button
+		let endGameButton = this.game.add.button(w / 2 - 160, h / 2 + 50, 'end-game', this.clickEndGame);
+		// endGame.scale.setTo(0.25);
+		endGameButton.input.useHandCursor = true;
+		//this.game.add.tween(endGameButton).to({ y: h / 2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
+
+		this.continueGameButton = this.game.add.button(w / 2, h / 2 + 50, 'continue', this.clickContinueGame);
+		// continueGame.scale.setTo(0.25);
+		this.continueGameButton.input.useHandCursor = true;
+		//this.game.add.tween(this.continueGameButton).to({ y: h / 2 + 50 }, 1000, Phaser.Easing.Bounce.Out, true);
+		cc.add(bg);
+		cc.add(text_pause);
+		cc.add(endGameButton);
+		cc.add(this.continueGameButton);
+		cc.alpha = 0;
+		return cc;
+	}
+
 	clickContinueGame() {
-		enableClickMenu = true;
-		menu.destroy();
-		text_pause.destroy();
-		endGame.destroy();
-		continueGame.destroy();
-		game.time.events.resume();
+		this.enableClickMenu = true;
+		this.menu.destroy();
+		this.text_pause.destroy();
+		this.endGame.destroy();
+		this.continueGame.destroy();
+		this.game.time.events.resume();
 	}
 
 	clickEndGame() {
 		// remove All image card
-		cards = [];
-		images = [];
-		moves = 0;
-		time = 0;
-		score = 0;
+		this.cards = [];
+		this.images = [];
+		this.moves = 0;
+		this.time = 0;
+		this.score = 0;
 
 		// game.state.start('menu');
-		game.stateTransition.to('menu');
+		this.game.stateTransition.to('menu');
 	}
 
 	update() {
 
-		if (noMatch) {
-			if (this.game.time.totalElapsedSeconds() - clickTime > 1) {
-				noMatch = false;
+		if (this.noMatch) {
+			if (this.game.time.totalElapsedSeconds() - this.clickTime > 1) {
+				this.noMatch = false;
 
-				this.flipCard(movies[firstClick]);
-				this.flipCard(movies[secondClick]);
+				this.flipCard(this.movies[this.firstClick]);
+				this.flipCard(this.movies[this.secondClick]);
 
-				firstClick = null; secondClick = null;
+				this.firstClick = null; this.secondClick = null;
 			}
 		}
 
@@ -643,10 +687,10 @@ class Play extends Phaser.State {
 	}
 
 	toWinStage() {
-		cards = [];
-		images = [];
+		this.cards = [];
+		this.images = [];
 		// We start the win state
-		game.state.start('win');
+		this.game.state.start('win', true, true, this.moves, this.time);
 	}
 }
 
