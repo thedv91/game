@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getInitData } from './../utils/ScreenType';
 
 class Boot extends Phaser.State {
 
@@ -16,7 +17,7 @@ class Boot extends Phaser.State {
 
         /*this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;*/
-
+		this.game.screenData = getInitData(this.game);
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;

@@ -167,8 +167,8 @@ export function getInitData(game) {
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
-			panelWidth: 540,
-			panelHeight: 640,
+			panelWidth: 365,
+			panelHeight: 435,
 			pivot: {
 				x: 20
 			}

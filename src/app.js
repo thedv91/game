@@ -55,7 +55,7 @@ import MatchThePairKioskGame from './game/match-the-pair/kiosk/game';
 export function FixTheLeakArcade(dom) {
 	//new FixTheLeakArcadeGame('100%', '100%', dom);
 	if (window.innerHeight > 810) {
-		if (window.innerWidth >= 1024) {
+		if (window.innerWidth > 1080) {
 			new FixTheLeakArcadeGame(1280, 1011, dom);
 		} else if (window.innerHeight > 950) {
 			new FixTheLeakArcadeGame('100%', '100%', dom);

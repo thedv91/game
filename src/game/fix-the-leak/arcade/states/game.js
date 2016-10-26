@@ -4,7 +4,6 @@ import val from './../variables';
 import BgOverlay from './../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
 import BeginButton from './../objects/BeginButton';
-import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
 import { LevelData } from './../data/GameData';
 import { Log } from './../../../utils/Log';
@@ -30,7 +29,6 @@ class Game extends Phaser.State {
 		this.levelData = _.find(LevelData, { level: this.level });
 		Log.debug(this.levelData);
 		this.resetGame();
-		this.screenData = getInitData(this.game);
 		this.timeScale = this.levelData.time * 1000;
 		this.time_play = this.timeScale;
 		this.totalTime = time;
@@ -178,7 +176,7 @@ class Game extends Phaser.State {
 			if (this.time_play > 0) {
 				//this.time_play = this.time_play + 1;
 				this.time_play = ((this.timeScale -= this.game.time.elapsedMS) / 1000).toFixed(1);
-				if (this.screenData.smallScreen) {
+				if (this.game.screenData.smallScreen) {
 					this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
 				} else {
 					this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
@@ -189,19 +187,19 @@ class Game extends Phaser.State {
 
 	_drawScore() {
 		var style_top = {
-			font: '500 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: "#fff",
-			tabs: this.screenData.tabs
+			tabs: this.game.screenData.tabs
 		};
 		var style_under = {
-			font: '500 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: "#fff",
-			tabs: this.screenData.tabs
+			tabs: this.game.screenData.tabs
 		};
 
 		let timePlay = (this.time_play / 1000).toFixed(1);
 
-		if (this.screenData.smallScreen) {
+		if (this.game.screenData.smallScreen) {
 			this.add.text(this.game.width / 2 + 40, this.game.height - 190, "LEVEL", style_top);
 			this.text_score_top = this.add.text(this.game.width / 2 + 60, this.game.height - 150, this.level, style_under);
 
@@ -210,8 +208,8 @@ class Game extends Phaser.State {
 
 		} else {
 
-			this.add.text(this.game.width / 2, this.game.height - this.screenData.textNameMargin, "LEVEL\tTIME\tSCORE", style_top);
-			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.screenData.scoreMargin, '  ' + this.level + '\t' + timePlay + 's\t' + this.score_game, style_under);
+			this.add.text(this.game.width / 2, this.game.height - this.game.screenData.textNameMargin, "LEVEL\tTIME\tSCORE", style_top);
+			this.text_score = this.add.text(this.game.width / 2, this.game.height - this.game.screenData.scoreMargin, '  ' + this.level + '\t' + timePlay + 's\t' + this.score_game, style_under);
 
 		}
 	}
@@ -251,10 +249,10 @@ class Game extends Phaser.State {
 
 	_drawPipes() {
 		let layer;
-		let scale_maps = this.screenData.scale_maps;
-		let map = this.add.tilemap(this.screenData.map);
-		map.addTilesetImage(this.screenData.pipes);
-		map.addTilesetImage(this.screenData.water);
+		let scale_maps = this.game.screenData.scale_maps;
+		let map = this.add.tilemap(this.game.screenData.map);
+		map.addTilesetImage(this.game.screenData.pipes);
+		map.addTilesetImage(this.game.screenData.water);
 
 		layer = map.createLayer('Tile Layer 1');
 		layer.fixedToCamera = false;
@@ -268,10 +266,10 @@ class Game extends Phaser.State {
 
 
 		this.waters = this.game.add.group();
-		Object.assign(this.waters.pivot, this.screenData.pivot);
+		Object.assign(this.waters.pivot, this.game.screenData.pivot);
 		//this.waters.y = -20;
 		this.waters.enableBody = true;
-		map.createFromObjects('Object Layer 1', this.screenData.gid, this.screenData.water, 0, true, false, this.waters);
+		map.createFromObjects('Object Layer 1', this.game.screenData.gid, this.game.screenData.water, 0, true, false, this.waters);
 
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
@@ -349,7 +347,7 @@ class Game extends Phaser.State {
 		sprite.visible = false;
 		this.score_game++;
 
-		if (this.screenData.smallScreen) {
+		if (this.game.screenData.smallScreen) {
 			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
 		} else {
 			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
@@ -408,7 +406,7 @@ class Game extends Phaser.State {
 	_drawAnimator() {
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.screenData.animatorWidth / 502);
+		cc.scale.setTo(this.game.screenData.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -420,14 +418,14 @@ class Game extends Phaser.State {
 		cc.animations.add('walk');
 
 		cc.animations.play('walk', 15, true);
-		cc.scale.setTo(this.screenData.animatorScale);
+		cc.scale.setTo(this.game.screenData.animatorScale);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
 	}
 
 	_drawIntroduction() {
-		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -436,40 +434,40 @@ class Game extends Phaser.State {
 		cc.alpha = 0;
 		cc.visible = false;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 		const style = {
-			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.game.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
 		};
 
 		const styleGuide = {
-			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-DemiCn',
+			font: '500 ' + this.game.screenData.des_font + 'px AvenirNextLTPro-DemiCn',
 			fill: '#000000',
 			align: 'center'
 		};
 
 		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
 		text1.anchor.setTo(0.5);
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.game.screenData.cLine, text1.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
-		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
+		const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.game.screenData.intro_font, 'TAP ON THE LEAKS TO FIX THEM. \nFIX AS MANY LEAKS AS YOU CAN \nWITHIN THE ALLOCATED TIME.', styleGuide);
 		text2.anchor.setTo(0.5);
 
-		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.actionOkOnClick.bind(this));
+		this.okButton = new OkButton(this.game, this.game.width / 2, panelHeight / 3 + text2.height + this.panelHeight + 70 + 1.5 * this.game.screenData.intro_font, this.actionOkOnClick.bind(this));
 		this.add.existing(this.okButton);
 		this.okButton.anchor.setTo(0.5);
-		this.okButton.scale.setTo(this.screenData.buttonScale);
+		this.okButton.scale.setTo(this.game.screenData.buttonScale);
 		this.okButton.alpha = 1;
 		this.okButton.lock = true;
 
-		let button_scale = this.screenData.ok_width / 124;
+		let button_scale = this.game.screenData.ok_width / 124;
 		this.okButton.scale.setTo(button_scale);
 
 		cc.addChild(bg);
@@ -482,7 +480,7 @@ class Game extends Phaser.State {
 	}
 
 	_drawUpLevel(level = 2, score = null) {
-		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -492,21 +490,21 @@ class Game extends Phaser.State {
 		cc.alpha = 0;
 		cc.visible = false;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '500 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.game.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
 		};
 
 		const styleGuide = {
-			font: '500 ' + this.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '500 ' + this.game.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
@@ -514,19 +512,19 @@ class Game extends Phaser.State {
 		const upLevel = this.level + 1;
 		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'Level ' + upLevel, style);
 		text1.anchor.setTo(0.5);
-		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.screenData.cLine, text1.width, 2, 'black');
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.game.screenData.cLine, text1.width, 2, 'black');
 		lineHR.anchor.setTo(0.5);
 
-		// const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
+		// const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.game.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
 		// text2.anchor.setTo(0.5);
 
-		this.beginButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.screenData.intro_font, this.nextLevelClick.bind(this));
+		this.beginButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.game.screenData.intro_font, this.nextLevelClick.bind(this));
 		this.add.existing(this.beginButton);
 		this.beginButton.anchor.setTo(0.5);
 		this.beginButton.alpha = 1;
 		this.beginButton.lock = true;
 
-		let button_scale = this.screenData.ok_width / 124;
+		let button_scale = this.game.screenData.ok_width / 124;
 		this.beginButton.scale.setTo(button_scale);
 
 		cc.addChild(bg);
@@ -540,7 +538,7 @@ class Game extends Phaser.State {
 
 	_drawPauseGame() {
 
-		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -550,14 +548,14 @@ class Game extends Phaser.State {
 		cc.alpha = 0;
 		cc.visible = false;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.screenData.intro_font + 'px ' + val.font,
+			font: '600 ' + this.game.screenData.intro_font + 'px ' + val.font,
 			fill: '#000000',
 			align: 'center'
 		};
@@ -567,17 +565,17 @@ class Game extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
-		this.endGameBtn.scale.setTo(this.screenData.buttonScale);
+		this.endGameBtn.scale.setTo(this.game.screenData.buttonScale);
 
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
-		this.continueBtn.scale.setTo(this.screenData.buttonScale);
+		this.continueBtn.scale.setTo(this.game.screenData.buttonScale);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
 
@@ -590,7 +588,7 @@ class Game extends Phaser.State {
 	}
 
 	_drawGameOver() {
-		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
@@ -600,14 +598,14 @@ class Game extends Phaser.State {
 		cc.alpha = 0;
 		cc.visible = false;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.screenData.intro_font + 'px ' + val.font,
+			font: '600 ' + this.game.screenData.intro_font + 'px ' + val.font,
 			fill: '#000000',
 			align: 'center'
 		};
@@ -617,13 +615,13 @@ class Game extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameOverBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameOverBtn = this.add.button(this.game.width / 2 - this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameOverBtn.anchor.setTo(0.5);
 		this.endGameOverBtn.alpha = 1;
 		this.endGameOverBtn.lock = true;
 
 		// Continue Btn
-		this.tryAgain = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionTryAgainClick.bind(this), this, 1, 0, 2);
+		this.tryAgain = this.add.button(this.game.width / 2 + this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'continue', this.actionTryAgainClick.bind(this), this, 1, 0, 2);
 		this.tryAgain.anchor.setTo(0.5);
 		this.tryAgain.alpha = 1;
 		this.tryAgain.lock = true;
@@ -685,7 +683,7 @@ class Game extends Phaser.State {
 		this.menuButton.lock = true;
 
 		const style = {
-			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-UltLtCn',
+			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-UltLtCn',
 			fill: '#FFFFFF',
 			wordWrap: true,
 			wordWrapWidth: this.game.width,
@@ -693,7 +691,7 @@ class Game extends Phaser.State {
 		};
 
 		let text;
-		if (this.screenData.smallScreen) {
+		if (this.game.screenData.smallScreen) {
 			text = this.add.text(50, 10, 'FIX THE LEAKS', style);
 			text.y = (this.panelHeight - text.height) / 2;
 		} else {
