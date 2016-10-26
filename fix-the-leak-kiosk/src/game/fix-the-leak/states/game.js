@@ -371,7 +371,7 @@ export default class Game extends Phaser.State {
 
 
 		const style = {
-			font: '500 ' + this.game.screenData.intro_font + 'px ' + this.game.screenData.intro_font_family,
+			font: '500 ' + this.game.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center',
 			fontWeight: 'bold'
@@ -380,8 +380,7 @@ export default class Game extends Phaser.State {
 		const styleGuide = {
 			font: '500 ' + this.game.screenData.des_font + 'px ' + this.game.screenData.intro_font_family,
 			fill: '#000000',
-			align: 'center',
-			fontWeight: 'bold'
+			align: 'center'
 		};
 
 		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'INSTRUCTIONS', style);
