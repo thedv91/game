@@ -264,12 +264,12 @@ class Intro extends Phaser.State {
 		let animator = this.add.sprite(-20, -155, 'animators');
 
 		animator.animations.add('walk');
-
+		animator.y = 0;
 		animator.animations.play('walk', 15, true);
 
-		animator.anchor.setTo(0.5);
+		animator.anchor.setTo(0.5, 1);
 
-		animator.scale.setTo(-1, 1);
+		animator.scale.setTo(...this.game.screenData.animatorIntroScale);
 
 		cc.addChild(pond);
 		cc.addChild(pond1);

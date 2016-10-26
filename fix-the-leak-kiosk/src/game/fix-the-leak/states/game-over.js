@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
-import { getInitData } from './../utils/ScreenType';
 import Keyboard from './../objects/Keyboard';
 
 class GameOver extends Phaser.State {
@@ -12,7 +11,6 @@ class GameOver extends Phaser.State {
 	}
 
 	init(score, time) {
-		this.screenData = getInitData(this.game);
 		this.gameType = 0;
 		this.score_game = score;
 		this.time_play = time;
@@ -130,7 +128,8 @@ class GameOver extends Phaser.State {
 
 	_drawPanel() {
 		let cc = this.add.tileSprite(0, 0, this.game.width, this.panelHeight, 'blue');
-		cc.y = -this.panelHeight;
+		//cc.y = -this.panelHeight;
+		cc.y = 0;
 		this.menuButton = this.add.button(0, this.panelHeight / 2, 'menu-button', this.actionMenuOnClick.bind(this));
 		this.menuButton.scale.setTo(0.6);
 		this.menuButton.anchor.setTo(0.5);
@@ -159,15 +158,6 @@ class GameOver extends Phaser.State {
 		cc.addChild(text);
 		cc.addChild(this.menuButton);
 
-		let tween = this.add.tween(cc);
-		tween.to({
-			y: 0
-		}, 500, Phaser.Easing.Bounce.Out, true);
-
-		tween.onComplete.add(() => {
-			this.menuButton.lock = false;
-		});
-
 		return cc;
 	}
 
@@ -176,8 +166,8 @@ class GameOver extends Phaser.State {
 			this.menuButton.lock = true;
 			let tween = this.add.tween(this.pauseGame);
 			tween.to({
-				x: 0,
-				alpha: 1
+				alpha: 1,
+				visible: true
 			}, 1000, Phaser.Easing.Exponential.Out, true);
 
 			tween.onComplete.add(() => {
@@ -190,22 +180,24 @@ class GameOver extends Phaser.State {
 
 	_drawPauseGame() {
 
-		const panelWidth = this.game.width - 2 * this.screenData.pannel_margin_left,
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
 			overlayHeight = this.game.height - this.panelHeight,
 			panelHeight = overlayHeight - 50;
 
 		let cc = this.add.group();
-		cc.x = -this.game.width;
+		//cc.x = -this.game.width;
+		cc.x = 0;
 		cc.alpha = 0;
 		cc.width = this.game.width;
-		let bg = this.add.sprite(this.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		cc.visible = false;
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
 		bg.width = panelWidth;
 		bg.height = panelHeight;
 		bg.alpha = 0.9;
 
 
 		const style = {
-			font: '600 ' + this.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			align: 'center'
 		};
@@ -215,13 +207,13 @@ class GameOver extends Phaser.State {
 		text2.anchor.setTo(0.5);
 
 		// End Game Btn
-		this.endGameBtn = this.add.button(this.game.width / 2 - this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
+		this.endGameBtn = this.add.button(this.game.width / 2 - this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
-		this.continueBtn = this.add.button(this.game.width / 2 + this.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
+		this.continueBtn = this.add.button(this.game.width / 2 + this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
@@ -255,9 +247,9 @@ class GameOver extends Phaser.State {
 
 
 		tween_pause.to({
-			x: 0,
-			alpha: 0
-		}, 1000, Phaser.Easing.Cubic.InOut, true);
+			alpha: 0,
+			visible: false
+		}, 1000, Phaser.Easing.Linear.Out, true);
 
 		tween_pause.onComplete.add(() => {
 			this.time.events.resume();
@@ -281,7 +273,7 @@ class GameOver extends Phaser.State {
 	_drawAnimator() {
 		let cc = this.add.sprite(0, 0, 'animator-end');
 		cc.anchor.setTo(0.5);
-		cc.scale.setTo(this.screenData.animatorWidth / 502);
+		cc.scale.setTo(this.game.screenData.animatorWidth / 502);
 		cc.bottom = this.game.height;
 		cc.left = 0;
 		return cc;
@@ -294,8 +286,8 @@ class GameOver extends Phaser.State {
 
 		cc.animations.play('walk', 15, true);
 
-		cc.scale.setTo(this.screenData.animatorScale);
-		//cc.scale.setTo(this.screenData.animatorWidth/250);
+		cc.scale.setTo(this.game.screenData.animatorScale);
+		//cc.scale.setTo(this.game.screenData.animatorWidth/250);
 		cc.bottom = this.game.height - 20;
 		cc.left = 0;
 		return cc;
@@ -303,12 +295,12 @@ class GameOver extends Phaser.State {
 
 	_drawEndGame() {
 		let cc = this.add.group();
-		cc.width = this.screenData.inputWidth;
-		const gHeight = this.screenData.inputHeight + this.screenData.endgamePadding;
-		const inputHeight = this.screenData.inputHeight;
-		const endgamePadding = this.screenData.endgamePadding;
+		cc.width = this.game.screenData.inputWidth;
+		const gHeight = this.game.screenData.inputHeight + this.game.screenData.endgamePadding;
+		const inputHeight = this.game.screenData.inputHeight;
+		const endgamePadding = this.game.screenData.endgamePadding;
 		let txtScore = this.createText(cc._width / 2, 0, 'SCORE:', {
-			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
 			strokeThickness: 3
@@ -329,7 +321,7 @@ class GameOver extends Phaser.State {
 
 		txtName.anchor.setTo(0.5);
 
-		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.screenData.inputWidth, this.screenData.inputHeight, {
+		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
 			onfocus: this.onNameForus.bind(this)
 		});
 
@@ -345,7 +337,7 @@ class GameOver extends Phaser.State {
 
 		txtEmail.anchor.setTo(0.5);
 
-		this.emailInput = this.createInput(0, gHeight * 4, this.screenData.inputWidth, this.screenData.inputHeight, {
+		this.emailInput = this.createInput(0, gHeight * 4, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
 			onfocus: this.onEmailForus.bind(this)
 		});
 
@@ -359,7 +351,7 @@ class GameOver extends Phaser.State {
 		let button = this.add.button(cc._width / 2, gHeight * 6, 'submit-button', this.actionSubmitOnClick.bind(this));
 		button.anchor.setTo(0.5);
 
-		button.scale.setTo(this.screenData.submitButtonScale);
+		button.scale.setTo(this.game.screenData.submitButtonScale);
 
 		cc.addChild(txtScore);
 		cc.addChild(totalScore);
@@ -369,7 +361,7 @@ class GameOver extends Phaser.State {
 		cc.addChild(this.emailInput);
 		cc.addChild(button);
 		cc.centerX = this.game.width / 2;
-		cc.y = this.panelHeight + this.screenData.score_margin_top;
+		cc.y = this.panelHeight + this.game.screenData.score_margin_top;
 		// cc.scale.setTo(0);
 		return cc;
 
@@ -377,7 +369,7 @@ class GameOver extends Phaser.State {
 
 	createText(x = 0, y = 0, txt, options = {}) {
 		let style = {
-			font: '600 ' + this.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: 200,
@@ -426,7 +418,7 @@ class GameOver extends Phaser.State {
 		console.log(this.nameKeyboard.keyboard);
 		if (this.emailKeyboard.keyboard.visible)
 			this.emailKeyboard.hidden();
-		switch (this.screenData.mapScreen) {
+		switch (this.game.screenData.mapScreen) {
 			case 1:
 			case 0:
 				break;
@@ -441,7 +433,7 @@ class GameOver extends Phaser.State {
 		if (this.nameKeyboard.keyboard.visible)
 			this.nameKeyboard.hidden();
 
-		switch (this.screenData.mapScreen) {
+		switch (this.game.screenData.mapScreen) {
 			case 1:
 			case 0:
 				break;

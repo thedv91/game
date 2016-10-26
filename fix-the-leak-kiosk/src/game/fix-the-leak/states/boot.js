@@ -1,9 +1,12 @@
 import Phaser from 'phaser';
+import { getInitData } from './../utils/ScreenType';
+
 class Boot extends Phaser.State {
 	constructor() {
 		super();
 	}
 	init() {
+		this.game.screenData = getInitData(this.game);
 		// this.scale.setResizeCallback(this.gameResized, this);
 		// this.stage.disableVisibilityChange = true;
 		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
