@@ -274,7 +274,6 @@ class Game extends Phaser.State {
 		this.waters.callAll('animations.add', 'animations', 'spin');
 		this.waters.callAll('animations.play', 'animations', 'spin', 15, true);
 
-
 		this.waters.scale.setTo(scale_maps);
 
 		this.allWaters = this.waters.children.map((e, index) => {

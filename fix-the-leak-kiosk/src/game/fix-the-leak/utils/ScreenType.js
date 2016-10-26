@@ -170,7 +170,7 @@ export function getInitData(game) {
 			des_font: 40,
 			ok_width: 230,
 			button_dis: 100,
-			animatorScale: 1,
+			animatorScale: 1.5,
 			cLine: 30,
 			map: 'map',
 			gid: 2561,

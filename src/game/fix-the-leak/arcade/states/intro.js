@@ -173,8 +173,8 @@ class Intro extends Phaser.State {
 		this._drawWindow();
 		this.loadLeaderboard();
 		this.panel = this._drawPanel();
-		this.button = this._drawStartButton();		
-		this._drawPond();		
+		this.button = this._drawStartButton();
+		this._drawPond();
 
 	}
 
@@ -263,12 +263,12 @@ class Intro extends Phaser.State {
 		let animator = this.add.sprite(-20, -155, 'animators');
 
 		animator.animations.add('walk');
-
+		animator.y = 0;
 		animator.animations.play('walk', 15, true);
 
-		animator.anchor.setTo(0.5);
+		animator.anchor.setTo(0.5, 1);
 
-		animator.scale.setTo(-1, 1);
+		animator.scale.setTo(...this.game.screenData.animatorIntroScale);
 
 		cc.addChild(pond);
 		cc.addChild(pond1);
