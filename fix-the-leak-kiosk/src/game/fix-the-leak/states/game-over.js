@@ -300,7 +300,7 @@ class GameOver extends Phaser.State {
 		const inputHeight = this.game.screenData.inputHeight;
 		const endgamePadding = this.game.screenData.endgamePadding;
 		let txtScore = this.createText(cc._width / 2, 0, 'SCORE:', {
-			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.font_score_end_game + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
 			strokeThickness: 3
@@ -369,7 +369,7 @@ class GameOver extends Phaser.State {
 
 	createText(x = 0, y = 0, txt, options = {}) {
 		let style = {
-			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.font_score_end_game + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: 200,

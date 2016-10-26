@@ -25,6 +25,7 @@ export function getInitData(game) {
 		inputWidth: 350,
 		inputHeight: 50,
 		font_score: 40,
+		font_score_end_game: 50,
 		tabs: 120,
 		submit_width: 205,
 		submitButtonScale: 1,
@@ -60,6 +61,7 @@ export function getInitData(game) {
 			inputWidth: 160,
 			inputHeight: 25,
 			font_score: 20,
+			font_score_end_game: 20,
 			tabs: 70,
 			submitButtonScale: .6,
 			buttonScale: .8,
@@ -90,6 +92,7 @@ export function getInitData(game) {
 			inputWidth: 250,
 			inputHeight: 40,
 			font_score: 20,
+			font_score_end_game: 20,
 			tabs: 70,
 			submitButtonScale: .6,
 			endgamePadding: 10
@@ -118,6 +121,7 @@ export function getInitData(game) {
 			inputWidth: 350,
 			inputHeight: 50,
 			font_score: 30,
+			font_score_end_game: 30,
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 20,
@@ -150,6 +154,7 @@ export function getInitData(game) {
 			inputWidth: 350,
 			inputHeight: 40,
 			font_score: 30,
+			font_score_end_game: 30,
 			tabs: 100,
 			submitButtonScale: .8,
 			endgamePadding: 10
@@ -176,6 +181,7 @@ export function getInitData(game) {
 			inputWidth: 350,
 			inputHeight: 50,
 			font_score: 30,
+			font_score_end_game: 30,
 			tabs: 100,
 			submitButtonScale: .8,
 			pivot: {
@@ -204,6 +210,7 @@ export function getInitData(game) {
 			inputWidth: 350,
 			inputHeight: 50,
 			font_score: 40,
+			font_score_end_game: 50,
 			tabs: 120,
 			submitButtonScale: 1,
 			pivot: {
