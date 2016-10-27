@@ -113,7 +113,7 @@ class Boot extends Phaser.State {
 
 		this.load.tilemap('map_810_640', 'assets/tilemaps/maps/pipe_810_640.json', null, Phaser.Tilemap.TILED_JSON);
 		this.load.image('pipe_810_640', 'assets/tilemaps/tiles/pipe_810_640.png');
-		this.load.spritesheet('water_810_640', 'assets/tilemaps/tiles/water_810_640.png?das', 100, 100, 30);
+		this.load.spritesheet('water_810_640', 'assets/tilemaps/tiles/water_810_640.png?das', 140, 140, 30);
 
 		// Add maps for normal screen
 		this.load.tilemap('map-normal', 'assets/tilemaps/maps/pipe_normal.json', null, Phaser.Tilemap.TILED_JSON);

@@ -73,7 +73,7 @@ export function getInitData(game) {
 			level_font_tabs: 100,
 
 		});
-	} else if (width > 375 && width <= 480 && height <= 668) {
+	} else if (width > 375 && width <= 480 && height <= 736) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
 			pannel_margin_left: 30,
@@ -114,8 +114,8 @@ export function getInitData(game) {
 			des_font: 28,
 			ok_width: 130,
 			button_dis: 100,
-			animatorWidth: 240,
-			animatorScale: .8,
+			animatorWidth: 340,
+			animatorScale: 1.2,
 			animatorIntroScale: [-.8, .8],
 			cLine: 20,
 			map: 'map-normal',
@@ -219,7 +219,7 @@ export function getInitData(game) {
 			ok_width: 230,
 			button_dis: 100,
 			animatorWidth: 500,
-			animatorScale: 1.5,
+			animatorScale: 1.8,
 			animatorIntroScale: [-.8, .8],
 			cLine: 30,
 			map: 'map',
@@ -249,7 +249,7 @@ export function getInitData(game) {
 			button_dis: 100,
 			cLine: 30,
 			animatorWidth: 502,
-			animatorScale: 1.5,
+			animatorScale: 1.8,
 			animatorIntroScale: [-0.8, .8],
 			map: 'map',
 			gid: 2561,
@@ -270,7 +270,7 @@ export function getInitData(game) {
 			ok_width: 130,
 			button_dis: 100,
 			animatorWidth: 500,
-			animatorScale: 1.5,
+			animatorScale: 1.8,
 			cLine: 20,
 			map: 'map',
 			gid: 2561,
