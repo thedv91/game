@@ -6,7 +6,8 @@ import OkButton from './../objects/OkButton';
 import BeginButton from './../objects/BeginButton';
 import Keyboard from './../objects/Keyboard';
 import { LevelData } from './../data/GameData';
-import { Log } from './../../../utils/Log';
+import { Log } from 'utils/Log';
+import BoxScore from './../objects/BoxScore';
 
 class Game extends Phaser.State {
 	constructor() {
@@ -21,13 +22,14 @@ class Game extends Phaser.State {
 
 		this.level = 1;
 		this.score_game = 0;
+
 	}
 
 	init(level, score, time) {
+
 		this.level = level || 1;
 		this.score_game = score;
 		this.levelData = _.find(LevelData, { level: this.level });
-		Log.debug(this.levelData);
 		this.resetGame();
 		this.timeScale = this.levelData.time * 1000;
 		this.time_play = this.timeScale;
@@ -61,6 +63,7 @@ class Game extends Phaser.State {
 		this.pauseGame = this._drawPauseGame();
 		this.panelGameOver = this._drawGameOver();
 
+
 		/*setTimeout(() => {
 			this._showPanelEndGame();
 		}, 1000);*/
@@ -89,6 +92,8 @@ class Game extends Phaser.State {
 
 
 		}
+
+		//this.state.start('game-over', true, false, this.score_game, this.totalTime.toFixed(1));
 
 	}
 
@@ -138,6 +143,7 @@ class Game extends Phaser.State {
 
 			if (this.playGame) {
 				this._updateTime();
+				this._updateBox();
 			}
 			if (this.time_play <= 0) {
 				if (this.level < LevelData.length) {
@@ -159,6 +165,13 @@ class Game extends Phaser.State {
 		}
 	}
 
+	_updateBox() {
+		if (this.boxTime)
+			this.boxTime.setScore(this.time_play);
+		if (this.boxScore)
+			this.boxScore.setScore(this.score_game);
+	}
+
 	/**
 	 * Custom function
 	 */
@@ -176,16 +189,23 @@ class Game extends Phaser.State {
 			if (this.time_play > 0) {
 				//this.time_play = this.time_play + 1;
 				this.time_play = ((this.timeScale -= this.game.time.elapsedMS) / 1000).toFixed(1);
-				if (this.game.screenData.smallScreen) {
-					this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-				} else {
-					this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-				}
+
+				// if (this.game.screenData.smallScreen) {
+				// 	this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+				// } else {
+				// 	this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+				// }
 			}
 		}
 	}
-
 	_drawScore() {
+		let startX = this.game.width / 2;
+		let startY = this.game.height - this.game.screenData.textNameMargin;
+		this.boxLevel = new BoxScore(this.game, startX, startY, 'LEVEL', this.level);
+		this.boxTime = new BoxScore(this.game, startX + this.game.screenData.tabs, startY, 'TIME', this.levelData.time);
+		this.boxScore = new BoxScore(this.game, startX + this.game.screenData.tabs * 2, startY, 'SCORE', this.score_game);
+	}
+	_drawScore_Back() {
 		var style_top = {
 			font: '500 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: "#fff",
@@ -346,11 +366,11 @@ class Game extends Phaser.State {
 		sprite.visible = false;
 		this.score_game++;
 
-		if (this.game.screenData.smallScreen) {
-			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-		} else {
-			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-		}
+		// if (this.game.screenData.smallScreen) {
+		// 	this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+		// } else {
+		// 	this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+		// }
 		/**
 		 *Test end game
 		 */

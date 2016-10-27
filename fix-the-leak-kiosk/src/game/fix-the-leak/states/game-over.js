@@ -307,7 +307,7 @@ class GameOver extends Phaser.State {
 		});
 		txtScore.anchor.setTo(0.5);
 
-		let totalScore = this.createText(cc._width / 2, gHeight, this.score_game, {
+		let totalScore = this.createText(cc._width / 2, txtScore.height, this.score_game, {
 			font: '600 60px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
@@ -315,32 +315,30 @@ class GameOver extends Phaser.State {
 		});
 		totalScore.anchor.setTo(0.5);
 
-		let txtName = this.createText(cc._width / 2, gHeight * 2, 'NAME:', {
+		let txtName = this.createText(cc._width / 2, txtScore.height + totalScore.height, 'NAME:', {
 			fill: '#46c6f2'
 		});
-
 		txtName.anchor.setTo(0.5);
 
-		this.nameInput = this.createInput(0, gHeight * 2 + endgamePadding, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
+		this.nameInput = this.createInput(cc._width / 2, txtScore.height + totalScore.height + txtName.height, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
 			onfocus: this.onNameForus.bind(this)
 		});
-
+		this.nameInput.anchor.setTo(0.5);
 		if (localStorage.getItem('fix_user_name')) {
 			this.nameInput.canvasInput.value(localStorage.getItem('fix_user_name'));
 		} else {
 			this.nameInput.canvasInput.value("");
 		}
 
-		let txtEmail = this.createText(cc._width / 2, gHeight * 3 + inputHeight, 'EMAIL:', {
+		let txtEmail = this.createText(cc._width / 2, txtScore.height + totalScore.height + txtName.height + inputHeight + endgamePadding, 'EMAIL:', {
 			fill: '#46c6f2'
 		});
-
 		txtEmail.anchor.setTo(0.5);
 
-		this.emailInput = this.createInput(0, gHeight * 4, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
+		this.emailInput = this.createInput(cc._width / 2, txtScore.height + totalScore.height + txtName.height + txtEmail.height + inputHeight + endgamePadding, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
 			onfocus: this.onEmailForus.bind(this)
 		});
-
+		this.emailInput.anchor.setTo(0.5);
 		if (localStorage.getItem('fix_user_email')) {
 			this.emailInput.canvasInput.value(localStorage.getItem('fix_user_email'));
 		} else {
@@ -348,8 +346,8 @@ class GameOver extends Phaser.State {
 		}
 
 
-		let button = this.add.button(cc._width / 2, gHeight * 6, 'submit-button', this.actionSubmitOnClick.bind(this));
-		button.anchor.setTo(0.5);
+		let button = this.add.button(cc._width / 2, txtScore.height + totalScore.height + txtName.height + txtEmail.height + endgamePadding + inputHeight * 2, 'submit-button', this.actionSubmitOnClick.bind(this));
+		button.anchor.setTo(0.5, 0);
 
 		button.scale.setTo(this.game.screenData.submitButtonScale);
 
@@ -395,8 +393,8 @@ class GameOver extends Phaser.State {
 			fill: '#000',
 			fontWeight: 'bold',
 			padding: 8,
-			width: input_width - 20,
-			height: input_height - 18,
+			width: input_width - 17,
+			height: input_height - 16,
 			borderWidth: 0,
 			borderColor: '#000',
 			borderRadius: 6,

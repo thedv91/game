@@ -4,6 +4,7 @@ import val from './../variables';
 import debugLayout from 'phaser-debug-layout';
 import BgOverlay from '../objects/BgOverlay';
 import OkButton from './../objects/OkButton';
+import BoxScore from './../objects/BoxScore';
 
 export default class Game extends Phaser.State {
 	constructor() {
@@ -65,6 +66,7 @@ export default class Game extends Phaser.State {
 
 		}
 
+		//this.state.start('game-over', true, false, this.score_game, this.time_play);
 	}
 
 	loadRender() {
@@ -122,14 +124,22 @@ export default class Game extends Phaser.State {
 		}];
 	}
 
+	_updateBox() {
+		if (this.boxTime)
+			this.boxTime.setScore(this.time_play);
+		if (this.boxScore)
+			this.boxScore.setScore(this.score_game);
+	}
+
 	_updateTime() {
 
 		this.time_play = this.time_play - 1;
-		if (this.game.screenData.smallScreen) {
-			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-		} else {
-			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-		}
+		this._updateBox();
+		// if (this.game.screenData.smallScreen) {
+		// 	this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+		// } else {
+		// 	this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+		// }
 
 		if (this.time_play == 0) {
 			setTimeout(() => {
@@ -140,6 +150,13 @@ export default class Game extends Phaser.State {
 	}
 
 	_drawScore() {
+		let startX = this.game.width / 2;
+		let startY = this.game.height - this.game.screenData.textNameMargin;
+		this.boxLevel = new BoxScore(this.game, startX, startY, 'LEVEL', this.level);
+		this.boxTime = new BoxScore(this.game, startX + this.game.screenData.tabs, startY, 'TIME', this.time_play);
+		this.boxScore = new BoxScore(this.game, startX + this.game.screenData.tabs * 2, startY, 'SCORE', this.score_game);
+	}
+	_drawScore_Back() {
 		var style_top = {
 			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-HeavyCn',
 			fill: "#fff",
@@ -285,11 +302,12 @@ export default class Game extends Phaser.State {
 		sprite.visible = false;
 		this.score_game++;
 
-		if (this.game.screenData.smallScreen) {
-			this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
-		} else {
-			this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
-		}
+		this._updateBox();
+		// if (this.game.screenData.smallScreen) {
+		// 	this.text_score.setText('' + this.time_play + 's\t' + this.score_game);
+		// } else {
+		// 	this.text_score.setText('  ' + this.level + '\t' + this.time_play + 's\t' + this.score_game);
+		// }
 
 		this._resetImg(sprite);
 	}

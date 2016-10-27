@@ -38,7 +38,6 @@ export default class Key extends Phaser.TileSprite {
 		this.text = this.game.add.text(this.w / 2, this.h / 2, '', style);
 		this.text.anchor.setTo(0.5);
 		this.addChild(this.text);
-
 		this.events.onInputDown.add(this.onClick, this);
 	}
 	update() {
