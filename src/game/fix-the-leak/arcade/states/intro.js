@@ -308,7 +308,7 @@ class Intro extends Phaser.State {
 
 
 		const style = {
-			font: '600 ' + this.font_1 + ' AvenirNextLTPro-UltLtCn',
+			font: '600 ' + this.font_1 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: this.game.screenData.panelWidth,
