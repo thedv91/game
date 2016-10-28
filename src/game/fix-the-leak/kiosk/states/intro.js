@@ -12,7 +12,7 @@ class Intro extends Phaser.State {
 	}
 
 	init() {
-		this.gameType = 1;
+		this.gameType = val.gameType;
 		this.w = this.game.width;
 		this.h = this.game.height;
 

@@ -31,7 +31,7 @@ class Game extends Phaser.State {
 		this.score_game = score;
 		this.levelData = _.find(LevelData, { level: this.level });
 		this.resetGame();
-		this.timeScale = 2 * 1000;
+		this.timeScale = 45 * 1000;
 		this.time_play = this.timeScale;
 		this.totalTime = time;
 		this.w = this.game.width;

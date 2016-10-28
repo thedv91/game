@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\FixTheLeak;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FixTheLeakRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -19,17 +20,15 @@ class FixTheLeakController extends Controller
     public function getRank(Request $request)
     {
 
-        $user_email = $request->email;
-        $type       = $request->type;
         try {
-            $user = $this->model->where('email', $user_email)->where('type', $type)->firstOrFail();
-            $rank = $this->model->where('score', '>', $user->score)->where('type', $type)->count();            
+            $user = $this->model->where('email', $request->email)->where('type', $request->type)->firstOrFail();
+            $rank = $this->model->where('score', '>', $user->score)->where('type', $request->type)->count();
             $rank += 1;
         } catch (ModelNotFoundException $e) {
             $rank = -1;
         }
-        
-        $datas = $this->model->where('type', $type)->orderBy('score', 'DESC')->limit(6)->get();        
+
+        $datas = $this->model->where('type', $request->type)->orderBy('score', 'DESC')->limit(6)->get();
 
         return response()->json(['tops' => $datas, 'rank' => $rank]);
     }
@@ -87,28 +86,26 @@ class FixTheLeakController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FixTheLeakRequest $request)
     {
-        $datas = \Request::all();
-
-        $fix = FixTheLeak::where('email', $datas['email'])->where('type', $datas['type'])->first();
-
-        if (count($fix) < 1) {
-            $fix        = new FixTheLeak();
-            $fix->score = $request->score;
-        } else {
-            if (($fix->score > $request->score) && $datas['type'] == 1) {
-                $fix->score = $request->score;
-            }
-
-            if (($fix->score < $request->score) && $datas['type'] == 0) {
-                $fix->score = $request->score;
-            }
+        if ($request->score < 0) {
+            $request->score = 0;
         }
 
-        $fix->name  = $request->name;
-        $fix->email = $request->email;
-        $fix->type  = $request->type;
+        try {
+            $fix       = $this->model->where('email', $request->email)->where('type', $request->type)->firstOrFail();
+            $fix->name = $request->name;
+            if ($fix->score < $request->score) {
+                $fix->score = $request->score;
+            }
+        } catch (ModelNotFoundException $e) {
+            $fix        = new FixTheLeak;
+            $fix->score = $request->score;
+            $fix->name  = $request->name;
+            $fix->email = $request->email;
+            $fix->type  = $request->type;
+        }
+
         try {
             $fix->save();
             return response()->json($fix);

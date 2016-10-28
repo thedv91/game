@@ -14,7 +14,7 @@ class GameOver extends Phaser.State {
 	init(score, time) {
 		//this.gameType == 1 => arcade
 		//this.gameType == 0 => kiosk
-		this.gameType = 1;
+		this.gameType = val.gameType;
 		this.score_game = score;
 		this.time_play = time;
 
@@ -497,7 +497,7 @@ class GameOver extends Phaser.State {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				score: this.time_play,
+				score: this.score_game,
 				name: user_name,
 				email: user_email,
 				type: this.gameType
