@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
 import _ from 'lodash';
 import val from './../variables';
-import BgOverlay from './../objects/BgOverlay';
-import OkButton from './../objects/OkButton';
-import BeginButton from './../objects/BeginButton';
-import Keyboard from './../objects/Keyboard';
+import BgOverlay from './../../utils/objects/BgOverlay';
+import OkButton from './../../utils/objects/OkButton';
+import BeginButton from './../../utils/objects/BeginButton';
+import Keyboard from './../../utils/objects/Keyboard';
 import { LevelData } from './../data/GameData';
 import { Log } from 'utils/Log';
-import BoxScore from './../objects/BoxScore';
+import BoxScore from './../../utils/objects/BoxScore';
 
 class Game extends Phaser.State {
 	constructor() {
@@ -711,10 +711,10 @@ class Game extends Phaser.State {
 
 		let text;
 		if (this.game.screenData.smallScreen) {
-			text = this.add.text(50, 10, 'FIX THE LEAKS', style);
+			text = this.add.text(50, 10, 'FIX THE LEAK', style);
 			text.y = (this.panelHeight - text.height) / 2;
 		} else {
-			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAKS', style);
+			text = this.add.text(this.game.width / 2, this.panelHeight / 2, 'FIX THE LEAK', style);
 			text.anchor.setTo(0.5);
 		}
 

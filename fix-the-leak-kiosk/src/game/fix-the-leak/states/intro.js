@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import val from './../variables';
-import { getInitData } from './../utils/ScreenType';
 
 class Intro extends Phaser.State {
 	constructor() {
@@ -123,7 +122,7 @@ class Intro extends Phaser.State {
 			this.rank_margin_top = 30;
 		}
 
-		this.screenData = getInitData(this.game);
+		//this.game.screenData = getInitData(this.game);
 
 	}
 
@@ -309,7 +308,7 @@ class Intro extends Phaser.State {
 
 
 		const style = {
-			font: '500 ' + this.game.screenData.font_1 + ' AvenirNextLTPro-MediumCn',
+			font: '500 ' + this.game.screenData.font_1 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: this.panelWidth,
@@ -339,7 +338,7 @@ class Intro extends Phaser.State {
 		cc.y = this.panel_margin_top;
 		cc.alpha = 1;
 		let tween = this.add.tween(cc);
-		switch (this.screenData.mapScreen) {
+		switch (this.game.screenData.mapScreen) {
 			case 0:
 				cc.scale.setTo(.7);
 				tween.to({
@@ -375,11 +374,11 @@ class Intro extends Phaser.State {
 		cc.y = this.panelHeight + this.start_margin_top;
 
 		//let tween = this.add.tween(cc);
-		switch (this.screenData.mapScreen) {
+		switch (this.game.screenData.mapScreen) {
 			case 0:
 				cc.scale.setTo(.6);
 				cc.y = 350;
-				cc.left = 80;
+				cc.left = 40;
 				break;
 		}
 		// tween.to({
@@ -397,7 +396,7 @@ class Intro extends Phaser.State {
 
 	loadLeaderboard() {
 		let _self = this;
-		const wordWrapWidth = (this.panelWidth - (this.panelPadding * 2)) / 2;
+		const wordWrapWidth = (this.game.screenData.panelWidth - (this.panelPadding * 2)) / 2;
 		const styleName = {
 			font: '600 ' + this.game.screenData.font_3 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
@@ -414,7 +413,7 @@ class Intro extends Phaser.State {
 			align: 'right'
 		};
 		let panelLeader = this.add.group();
-		panelLeader.width = this.panelWidth;
+		panelLeader.width = this.game.screenData.panelWidth;
 		panelLeader.top = 120;
 
 		let fix_email = localStorage.getItem('fix_user_email');
@@ -435,8 +434,8 @@ class Intro extends Phaser.State {
 				let groupScore = this.add.group();
 				let text = this.add.text(0, index * this.margin_text, element.name, styleName);
 				text.left = 60;
-				let score = this.add.text(0, index * this.margin_text, element.score + 'PTS', styleScore);
-				score.right = this.panelWidth - (this.panelPadding * 2) - 60;
+				let score = this.add.text(0, index * this.margin_text, Math.ceil(element.score) + 'PTS', styleScore);
+				score.right = this.game.screenData.panelWidth - (this.panelPadding * 2) - 60;
 				groupScore.addChild(text);
 				groupScore.addChild(score);
 				groupScore.alpha = 0;
@@ -463,7 +462,7 @@ class Intro extends Phaser.State {
 
 				my_rank.alpha = 0;
 
-				my_rank.x = (this.panelWidth - (this.panelPadding * 2)) / 2 - my_rank.width / 2;
+				my_rank.x = (this.game.screenData.panelWidth - (this.panelPadding * 2)) / 2 - my_rank.width / 2;
 				panelLeader.addChild(my_rank);
 
 				let tween_rank = this.add.tween(my_rank);

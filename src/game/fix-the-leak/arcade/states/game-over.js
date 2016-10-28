@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
-import Keyboard from './../objects/Keyboard';
+import Keyboard from './../../utils/objects/Keyboard';
 import { Log } from 'utils/Log';
 
 class GameOver extends Phaser.State {
@@ -155,7 +155,7 @@ class GameOver extends Phaser.State {
 		this.menuButton.lock = false;
 
 		const style = {
-			font: '600 38px AvenirNextLTPro-UltLtCn',
+			font: '600 ' + this.game.screenData.font_score + 'px AvenirNextLTPro-UltLtCn',
 			fill: '#FFFFFF',
 			wordWrap: true,
 			wordWrapWidth: this.game.width,
@@ -163,7 +163,7 @@ class GameOver extends Phaser.State {
 		};
 
 		let text;
-		if (this.w <= 500) {
+		if (this.game.screenData.smallScreen) {
 			text = this.add.text(50, 10, 'FIX THE LEAK', style);
 			text.y = (this.panelHeight - text.height) / 2;
 		} else {
@@ -234,12 +234,14 @@ class GameOver extends Phaser.State {
 		// End Game Btn
 		this.endGameBtn = this.add.button(this.game.width / 2 - this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
+		this.endGameBtn.scale.setTo(this.game.screenData.buttonScale);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
 		this.continueBtn = this.add.button(this.game.width / 2 + this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
+		this.continueBtn.scale.setTo(this.game.screenData.buttonScale);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
 
@@ -382,7 +384,8 @@ class GameOver extends Phaser.State {
 	}
 
 	onNameForus(e) {
-		console.log(this.nameKeyboard.keyboard);
+		if (this.gameType === 0)
+			return;
 		if (this.emailKeyboard.keyboard.visible)
 			this.emailKeyboard.hidden();
 		switch (this.game.screenData.mapScreen) {
@@ -396,6 +399,8 @@ class GameOver extends Phaser.State {
 	}
 
 	onEmailForus(e) {
+		if (this.gameType === 0)
+			return;
 		if (this.nameKeyboard.keyboard.visible)
 			this.nameKeyboard.hidden();
 

@@ -5,14 +5,12 @@ import Menu from './states/menu';
 import GamePlay from './states/game';
 import Intro from './states/intro';
 import GameOver from './states/game-over';
-import { getInitData } from './utils/ScreenType';
 
 class ArcadeGame extends Phaser.Game {
 
 	constructor(width = 810, height = 640, id = 'fix-the-leak') {
 
 		super(width, height, Phaser.CANVAS, id);
-		this.screenData = getInitData(this);
 		this.state.add('boot', Boot);
 		this.state.add('splash', Splash);
 		this.state.add('intro', Intro);

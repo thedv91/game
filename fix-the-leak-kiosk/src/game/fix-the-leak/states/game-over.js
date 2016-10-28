@@ -210,12 +210,14 @@ class GameOver extends Phaser.State {
 		// End Game Btn
 		this.endGameBtn = this.add.button(this.game.width / 2 - this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'end-game', this.actionEndGameClick.bind(this), this, 1, 0, 2);
 		this.endGameBtn.anchor.setTo(0.5);
+		this.endGameBtn.scale.setTo(this.game.screenData.buttonScale);
 		this.endGameBtn.alpha = 1;
 		this.endGameBtn.lock = true;
 
 		// Continue Btn
 		this.continueBtn = this.add.button(this.game.width / 2 + this.game.screenData.button_dis, panelHeight / 3 + text2.height + this.panelHeight + 40 + 1.3 * this.game.screenData.intro_font, 'continue', this.actionContinueClick.bind(this), this, 1, 0, 2);
 		this.continueBtn.anchor.setTo(0.5);
+		this.continueBtn.scale.setTo(this.game.screenData.buttonScale);
 		this.continueBtn.alpha = 1;
 		this.continueBtn.lock = true;
 
@@ -344,7 +346,6 @@ class GameOver extends Phaser.State {
 			boundsAlignV: 'middle',
 		});
 		//txtEmail.anchor.setTo(0.5);
-		Log.info(txtEmail);
 
 		this.emailInput = this.createInput(cc._width / 2, txtEmail.y + txtScore.height / 2 + endgamePadding, inputWidth, inputHeight, {
 			onfocus: this.onEmailForus.bind(this)

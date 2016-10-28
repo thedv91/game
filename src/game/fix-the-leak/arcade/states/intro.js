@@ -436,11 +436,11 @@ class Intro extends Phaser.State {
 		}).then((response) => {
 			return response.json();
 		}).then((json) => {
-			json['tops'].forEach((element, index) => {
+			json.tops.forEach((element, index) => {
 				let groupScore = this.add.group();
 				let text = this.add.text(0, index * this.margin_text, element.name, styleName);
 				text.left = 60;
-				let score = this.add.text(0, index * this.margin_text, element.score + 'PTS', styleScore);
+				let score = this.add.text(0, index * this.margin_text,Math.ceil(element.score) + 'PTS', styleScore);
 				score.right = this.game.screenData.panelWidth - (this.panelPadding * 2) - 60;
 				groupScore.addChild(text);
 				groupScore.addChild(score);
@@ -458,12 +458,12 @@ class Intro extends Phaser.State {
 			let current_height = _self.h;
 			let my_rank;
 
-			if (json['rank'] >= 0) {
+			if (json.rank >= 0) {
 				if (parseInt(current_height) < 800) {
-					my_rank = this.add.text(0, 6 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json['rank'], styleName);
+					my_rank = this.add.text(0, 6 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json.rank, styleName);
 				} else {
 
-					my_rank = this.add.text(0, 7 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json['rank'], styleName);
+					my_rank = this.add.text(0, 7 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json.rank, styleName);
 				}
 
 				my_rank.alpha = 0;

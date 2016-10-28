@@ -12,7 +12,8 @@ var p2 = path.join(phaserModule, 'build/custom/p2.js');
 export default {
 	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
 	output: {
-		path: './dist',
+		//path: './dist',
+		path: './api/public/dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
 		library: 'QsoftGame'

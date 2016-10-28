@@ -73,7 +73,7 @@ export function getInitData(game) {
 			font_score_end_game: 24,
 			tabs: 60,
 			submitButtonScale: .4,
-			buttonScale: .8,
+			buttonScale: .6,
 			endgamePadding: 18,
 			level_font: 27,
 			level_font_number: 40,
@@ -105,12 +105,12 @@ export function getInitData(game) {
 			scale_maps: width / 408,
 			score_margin_top: 30,
 			inputWidth: 250,
-			inputHeight: 40,
+			inputHeight: 35,
 			font_score: 20,
-			font_score_end_game: 40,
+			font_score_end_game: 30,
 			tabs: 70,
 			submitButtonScale: .5,
-			endgamePadding: 25,
+			endgamePadding: 20,
 			panelWidth: 380,
 			panelHeight: 445,
 			scoreFont: 50,
@@ -186,6 +186,8 @@ export function getInitData(game) {
 			font_1: '61px',
 			font_2: '32px',
 			font_3: '26px',
+			panelWidth: 465,
+			panelHeight: 435,
 		});
 	}
 	else if (width <= 1080 && width > 810 && height <= 1020) {

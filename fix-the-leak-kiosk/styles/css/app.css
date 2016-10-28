@@ -30,13 +30,13 @@
     font-style: normal;
 }
 
-@font-face {
+/*@font-face {
     font-family: 'AvenirNextLTPro-MediumCn';
     src: url('../fonts/AvenirNextLTPro-MediumCn.eot');
     src: url('../fonts/AvenirNextLTPro-MediumCn.woff2') format('woff2'), url('../fonts/AvenirNextLTPro-MediumCn.woff') format('woff'), url('../fonts/AvenirNextLTPro-MediumCn.ttf') format('truetype'), url('../fonts/AvenirNextLTPro-MediumCn.svg#AvenirNextLTPro-MediumCn') format('svg'), url('../fonts/AvenirNextLTPro-MediumCn.eot?#iefix') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
-}
+}*/
 
 
 .load-font {
@@ -61,9 +61,9 @@
     font-family: 'AvenirNextLTPro-BoldCn';
 }
 
-.AvenirNextLTPro-MediumCn {
+/*.AvenirNextLTPro-MediumCn {
   font-family: 'AvenirNextLTPro-MediumCn'
-}
+}*/
 * {
     margin: 0px;
     padding: 0px;

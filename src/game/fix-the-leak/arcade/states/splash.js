@@ -1,15 +1,13 @@
 import Phaser from 'phaser';
-import { getInitData } from './../utils/ScreenType';
 class Splash extends Phaser.State {
 	init() {
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
-		this.screenData = getInitData(this.game);
 	}
 	create() {
 		let splashGame = this.add.sprite(this.world.centerX, this.world.centerY, 'splash');
 		splashGame.anchor.setTo(0.5);
 		splashGame.alpha = 0;
-		switch (this.screenData.mapScreen) {
+		switch (this.game.screenData.mapScreen) {
 			case 0:
 				splashGame.scale.setTo(.6);
 				break;

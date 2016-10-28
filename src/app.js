@@ -11,6 +11,7 @@ import './../libs/canvasinput.js';
 //import MemoryApp from './game/memory/app';
 //import FixTheLeakKioskGame from './game/fix-the-leak/kiosk/game';
 import FixTheLeakArcadeGame from './game/fix-the-leak/arcade/game';
+import FixTheLeakKioskGame from './game/fix-the-leak/kiosk/game';
 import MatchThePairKioskGame from './game/match-the-pair/kiosk/game';
 
 
@@ -78,6 +79,35 @@ export function FixTheLeakArcade(dom) {
 				new FixTheLeakArcadeGame(w, '100%', dom);
 			} else {
 				new FixTheLeakArcadeGame('100%', '100%', dom);
+			}
+		}
+
+	}
+}
+
+export function FixTheLeakKiosk(dom) {
+	if (window.innerHeight > 810) {
+
+		if (window.innerHeight > 980) {
+			new FixTheLeakKioskGame('100%', '100%', dom);
+		} else {
+			new FixTheLeakKioskGame(810, '100%', dom);
+		}
+	} else {
+		let w = window.innerWidth;
+		let h = window.innerHeight;
+
+		if (w <= 810) {
+			new FixTheLeakKioskGame('100%', '100%', dom);
+		}
+
+		if (w > 810) {
+			let tile = 4 / 5;
+			if (w / h > tile) {
+				w = h * tile;
+				new FixTheLeakKioskGame(w, '100%', dom);
+			} else {
+				new FixTheLeakKioskGame('100%', '100%', dom);
 			}
 		}
 
