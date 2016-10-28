@@ -5,7 +5,6 @@ import Menu from './states/menu';
 import Play from './states/play';
 import Load from './states/load';
 import Win from './states/win';
-import { getInitData } from './ultis/ScreenType';
 import { Log } from 'utils/Log';
 
 class KioskGame extends Phaser.Game {

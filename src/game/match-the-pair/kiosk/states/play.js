@@ -1,4 +1,5 @@
 import { Log } from 'utils/Log';
+import BoxScore from './../../utils/objects/BoxScore';
 
 class Play extends Phaser.State {
 
@@ -219,9 +220,9 @@ class Play extends Phaser.State {
 		this.time++;
 		// text_bottom.text = level+' \t'+moves+' \t'+time+'s';
 
-		this.text_level_number.text = this.level;
-		this.text_moves_number.text = this.moves;
-		this.text_time_number.text = this.time + 's';
+		this.text_level_number.setScore(this.level);
+		this.text_moves_number.setScore(this.moves);
+		this.text_time_number.setScore(this.time + 's');
 	}
 
     /*
@@ -326,7 +327,7 @@ class Play extends Phaser.State {
 
 		if (this.firstClick == null) {
 			this.moves++;
-			this.text_moves_number.text = this.moves;
+			this.text_moves_number.setScore(this.moves);
 
 			this.flipCard(sprite);
 
@@ -335,7 +336,7 @@ class Play extends Phaser.State {
 		else if (this.secondClick == null) {
 
 			this.moves++;
-			this.text_moves_number.text = this.moves;
+			this.text_moves_number.setScore(this.moves);
 			this.flipCard(sprite);
 
 			this.secondClick = sprite.index;
@@ -414,22 +415,25 @@ class Play extends Phaser.State {
 		manager_time.x = 0;
 		manager_time.y = h - 70;
 
+		this.text_level_number = new BoxScore(this.game, 0, 0, 'LEVEL', this.level);
+		this.text_moves_number = new BoxScore(this.game, this.text_level_number.group.width + this.game.screenData.tabs, 0, 'MOVES', this.moves);
+		this.text_time_number = new BoxScore(this.game, this.text_level_number.group.width + this.text_moves_number.group.width + this.game.screenData.tabs * 2, 0, 'TIME', this.time + 's');
 
-		let text_level = this.game.add.text(0, 0, 'LEVEL \n', style);
-		text_level.setTextBounds(0, 0, 0, 0);
-		this.text_level_number = this.game.add.text(0, 25, this.level, style_bottom);
-		this.text_level_number.setTextBounds(0, 0, 0, 0);
+		// let text_level = this.game.add.text(0, 0, 'LEVEL \n', style);
+		// text_level.setTextBounds(0, 0, 0, 0);
+		// this.text_level_number = this.game.add.text(0, 25, this.level, style_bottom);
+		// this.text_level_number.setTextBounds(0, 0, 0, 0);
 
-		let text_moves = this.game.add.text(text_level.width + 20, 0, 'MOVES', style);
-		text_moves.setTextBounds(0, 0, 0, 0);
-		this.text_moves_number = this.game.add.text(text_level.width + 20, 25, this.moves, style_bottom);
-		this.text_moves_number.setTextBounds(0, 0, 0, 0);
+		// let text_moves = this.game.add.text(this.text_level_number.group.width + 20, 0, 'MOVES', style);
+		// text_moves.setTextBounds(0, 0, 0, 0);
+		// this.text_moves_number = this.game.add.text(this.text_level_number.group.width + 20, 25, this.moves, style_bottom);
+		// this.text_moves_number.setTextBounds(0, 0, 0, 0);
 
 
-		let text_time = this.game.add.text(text_level.width + text_moves.width + 30, 0, 'TIME', style);
-		text_time.setTextBounds(0, 0, 0, 0);
-		this.text_time_number = this.game.add.text(text_level.width + text_moves.width + 30, 25, this.time + 's', style_bottom);
-		this.text_time_number.setTextBounds(0, 0, 0, 0);
+		// let text_time = this.game.add.text(this.text_level_number.group.width + text_moves.width + 30, 0, 'TIME', style);
+		// text_time.setTextBounds(0, 0, 0, 0);
+		// this.text_time_number = this.game.add.text(this.text_level_number.group.width + text_moves.width + 30, 25, this.time + 's', style_bottom);
+		// this.text_time_number.setTextBounds(0, 0, 0, 0);
 
 
 		// Add Level table
@@ -442,14 +446,11 @@ class Play extends Phaser.State {
 		// manager_time.add(text_top);
 		// manager_time.add(text_bottom);
 
-		manager_time.add(text_level);
-		manager_time.add(this.text_level_number);
-		manager_time.add(text_moves);
-		manager_time.add(this.text_moves_number);
-		manager_time.add(text_time);
-		manager_time.add(this.text_time_number);
+		manager_time.add(this.text_level_number.group);
+		manager_time.add(this.text_moves_number.group);
+		manager_time.add(this.text_time_number.group);
 
-		let temp = (text_level.width + text_moves.width + text_time.width) / 2;
+		let temp = (this.text_level_number.group.width + this.text_moves_number.group.width + this.text_time_number.group.width) / 2;
 		this.game.add.tween(manager_time).to({ x: this.game.width / 2 - temp }, 1000, Phaser.Easing.Bounce.Out, true);
 
 	}
@@ -646,6 +647,63 @@ class Play extends Phaser.State {
 		cc.add(endGameButton);
 		cc.add(this.continueGameButton);
 		cc.alpha = 0;
+		return cc;
+	}
+
+	_drawUpLevel(level = 2, score = null) {
+		const panelWidth = this.game.width - 2 * this.game.screenData.pannel_margin_left,
+			overlayHeight = this.game.height - this.panelHeight,
+			panelHeight = overlayHeight - 50;
+
+		let cc = this.add.group();
+		// cc.x = -this.game.width;
+		cc.x = 0;
+		cc.alpha = 0;
+		cc.visible = false;
+		cc.width = this.game.width;
+		let bg = this.add.sprite(this.game.screenData.pannel_margin_left, this.panelHeight + 25, 'pause');
+		bg.width = panelWidth;
+		bg.height = panelHeight;
+		bg.alpha = 0.9;
+
+
+		const style = {
+			font: '500 ' + this.game.screenData.intro_font + 'px AvenirNextLTPro-HeavyCn',
+			fill: '#000000',
+			align: 'center',
+			fontWeight: 'bold'
+		};
+
+		const styleGuide = {
+			font: '500 ' + this.game.screenData.des_font + 'px AvenirNextLTPro-HeavyCn',
+			fill: '#000000',
+			align: 'center',
+			fontWeight: 'bold'
+		};
+		const upLevel = this.level + 1;
+		const text1 = this.add.text(this.game.width / 2, panelHeight / 3 + this.panelHeight, 'Level ' + upLevel, style);
+		text1.anchor.setTo(0.5);
+		let lineHR = this.add.tileSprite(this.game.width / 2, panelHeight / 3 + this.panelHeight + this.game.screenData.cLine, text1.width, 2, 'black');
+		lineHR.anchor.setTo(0.5);
+
+		// const text2 = this.add.text(this.game.width / 2, panelHeight / 3 + text1.height + this.panelHeight + 15 + 1.3 * this.game.screenData.intro_font, 'NEXT MISSION \n ' + this.nextMission, styleGuide);
+		// text2.anchor.setTo(0.5);
+
+		this.beginButton = new BeginButton(this.game, this.game.width / 2, panelHeight / 3 + this.panelHeight + 70 + 1.5 * this.game.screenData.intro_font, this.nextLevelClick.bind(this));
+		this.add.existing(this.beginButton);
+		this.beginButton.anchor.setTo(0.5);
+		this.beginButton.alpha = 1;
+		this.beginButton.lock = true;
+
+		let button_scale = this.game.screenData.ok_width / 124;
+		this.beginButton.scale.setTo(button_scale);
+
+		cc.addChild(bg);
+		cc.addChild(text1);
+		cc.addChild(lineHR);
+		// cc.addChild(text2);
+		cc.addChild(this.beginButton);
+
 		return cc;
 	}
 

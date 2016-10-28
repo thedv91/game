@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { Log } from 'utils/Log';
-import { getInitData } from './../ultis/ScreenType';
+import { getInitData } from './../../utils/ScreenData';
 
 class Boot extends Phaser.State {
 

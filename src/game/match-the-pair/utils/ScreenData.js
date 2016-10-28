@@ -25,7 +25,8 @@ export function getInitData(game) {
 		font_size_name: 34,
 		input_margin_top: 230,
 		margin2Input: 70,
-		lineSpacing: 25
+		lineSpacing: 25,
+		tabs: 30
 	};
 
 	/**
