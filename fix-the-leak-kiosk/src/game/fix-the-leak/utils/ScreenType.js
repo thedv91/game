@@ -30,12 +30,18 @@ export function getInitData(game) {
 		submit_width: 205,
 		submitButtonScale: 1,
 		buttonScale: 1,
-		endgamePadding: 20,
+		endgamePadding: 40,
 		scoreMargin: 70,
 		textNameMargin: 120,
 		pivot: {},
 		panelWidth: 660,
 		panelHeight: 780,
+		scoreFont: 80,
+		font_1: '71px',
+		font_2: '42px',
+		font_3: '28px',
+		panel_left: 70,
+		start_width: 280,
 	};
 
 	/**
@@ -48,7 +54,7 @@ export function getInitData(game) {
 			intro_font: 22,
 			intro_font_family: 'AvenirNextLTPro-DemiCn',
 			des_font: 18,
-			ok_width: 125,
+			ok_width: 90,
 			button_dis: 60,
 			animatorWidth: 160,
 			animatorScale: .5,
@@ -61,32 +67,39 @@ export function getInitData(game) {
 			scale_maps: width / 320,
 			score_margin_top: 30,
 			inputWidth: 160,
-			inputHeight: 25,
+			inputHeight: 30,
+			scoreFont: 40,
 			font_score: 20,
-			font_score_end_game: 30,
-			tabs: 70,
-			submitButtonScale: .6,
+			font_score_end_game: 24,
+			tabs: 60,
+			submitButtonScale: .4,
 			buttonScale: .8,
-			endgamePadding: 10,
+			endgamePadding: 18,
 			level_font: 27,
 			level_font_number: 40,
 			level_font_tabs: 100,
+			font_1: '51px',
+			font_2: '22px',
+			font_3: '18px',
+			textNameMargin: 50,
+			animatorIntroScale: [-0.9, 0.9]
 		});
-	} else if (width > 375 && width <= 480) {
+	}
+	else if (width > 375 && width <= 480) {
 		data = Object.assign({}, data, {
 			mapScreen: 1,
 			pannel_margin_left: 30,
 			intro_font: 22,
 			intro_font_family: 'AvenirNextLTPro-DemiCn',
 			des_font: 18,
-			ok_width: 125,
+			ok_width: 100,
 			button_dis: 80,
 			animatorWidth: 210,
 			animatorScale: .7,
 			smallScreen: true,
 			cLine: 15,
 			map: 'map-small',
-			gid: 1294,
+			gid: 1293,
 			pipes: 'pipe_small',
 			water: 'water-small',
 			scale_maps: width / 408,
@@ -96,13 +109,21 @@ export function getInitData(game) {
 			font_score: 20,
 			font_score_end_game: 40,
 			tabs: 70,
-			submitButtonScale: .6,
-			endgamePadding: 10
+			submitButtonScale: .5,
+			endgamePadding: 25,
+			panelWidth: 380,
+			panelHeight: 445,
+			scoreFont: 50,
+			textNameMargin: 60,
+			font_1: '51px',
+			font_2: '22px',
+			font_3: '18px',
 		});
-	} else if (width <= 768 & width > 414 && height <= 1024) {
+	}
+	else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
 		 * 768 x 1024 
-		*/
+			*/
 		data = Object.assign({}, data, {
 			mapScreen: 2,
 			pannel_margin_left: 40,
@@ -126,19 +147,21 @@ export function getInitData(game) {
 			font_score_end_game: 50,
 			tabs: 100,
 			submitButtonScale: .8,
-			endgamePadding: 20,
+			ndgamePadding: 20,
 			pivot: {
 				y: 15
-			}
-
+			},
+			font_1: '61px',
+			font_2: '32px',
+			font_3: '26px',
 		});
-	} else if (width <= 810 && width > 768 && height <= 640) {
+	}
+	else if (width <= 810 && width > 768 && height <= 640) {
 		/**
-		 * 810 x 640
+		 *810 x 640
 		 */
 		data = Object.assign({}, data, {
 			mapScreen: 3,
-
 			pannel_margin_left: 40,
 			intro_font: 30,
 			des_font: 25,
@@ -159,12 +182,16 @@ export function getInitData(game) {
 			font_score_end_game: 30,
 			tabs: 100,
 			submitButtonScale: .8,
-			endgamePadding: 10
+			endgamePadding: 20,
+			font_1: '61px',
+			font_2: '32px',
+			font_3: '26px',
 		});
-	} else if (width <= 1080 && width > 810 && height <= 1020) {
+	}
+	else if (width <= 1080 && width > 810 && height <= 1020) {
 		/**
-		 * 1080 x 1020
-		 */
+		* 1080 x 1020
+	   */
 		data = Object.assign({}, data, {
 			mapScreen: 4,
 			pannel_margin_left: 75,
@@ -185,14 +212,15 @@ export function getInitData(game) {
 			inputHeight: 60,
 			font_score: 30,
 			tabs: 100,
-			submitButtonScale: .8,
+			ubmitButtonScale: .8,
 			pivot: {
 				y: 10
 			}
 		});
-	} else if (width <= 1080 && width > 810 && height <= 1320 && height > 1020) {
+	}
+	else if (width <= 1080 && width > 810 && height <= 1320 && height > 1020) {
 		/**
-		 * 1080 x 1320
+		 *1080 x 1320
 		 */
 		data = Object.assign({}, data, {
 			mapScreen: 5,
@@ -213,15 +241,16 @@ export function getInitData(game) {
 			score_margin_top: 200,
 			font_score: 40,
 			tabs: 120,
-			submitButtonScale: 1,
+			ubmitButtonScale: 1,
 			pivot: {
 				y: 10
 			}
 		});
-	} else if (width <= 1080 && width > 810 && height <= 1420 && height > 1320) {
+	}
+	else if (width <= 1080 && width > 810 && height <= 1420 && height > 1320) {
 		/**
-		 * 1080 x 1420
-		 */
+		* 1080 x 1420
+	   */
 		data = Object.assign({}, data, {
 			mapScreen: 6,
 			pannel_margin_left: 75,
@@ -237,12 +266,13 @@ export function getInitData(game) {
 			pipes: 'pipe',
 			water: 'waters',
 			scale_maps: width / 768,
-			score_margin_top: 200,
+			core_margin_top: 200,
 			pivot: {
 				y: 10
 			}
 		});
 	}
+
 
 	Log.info(data);
 

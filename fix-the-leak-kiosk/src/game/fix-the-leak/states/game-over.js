@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import val from './../variables';
 import GamePlay from './game';
 import Keyboard from './../objects/Keyboard';
+import { Log } from './../utils/Log';
 
 class GameOver extends Phaser.State {
 	constructor() {
@@ -295,32 +296,39 @@ class GameOver extends Phaser.State {
 
 	_drawEndGame() {
 		let cc = this.add.group();
-		cc.width = this.game.screenData.inputWidth;
-		const gHeight = this.game.screenData.inputHeight + this.game.screenData.endgamePadding;
+		console.log(cc);
 		const inputHeight = this.game.screenData.inputHeight;
+		const inputWidth = this.game.screenData.inputWidth;
 		const endgamePadding = this.game.screenData.endgamePadding;
-		let txtScore = this.createText(cc._width / 2, 0, 'SCORE:', {
+		let txtScore = this.createText(cc._width / 2, 0, 'SCORE', {
 			font: '600 ' + this.game.screenData.font_score_end_game + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
-			strokeThickness: 3
+			strokeThickness: 3,
+			boundsAlignH: 'center',
+			boundsAlignV: 'middle',
 		});
-		txtScore.anchor.setTo(0.5);
+		//txtScore.anchor.setTo(0.5);
+
 
 		let totalScore = this.createText(cc._width / 2, txtScore.height, this.score_game, {
-			font: '600 60px AvenirNextLTPro-HeavyCn',
+			font: '600 ' + this.game.screenData.scoreFont + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#FFFFFF',
 			stroke: '#000000',
-			strokeThickness: 6
+			strokeThickness: 6,
+			boundsAlignH: 'center',
+			boundsAlignV: 'middle',
 		});
-		totalScore.anchor.setTo(0.5);
+		//totalScore.anchor.setTo(0.5);
 
-		let txtName = this.createText(cc._width / 2, txtScore.height + totalScore.height, 'NAME:', {
-			fill: '#46c6f2'
+		let txtName = this.createText(cc._width / 2, totalScore.y + totalScore.height / 2 + endgamePadding, 'NAME', {
+			fill: '#46c6f2',
+			boundsAlignH: 'center',
+			boundsAlignV: 'middle',
 		});
-		txtName.anchor.setTo(0.5);
+		//txtName.anchor.setTo(0.5);
 
-		this.nameInput = this.createInput(cc._width / 2, txtScore.height + totalScore.height + txtName.height, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
+		this.nameInput = this.createInput(cc._width / 2, txtName.y + txtName.height / 2 + endgamePadding, inputWidth, inputHeight, {
 			onfocus: this.onNameForus.bind(this)
 		});
 		this.nameInput.anchor.setTo(0.5);
@@ -330,12 +338,15 @@ class GameOver extends Phaser.State {
 			this.nameInput.canvasInput.value("");
 		}
 
-		let txtEmail = this.createText(cc._width / 2, txtScore.height + totalScore.height + txtName.height + inputHeight + endgamePadding, 'EMAIL:', {
-			fill: '#46c6f2'
+		let txtEmail = this.createText(cc._width / 2, this.nameInput.y + inputHeight / 2 + endgamePadding, 'EMAIL', {
+			fill: '#46c6f2',
+			boundsAlignH: 'center',
+			boundsAlignV: 'middle',
 		});
-		txtEmail.anchor.setTo(0.5);
+		//txtEmail.anchor.setTo(0.5);
+		Log.info(txtEmail);
 
-		this.emailInput = this.createInput(cc._width / 2, txtScore.height + totalScore.height + txtName.height + txtEmail.height + inputHeight + endgamePadding, this.game.screenData.inputWidth, this.game.screenData.inputHeight, {
+		this.emailInput = this.createInput(cc._width / 2, txtEmail.y + txtScore.height / 2 + endgamePadding, inputWidth, inputHeight, {
 			onfocus: this.onEmailForus.bind(this)
 		});
 		this.emailInput.anchor.setTo(0.5);
@@ -345,8 +356,7 @@ class GameOver extends Phaser.State {
 			this.emailInput.canvasInput.value('');
 		}
 
-
-		let button = this.add.button(cc._width / 2, txtScore.height + totalScore.height + txtName.height + txtEmail.height + endgamePadding + inputHeight * 2, 'submit-button', this.actionSubmitOnClick.bind(this));
+		let button = this.add.button(cc._width / 2, this.emailInput.y + endgamePadding + inputHeight / 2, 'submit-button', this.actionSubmitOnClick.bind(this));
 		button.anchor.setTo(0.5, 0);
 
 		button.scale.setTo(this.game.screenData.submitButtonScale);
@@ -360,6 +370,7 @@ class GameOver extends Phaser.State {
 		cc.addChild(button);
 		cc.centerX = this.game.width / 2;
 		cc.y = this.panelHeight + this.game.screenData.score_margin_top;
+		cc.width = inputWidth;
 		// cc.scale.setTo(0);
 		return cc;
 
@@ -372,11 +383,11 @@ class GameOver extends Phaser.State {
 			wordWrap: true,
 			wordWrapWidth: 200,
 			align: 'center',
-			boundsAlignH: "center",
-			boundsAlignV: "middle"
+			maxLines: 1
 		};
 
 		let text = this.add.text(x, y, txt, Object.assign({}, style, options));
+		text.anchor.setTo(0.5);
 		return text;
 	}
 

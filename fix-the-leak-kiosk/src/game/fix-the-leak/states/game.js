@@ -22,7 +22,7 @@ export default class Game extends Phaser.State {
 	init(level, score, time) {
 		this.level = level;
 		this.score_game = score;
-		this.time_play = 45;
+		this.time_play = 2;
 
 		this.w = this.game.width;
 		this.h = this.game.height;

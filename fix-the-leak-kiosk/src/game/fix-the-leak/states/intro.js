@@ -309,7 +309,7 @@ class Intro extends Phaser.State {
 
 
 		const style = {
-			font: '600 ' + this.font_1 + ' AvenirNextLTPro-UltLtCn',
+			font: '500 ' + this.game.screenData.font_1 + ' AvenirNextLTPro-MediumCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: this.panelWidth,
@@ -317,7 +317,7 @@ class Intro extends Phaser.State {
 		};
 
 		const style2 = {
-			font: '600 ' + this.font_2 + ' AvenirNextLTPro-BoldCn',
+			font: '600 ' + this.game.screenData.font_2 + ' AvenirNextLTPro-BoldCn',
 			fill: '#000000',
 			wordWrap: true,
 			wordWrapWidth: this.panelWidth,
@@ -396,10 +396,10 @@ class Intro extends Phaser.State {
 	}
 
 	loadLeaderboard() {
-		var _self = this;
+		let _self = this;
 		const wordWrapWidth = (this.panelWidth - (this.panelPadding * 2)) / 2;
 		const styleName = {
-			font: '600 ' + this.font_3 + ' AvenirNextLTPro-DemiCn',
+			font: '600 ' + this.game.screenData.font_3 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
 			wordWrap: false,
 			wordWrapWidth: wordWrapWidth,
@@ -407,7 +407,7 @@ class Intro extends Phaser.State {
 		};
 
 		const styleScore = {
-			font: '600 ' + this.font_3 + ' AvenirNextLTPro-DemiCn',
+			font: '600 ' + this.game.screenData.font_3 + ' AvenirNextLTPro-DemiCn',
 			fill: '#000000',
 			wordWrap: false,
 			wordWrapWidth: wordWrapWidth,
@@ -417,7 +417,7 @@ class Intro extends Phaser.State {
 		panelLeader.width = this.panelWidth;
 		panelLeader.top = 120;
 
-		var fix_email = localStorage.getItem('fix_user_email');
+		let fix_email = localStorage.getItem('fix_user_email');
 		fetch(val.baseUrl + 'api/v1/ranks', {
 			method: 'POST',
 			headers: {
@@ -431,7 +431,7 @@ class Intro extends Phaser.State {
 		}).then((response) => {
 			return response.json();
 		}).then((json) => {
-			json['tops'].forEach((element, index) => {
+			json.tops.forEach((element, index) => {
 				let groupScore = this.add.group();
 				let text = this.add.text(0, index * this.margin_text, element.name, styleName);
 				text.left = 60;
@@ -453,12 +453,12 @@ class Intro extends Phaser.State {
 			let current_height = _self.h;
 			let my_rank;
 
-			if (json['rank'] >= 0) {
+			if (json.rank >= 0) {
 				if (parseInt(current_height) < 800) {
-					my_rank = this.add.text(0, 6 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json['rank'], styleName);
+					my_rank = this.add.text(0, 6 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json.rank, styleName);
 				} else {
 
-					my_rank = this.add.text(0, 7 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json['rank'], styleName);
+					my_rank = this.add.text(0, 7 * this.margin_text + 10, 'YOUR PREVIOUS RANKING: ' + json.rank, styleName);
 				}
 
 				my_rank.alpha = 0;

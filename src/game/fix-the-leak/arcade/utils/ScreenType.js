@@ -105,6 +105,7 @@ export function getInitData(game) {
 			level_font_tabs: 100,
 			panelWidth: 380,
 			panelHeight: 445,
+			textNameMargin: 60
 		});
 	} else if (width <= 768 & width > 480 && height <= 1024) {
 		/**
