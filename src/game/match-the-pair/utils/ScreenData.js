@@ -4,20 +4,20 @@ export function getInitData(game) {
 	const width = game.width;
 	const height = game.height;
 
-	var data = {
+	let data = {
 		mapScreen: 6,
 		panel_margin_left: 44,
 		intro_margin_top: 90,
-		bold_font: '42px',
-		intro_font: '42px',
-		menu_font: '42px',
+		bold_font: 42,
+		intro_font: 42,
+		menu_font: 42,
 		button_ok_margin: 60,
 		tree_margin_bottom: 65,
 		rankPaddingTop: 0,
 		startButtonPaddingTop: 500,
 		pivot: {},
 		end_score_width: 80,
-		font_thanks: '48px',
+		font_thanks: 48,
 		info_winner_left: width / 2 - 250,
 		info_bet: 20,
 		input_width: 450,
@@ -26,7 +26,8 @@ export function getInitData(game) {
 		input_margin_top: 230,
 		margin2Input: 70,
 		lineSpacing: 25,
-		tabs: 30
+		tabs: 30,
+		panel_height: 90
 	};
 
 	/**
@@ -37,15 +38,15 @@ export function getInitData(game) {
 			mapScreen: 1,
 			panel_margin_left: 12,
 			intro_margin_top: 135,
-			bold_font: '26px',
-			intro_font: '20px',
-			menu_font: '26px',
+			bold_font: 26,
+			intro_font: 20,
+			menu_font: 26,
 			button_ok_margin: 40,
 			tree_margin_bottom: 90,
 			rankPaddingTop: 0,
 			startButtonPaddingTop: 650,
 			end_score_width: 50,
-			font_thanks: '44px',
+			font_thanks: 44,
 			info_winner_left: width / 2 - 140,
 			info_bet: 10,
 			input_width: 240,
@@ -53,7 +54,8 @@ export function getInitData(game) {
 			font_size_name: 24,
 			input_margin_top: 145,
 			margin2Input: 50,
-			lineSpacing: 10
+			lineSpacing: 10,
+			panel_height: 57
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
@@ -63,9 +65,9 @@ export function getInitData(game) {
 			mapScreen: 2,
 			panel_margin_left: 30,
 			intro_margin_top: 90,
-			bold_font: '30px',
-			intro_font: '32px',
-			menu_font: '32px',
+			bold_font: 30,
+			intro_font: 32,
+			menu_font: 32,
 			button_ok_margin: 40,
 			tree_margin_bottom: 65,
 			rankPaddingTop: 0,
@@ -74,7 +76,7 @@ export function getInitData(game) {
 				y: 15
 			},
 			end_score_width: 70,
-			font_thanks: '40px',
+			font_thanks: 40,
 			info_winner_left: width / 2 - 180,
 			info_bet: 15,
 			input_width: 300,
@@ -82,7 +84,8 @@ export function getInitData(game) {
 			font_size_name: 30,
 			input_margin_top: 145,
 			margin2Input: 50,
-			lineSpacing: 10
+			lineSpacing: 10,
+			panel_height: 57
 		});
 	} else if (width <= 810 && width > 768 && height <= 640) {
 		/**
@@ -92,15 +95,16 @@ export function getInitData(game) {
 			mapScreen: 3,
 			panel_margin_left: 30,
 			intro_margin_top: 90,
-			bold_font: '30px',
-			intro_font: '32px',
-			menu_font: '32px',
+			bold_font: 30,
+			intro_font: 32,
+			menu_font: 32,
 			button_ok_margin: 40,
 			tree_margin_bottom: 65,
 			rankPaddingTop: 0,
 			startButtonPaddingTop: 430,
 			info_bet: 15,
-			font_size_name: 30
+			font_size_name: 30,
+			input_width: 300
 
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1020) {

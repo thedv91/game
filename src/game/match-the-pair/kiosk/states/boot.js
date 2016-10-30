@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Log } from 'utils/Log';
 import { getInitData } from './../../utils/ScreenData';
+import { LevelData } from './../data/GameData';
 
 class Boot extends Phaser.State {
 
@@ -10,6 +11,7 @@ class Boot extends Phaser.State {
 
 	init() {
 		this.game.screenData = getInitData(this.game);
+		this.game.LevelData = LevelData;
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;
@@ -61,6 +63,7 @@ class Boot extends Phaser.State {
 		} else {
 			game.load.image('bg_play', 'assets/match-the-pair/kiosk/images/small_screen/bg_play.png?ssads');
 		}
+		this.load.spritesheet('begin-button', '/assets/buttons/begin_button_sprite_sheet.png', 159, 54);
 		// Menu Stage
 		game.load.image('background', 'assets/match-the-pair/kiosk/images/wallys-background.png?dfddf');
 		game.load.image('play_bg', 'assets/match-the-pair/kiosk/images/play_bg.jpg?sdf');
