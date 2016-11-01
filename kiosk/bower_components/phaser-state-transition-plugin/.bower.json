@@ -1,0 +1,34 @@
+{
+  "name": "phaser-state-transition-plugin",
+  "version": "0.1.6",
+  "homepage": "https://github.com/aaccurso/phaser-state-transition-plugin",
+  "authors": [
+    "aaccurso <accurso.alan@gmail.com>"
+  ],
+  "description": "State Transition plugin for Phaser.js",
+  "main": "dist/phaser-state-transition-plugin.min.js",
+  "keywords": [
+    "phaser",
+    "state",
+    "transition",
+    "plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.1.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.6",
+    "commit": "a83a765599a932b3e28ce544434b1651ce09314f"
+  },
+  "_source": "https://github.com/aaccurso/phaser-state-transition-plugin.git",
+  "_target": "^0.1.6",
+  "_originalSource": "phaser-state-transition-plugin",
+  "_direct": true
+}
