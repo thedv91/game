@@ -6,6 +6,7 @@ use App\FixTheLeak;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FixTheLeakRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class FixTheLeakController extends Controller

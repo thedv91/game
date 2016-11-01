@@ -12,6 +12,7 @@ class KioskGame extends Phaser.Game {
 	constructor(width = 810, height = 640, id = 'match-the-pair') {
 		super(width, height, Phaser.CANVAS, id);
 		this.screenData = {};
+		this.gameType = 0;
 		this.state.add('boot', Boot);
 		this.state.add('splash', Splash);
 		this.state.add('load', Load);

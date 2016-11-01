@@ -20,13 +20,13 @@ export default class BoxScore {
 		let group = this.game.add.group();
 
 		let style_label = {
-			font: 24 + 'px AvenirNextLTProHeavyCn',
+			font: 24 + 'px AvenirNextLTPro-HeavyCn',
 			fill: '#3f5405',
 			fontWeight: 'normal',
 			align: 'center'
 		};
 		let style_score = {
-			font: 40 + 'px AvenirNextLTProHeavyCn',
+			font: 40 + 'px AvenirNextLTPro-HeavyCn',
 			fill: "#3f5405",
 			align: 'center',
 			fontWeight: 'bold'

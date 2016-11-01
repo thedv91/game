@@ -28,4 +28,6 @@ Route::any('memory/ranks', 'MemoryController@getHeightScore')->middleware('cors'
 Route::group(['namespace' => 'Api', 'prefix' => 'api/v1', 'middleware' => 'cors'], function () {
     Route::resource('fix-the-leak', 'FixTheLeakController');
     Route::any('ranks', 'FixTheLeakController@getRank');
+    Route::post('memory/ranks', 'MemoryController@getRank');
+    Route::post('memory', 'MemoryController@store');
 });

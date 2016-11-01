@@ -1,6 +1,7 @@
 import Play from './play';
 import { Log } from 'utils/Log';
 import BoxScore from './../../utils/objects/BoxScore';
+import val from './../variables';
 
 class Win extends Phaser.State {
 
@@ -26,20 +27,20 @@ class Win extends Phaser.State {
 		this.menu_bg = this.game.add.image(w / 2, h, 'play_bg');
 
 		let thank_you = this.game.add.text(w / 2, h, 'THANK YOU', {
-			font: this.game.screenData.font_thanks + "px AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_thanks + "px AvenirNextLTPro-HeavyCn",
 			fill: "#3f5405"
 		});
 
 		thank_you.anchor.setTo(0.5, 1);
 
 		let style = {
-			font: this.game.screenData.menu_font + "px AvenirNextLTProHeavyCn",
+			font: this.game.screenData.menu_font + "px AvenirNextLTPro-HeavyCn",
 			fill: "#b0da40",
 			boundsAlignH: "center",
 			boundsAlignV: "top"
 		};
 		let style_bottom = {
-			font: this.game.screenData.font_thanks + "px AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_thanks + "px AvenirNextLTPro-HeavyCn",
 			fill: "#fff",
 			boundsAlignH: "center",
 			boundsAlignV: "top"
@@ -66,7 +67,7 @@ class Win extends Phaser.State {
 		let groupEmail = this.game.add.group();
 		groupEmail.x = this.game.width / 2 - (boxInputWidth / 2);
 		let txtName = this.game.add.text(0, 0, 'NAME', {
-			font: this.game.screenData.font_size_name + "px AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_size_name + "px AvenirNextLTPro-HeavyCn",
 			fill: "#b0da40"
 		});
 
@@ -88,7 +89,7 @@ class Win extends Phaser.State {
 		groupName.y = 200;
 		//User Email
 		let txtEmail = this.game.add.text(0, 0, 'EMAIL', {
-			font: this.game.screenData.font_size_name + "px AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_size_name + "px AvenirNextLTPro-HeavyCn",
 			fill: "#b0da40"
 		});
 		this.emailUser = this.createInput(120, 0, this.game.screenData.input_width, this.game.screenData.input_height);
@@ -159,10 +160,10 @@ class Win extends Phaser.State {
 
 
 		// Add text "Match the pairs" on top screen
-		var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+		var style = { font: "bold 36px AvenirNextLTPro-HeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 		if (game.width <= 500) {
 			text = game.add.text(10, panel_height / 4, "MATCH THE PAIRS", {
-				font: "bold 28px AvenirNextLTProHeavyCn",
+				font: "bold 28px AvenirNextLTPro-HeavyCn",
 				fill: "#fff",
 				boundsAlignH: "center",
 				boundsAlignV: "middle"
@@ -223,9 +224,9 @@ class Win extends Phaser.State {
 	}
 
 	submitInfo() {
-		var flag = true;
-		var user_name = this.nameUser.canvasInput.value();
-		var user_email = this.emailUser.canvasInput.value();
+		let flag = true;
+		let user_name = this.nameUser.canvasInput.value();
+		let user_email = this.emailUser.canvasInput.value();
 		console.log(user_name, user_email);
 		if (user_name.trim() == "" || user_name.trim() == undefined) {
 			this.nameUser.canvasInput.backgroundColor('#ffc6c6');
@@ -245,36 +246,34 @@ class Win extends Phaser.State {
 			return false;
 		}
 
-		var score = this.finalScore(moves, time);
+		let score = this.finalScore(this.moves, this.time);
 
-
-		var params = {
+		let params = {
 			user_name: user_name,
 			user_email: user_email,
-			score: score,
-			moves: moves,
-			time: time,
-			type: game_type
+			score: this.time,
+			moves: this.moves,
+			time: this.time,
+			type: this.game.gameType
 		};
 
-		$.ajax({
-			type: "POST",
-			url: "/memory/save-info",
-			dataType: "JSON",
-			data: params,
-			success: function (response) {
-				if (response.status == 1) {
-					localStorage.setItem('user_name', user_name);
-					localStorage.setItem('user_email', user_email);
-
-					setTimeout(function () {
-						game.state.start('menu');
-					});
-
-				} else {
-					Log.log('Something error on save Data');
-				}
-			}
+		fetch(`${val.baseUrl}/api/v1/memory`, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(params)
+		}).then(res => {
+			return res.json();
+		}).then(json => {
+			localStorage.setItem('user_name', user_name);
+			localStorage.setItem('user_email', user_email);
+			setTimeout(() => {
+				this.game.state.start('menu');
+			});
+		}).catch(err => {
+			Log.log(err);
 		});
 
 	}

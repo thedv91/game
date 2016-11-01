@@ -99,13 +99,13 @@ class Menu extends Phaser.State {
 
 
 		// Text
-		let style = { font: "26px AvenirNextLTProHeavyCn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
+		let style = { font: "26px AvenirNextLTPro-HeavyCn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
 		let text = this.game.add.text(45, 55, "MATCH THE PAIRS", style);
 
 		this.game.rank_table.add(text);
 
-		var style_normal = { font: "bold 17px AvenirNextLTProCn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
-		var style_title = { font: "bold 24px AvenirNextLTProCn", fill: "#f6ecc9", textDecoration: "underline", boundsAlignH: "center", boundsAlignV: "middle" };
+		var style_normal = { font: "bold 17px AvenirNextLTPro-Cn", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
+		var style_title = { font: "bold 24px AvenirNextLTPro-Cn", fill: "#f6ecc9", textDecoration: "underline", boundsAlignH: "center", boundsAlignV: "middle" };
 
 		this.game.rank_table.add(this.game.make.text(75, 110, 'HALL OF FAME', style_title));
 
@@ -117,7 +117,7 @@ class Menu extends Phaser.State {
 		*
 		*/
 
-		fetch(val.baseUrl + 'memory/ranks', {
+		fetch(`${val.baseUrl}/api/v1/memory/ranks`, {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
@@ -125,22 +125,27 @@ class Menu extends Phaser.State {
 			},
 			body: JSON.stringify({
 				'email': memory_email,
-				'type': 0
+				'type': this.game.gameType
 			})
 		}).then(response => {
 			return response.json();
 		}).then(json => {
 			let users = json.tops;
 
-			for (var i = 0; i < users.length; i++) {
-				this.game.rank_table.add(this.game.make.text(30, 160 + i * 28, this.trimString(users[i].name.toUpperCase(), 15), style_normal));
-				this.game.rank_table.add(this.game.make.text(210, 160 + i * 28, users[i].time + ' S', style_normal));
-			}
+			json.tops.map((item, index) => {
+				this.game.rank_table.add(this.game.make.text(30, 160 + index * 28, this.trimString(item.name.toUpperCase(), 15), style_normal));
+				this.game.rank_table.add(this.game.make.text(210, 160 + index * 28, item.score + ' S', style_normal));
+			});
 
-			var style_italic = { font: "14px AvenirNextLTProCnIt", fill: "#f6ecc9", boundsAlignH: "center", boundsAlignV: "middle" };
+			let style_italic = {
+				font: "14px AvenirNextLTPro-CnIt",
+				fill: "#f6ecc9",
+				boundsAlignH: "center",
+				boundsAlignV: "middle"
+			};
 
 			if (json.rank != -1) {
-				this.game.rank_table.add(game.make.text(65, 342, 'YOUR PREVIOUS RANKING: ' + json.rank, style_italic));
+				this.game.rank_table.add(this.game.make.text(65, 342, 'YOUR PREVIOUS RANKING: ' + json.rank, style_italic));
 			}
 		}).catch(err => {
 			Log.error(err);
@@ -150,10 +155,11 @@ class Menu extends Phaser.State {
 	}
 	// Trim string
 	trimString(text, number_text) {
+		let shortText;
 		if (text.trim().length < number_text) {
-			var shortText = text;
+			shortText = text;
 		} else {
-			var shortText = text.trim().substring(0, number_text) + "...";
+			shortText = text.trim().substring(0, number_text) + "...";
 		}
 
 		return shortText;

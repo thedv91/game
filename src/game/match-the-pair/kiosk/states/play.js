@@ -174,10 +174,10 @@ class Play extends Phaser.State {
 
 
 		// Add text "Match the pairs" on top screen
-		var style = { font: "bold 36px AvenirNextLTProHeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+		var style = { font: "bold 36px AvenirNextLTPro-HeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 		if (game.width <= 500) {
 			text = this.game.add.text(10, panel_height / 4, "MATCH THE PAIRS", {
-				font: "bold 28px AvenirNextLTProHeavyCn",
+				font: "bold 28px AvenirNextLTPro-HeavyCn",
 				fill: "#fff",
 				boundsAlignH: "center",
 				boundsAlignV: "middle"
@@ -282,12 +282,12 @@ class Play extends Phaser.State {
 	}
 
 	flipFake(sprite) {
+		sprite.up = !sprite.up;
 		let tween = this.game.add.tween(sprite.scale).to({
 			x: 1
 		}, 200, Phaser.Easing.Linear.None, true);
 		tween.onComplete.add(() => {
 			this.click = true;
-			sprite.up = !sprite.up;
 		}, this);
 	}
 
@@ -302,6 +302,10 @@ class Play extends Phaser.State {
 	}
 
 	doClick(sprite) {
+		if (!this.gamePlay)
+			return;
+		if (sprite.up)
+			return;
 		let w = this.game.width, h = this.game.height;
 
 		if (this.firstClick == null) {
@@ -346,12 +350,13 @@ class Play extends Phaser.State {
 
 
 				if (this.total_open == this.LevelData.number_col * this.LevelData.number_row) {
-
+					this.gamePlay = false;
 					setTimeout(() => {
-						this.cards = [];
-						this.images = [];
-						this.movies = [];
-						this.game.state.start('win');
+						// this.cards = [];
+						// this.images = [];
+						// this.movies = [];
+						// this.game.state.start('win');
+						this.toWinStage();
 
 					}, 1000);
 
@@ -385,8 +390,8 @@ class Play extends Phaser.State {
 		this.is_playing = 1;
 		let w = this.game.width, h = this.game.height;
 
-		let style = { font: "24px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
-		let style_bottom = { font: "bold 40px AvenirNextLTProHeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
+		let style = { font: "24px AvenirNextLTPro-HeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
+		let style_bottom = { font: "bold 40px AvenirNextLTPro-HeavyCn", fill: "#3f5405", boundsAlignH: "center", boundsAlignV: "top" };
 
 		let manager_time = this.game.add.group();
 		manager_time.x = 0;
@@ -418,11 +423,12 @@ class Play extends Phaser.State {
 		let bg = this.game.add.sprite(this.game.screenData.panel_margin_left, panel_height + 25, 'pause');
 		bg.width = this.game.width - this.game.screenData.panel_margin_left * 2;
 		bg.height = this.game.height - panel_height - 50;
+		bg.alpha = .8;
 		cc.alpha = 0;
 		cc.visible = false;
 
 		//Text Bold
-		let text_bold = { font: this.game.screenData.bold_font + "px AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+		let text_bold = { font: this.game.screenData.bold_font + "px AvenirNextLTPro-HeavyCn", fill: "#3f5405", align: "center" };
 		let instructions = this.game.add.text(this.game.width / 2, this.game.height / 2 - this.game.screenData.intro_margin_top, 'INSTRUCTIONS', text_bold);
 		instructions.anchor.set(0.5, 1);
 
@@ -430,7 +436,7 @@ class Play extends Phaser.State {
 		lineHR.anchor.setTo(0.5, 1);
 
 		// Add text in center pause game
-		let style_level = { font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTProHeavyCn", fill: "#3f5405", align: "center" };
+		let style_level = { font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTPro-HeavyCn", fill: "#3f5405", align: "center" };
 		let text_pause = this.game.add.text(w / 2, h / 2 - this.game.screenData.intro_margin_top + 20, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN" + "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
 		text_pause.anchor.set(0.5, 0);
 		text_pause.lineSpacing = 1;
@@ -557,12 +563,13 @@ class Play extends Phaser.State {
 		let bg = this.add.sprite(this.game.screenData.panel_margin_left, this.panel_height + 25, 'pause');
 		bg.width = this.game.width - this.game.screenData.panel_margin_left * 2;
 		bg.height = this.game.height - this.panel_height - 50;
+		bg.alpha = .8;
 
 		//this.game.add.tween(this.menu).to({ y: this.panel_height + 25 }, 1000, Phaser.Easing.Bounce.Out, true);
 
 		// Add text in center pause game
 		let style_level = {
-			font: "bold " + this.game.screenData.menu_font + "px AvenirNextLTProHeavyCn",
+			font: "bold " + this.game.screenData.menu_font + "px AvenirNextLTPro-HeavyCn",
 			fill: "#455912",
 			boundsAlignH: "center",
 			boundsAlignV: "middle"
@@ -690,8 +697,9 @@ class Play extends Phaser.State {
 	toWinStage() {
 		this.cards = [];
 		this.images = [];
+		this.movies = [];
 		// We start the win state
-		this.game.state.start('win', true, true, this.moves, this.time);
+		this.game.state.start('win', true, false, this.moves, this.time);
 	}
 
 	_startGameClick() {

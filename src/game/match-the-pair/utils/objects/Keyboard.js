@@ -1,7 +1,7 @@
 /*
  * Keyboard
  */
-import KeyData from './../../../utils/KeyData';
+import KeyData from 'utils/KeyData';
 import Key from './Key';
 
 export default class Keyboard {
