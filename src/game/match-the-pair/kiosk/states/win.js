@@ -1,5 +1,6 @@
 import Play from './play';
 import { Log } from 'utils/Log';
+import BoxScore from './../../utils/objects/BoxScore';
 
 class Win extends Phaser.State {
 
@@ -20,140 +21,60 @@ class Win extends Phaser.State {
 		}
 		this.match_the_pair_left = w / 2;
 
-		// if (game.width <= 500) {
-		// 	panel_margin_left = 12;
-		// 	intro_font = '20px';
-		// 	menu_font = '26px';
-		// 	this.match_the_pair_left = w / 4;
-		// 	font_thanks = '44px';
-
-		// 	// Config for input
-		// 	input_width = 240;
-		// 	input_height = 18;
-		// 	info_winner_left = w / 2 - 140;
-
-		// 	end_score_width = 50;
-		// 	font_size_name = 24;
-		// 	info_bet = 10;
-
-		// 	tree_margin_bottom = 90;
-		// 	input_margin_top = 145;
-		// 	margin2Input = 50;
-		// 	lineSpacing = 10;
-		// }
-		// if (game.width > 500 && game.width <= 820) {
-		// 	panel_margin_left = 30;
-		// 	intro_font = '30px';
-		// 	menu_font = '32px';
-		// 	font_thanks = '40px';
-
-		// 	// Config for input
-		// 	input_width = 300;
-		// 	input_height = 20;
-		// 	info_winner_left = w / 2 - 180;
-
-		// 	end_score_width = 70;
-		// 	font_size_name = 30;
-		// 	info_bet = 15;
-
-		// 	tree_margin_bottom = 65;
-		// 	input_margin_top = 145;
-		// 	margin2Input = 50;
-		// 	lineSpacing = 10;
-		// }
-
-		// if (game.width < 820 && game.height >= 820) {
-		// 	intro_font = '36px';
-		// 	menu_font = '36px';
-		// 	font_thanks = '50px';
-
-		// 	input_width = 450;
-		// 	input_height = 35;
-		// 	info_winner_left = w / 2 - 250;
-
-		// 	end_score_width = 70;
-		// 	font_size_name = 30;
-		// 	info_bet = 15;
-
-		// 	tree_margin_bottom = 65;
-		// 	input_margin_top = 230;
-		// 	margin2Input = 70;
-		// 	lineSpacing = 25;
-		// }
-
-		// if (game.width > 820) {
-		// 	panel_margin_left = 44;
-		// 	intro_font = '34px';
-		// 	menu_font = '42px';
-		// 	font_thanks = '48px';
-
-		// 	// Config for input
-		// 	input_width = 450;
-		// 	input_height = 35;
-		// 	info_winner_left = w / 2 - 250;
-
-		// 	end_score_width = 80;
-		// 	font_size_name = 34;
-		// 	info_bet = 20;
-
-		// 	tree_margin_bottom = 65;
-		// 	input_margin_top = 230;
-		// 	margin2Input = 70;
-		// 	lineSpacing = 25;
-		// }
-
-
 		this.initBackground();
 
 		this.menu_bg = this.game.add.image(w / 2, h, 'play_bg');
-		// this.tree_play = this.game.cache.getImage('bg_play');
-		// this.tree_play = this.game.add.image(w / 2 - this.tree_play.width / 2, h - this.tree_play.height - this.game.screenData.tree_margin_bottom, 'bg_play');
-		// Draw Thank You
 
 		let thank_you = this.game.add.text(w / 2, h, 'THANK YOU', {
-			font: this.game.screenData.font_thanks + " AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_thanks + "px AvenirNextLTProHeavyCn",
 			fill: "#3f5405"
 		});
 
 		thank_you.anchor.setTo(0.5, 1);
 
 		let style = {
-			font: this.game.screenData.menu_font + " AvenirNextLTProHeavyCn",
+			font: this.game.screenData.menu_font + "px AvenirNextLTProHeavyCn",
 			fill: "#b0da40",
 			boundsAlignH: "center",
 			boundsAlignV: "top"
 		};
 		let style_bottom = {
-			font: this.game.screenData.font_thanks + " AvenirNextLTProHeavyCn",
+			font: this.game.screenData.font_thanks + "px AvenirNextLTProHeavyCn",
 			fill: "#fff",
 			boundsAlignH: "center",
 			boundsAlignV: "top"
 		};
 
-		let end_moves = this.game.add.text(this.game.world.centerX - this.game.screenData.end_score_width, this.panel_height + 30, 'MOVES \n', style);
-		end_moves.setTextBounds(0, 0, 0, 0);
+		let boxMove = new BoxScore(this.game, this.game.world.centerX - this.game.screenData.end_score_width, this.panel_height + 30, 'MOVES', this.moves, style, style_bottom);
+		let boxTime = new BoxScore(this.game, this.game.world.centerX + this.game.screenData.end_score_width, this.panel_height + 30, 'TIME', this.time, style, style_bottom);
+		// let end_moves = this.game.add.text(this.game.world.centerX - this.game.screenData.end_score_width, this.panel_height + 30, 'MOVES \n', style);
+		// end_moves.anchor.setTo(0.5);
 
-		this.end_moves_number = this.game.add.text(this.game.world.centerX - this.game.screenData.end_score_width, this.panel_height + 70, this.moves, style_bottom);
-		this.end_moves_number.setTextBounds(0, 0, 0, 0);
+		// this.end_moves_number = this.game.add.text(this.game.world.centerX - this.game.screenData.end_score_width, this.panel_height + 70, this.moves, style_bottom);
+		// this.end_moves_number.setTextBounds(0, 0, 0, 0);
+		// this.end_moves_number.anchor.setTo(0.5);
 
 
-		let end_time = this.game.add.text(this.game.world.centerX + this.game.screenData.end_score_width, this.panel_height + 30, 'TIME \n', style);
-		end_time.setTextBounds(0, 0, 0, 0);
-		this.end_time_number = this.game.add.text(this.game.world.centerX + this.game.screenData.end_score_width, this.panel_height + 70, this.time + 's', style_bottom);
-		this.end_time_number.setTextBounds(0, 0, 0, 0);
-
-		this.info_winner = this.game.add.text(this.game.screenData.info_winner_left, this.panel_height + this.game.screenData.input_margin_top + 40, " NAME:\nEMAIL:", {
+		// let end_time = this.game.add.text(this.game.world.centerX + this.game.screenData.end_score_width, this.panel_height + 30, 'TIME \n', style);
+		// end_time.setTextBounds(0, 0, 0, 0);
+		// this.end_time_number = this.game.add.text(this.game.world.centerX + this.game.screenData.end_score_width, this.panel_height + 70, this.time + 's', style_bottom);
+		// this.end_time_number.setTextBounds(0, 0, 0, 0);
+		// this.end_time_number.anchor.setTo(0.5);
+		let boxInputWidth = 120 + this.game.screenData.input_width;
+		let groupName = this.game.add.group();
+		groupName.x = this.game.width / 2 - (boxInputWidth / 2);
+		let groupEmail = this.game.add.group();
+		groupEmail.x = this.game.width / 2 - (boxInputWidth / 2);
+		let txtName = this.game.add.text(0, 0, 'NAME', {
 			font: this.game.screenData.font_size_name + "px AvenirNextLTProHeavyCn",
 			fill: "#b0da40"
 		});
 
-		if ((this.game.width < 820 && this.game.height >= 820) || this.game.width > 820) {
-			this.info_winner.y = this.panel_height + this.game.screenData.input_margin_top + 55;
-		}
+		//this.info_winner.anchor.setTo(0.5);
+		txtName.lineSpacing = this.game.screenData.lineSpacing;
 
-		this.info_winner.anchor.setTo(0.5);
-		this.info_winner.lineSpacing = this.game.screenData.lineSpacing;
-		this.nameUser = this.createInput(this.game.screenData.info_winner_left + this.info_winner.width / 2 + this.game.screenData.info_bet, this.panel_height + this.game.screenData.input_margin_top - this.game.screenData.input_height / 2, this.game.screenData.input_width, this.game.screenData.input_height);
+		this.nameUser = this.createInput(120, 0, this.game.screenData.input_width, this.game.screenData.input_height);
+		//this.nameUser.anchor.setTo(0.5);
 
 		if (localStorage.getItem('user_name')) {
 			this.nameUser.canvasInput.value(localStorage.getItem('user_name'));
@@ -162,8 +83,15 @@ class Win extends Phaser.State {
 		}
 		// game.add.tween(nameUser);
 
+		groupName.addChild(txtName);
+		groupName.addChild(this.nameUser);
+		groupName.y = 200;
 		//User Email
-		this.emailUser = this.createInput(this.game.screenData.info_winner_left + this.info_winner.width / 2 + this.game.screenData.info_bet, this.panel_height + this.game.screenData.input_margin_top + this.game.screenData.margin2Input - this.game.screenData.input_height / 2, this.game.screenData.input_width, this.game.screenData.input_height);
+		let txtEmail = this.game.add.text(0, 0, 'EMAIL', {
+			font: this.game.screenData.font_size_name + "px AvenirNextLTProHeavyCn",
+			fill: "#b0da40"
+		});
+		this.emailUser = this.createInput(120, 0, this.game.screenData.input_width, this.game.screenData.input_height);
 
 		if (localStorage.getItem('user_email')) {
 			this.emailUser.canvasInput.value(localStorage.getItem('user_email'));
@@ -171,14 +99,12 @@ class Win extends Phaser.State {
 			this.emailUser.canvasInput.value('');
 		}
 
-		// game.add.tween(emailUser);
-
-
+		groupEmail.addChild(txtEmail);
+		groupEmail.addChild(this.emailUser);
+		groupEmail.y = 300;
 
 		let submitBtn = this.game.add.button(w / 2, this.panel_height + 270, 'submit', this.submitInfo, this);
-		if ((this.game.width < 820 && this.game.height >= 820) || this.game.width > 820) {
-			submitBtn.y = this.panel_height + 400;
-		}
+		submitBtn.y = groupEmail.y + 100;
 		submitBtn.input.useHandCursor = true;
 		submitBtn.anchor.setTo(0.5);
 	}
