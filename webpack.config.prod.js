@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 
 // Phaser webpack config
 const phaserModule = path.join(__dirname, '/node_modules/phaser/');
@@ -10,21 +9,22 @@ const p2 = path.join(phaserModule, 'build/custom/p2.js');
 
 
 export default {
-	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
+	entry: [
+		'babel-polyfill',
+		'whatwg-fetch',
+		'./src/app'
+	],
 	output: {
-		//path: './dist',
-		path: './api/public/dist',
+		path: './dist',
+		// path: './api/public/dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
 		library: 'QsoftGame'
 	},
-	devtool: 'cheap-module-source-map',
+	devtool: 'cheap-source-map',
 	externals: {
-		// require("jquery") is external and available
-		//  on the global var jQuery
-		"Phaser": "Phaser"
+		Phaser: 'Phaser'
 	},
-	watch: true,
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
@@ -62,7 +62,7 @@ export default {
 			'p2': p2
 
 		},
-		extensions: ["", ".webpack.js", ".web.js", ".js"],
-		modulesDirectories: ["game", "node_modules"]
+		extensions: ['', '.webpack.js', '.web.js', '.js'],
+		modulesDirectories: ['game', 'node_modules']
 	}
 };
