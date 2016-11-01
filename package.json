@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack",
+    "babel-node": "babel-node --presets=es2015",
+    "dev": "babel-node tools/dev.server.js",
     "build": "babel-node tools/build.js"
   },
   "author": "",
@@ -25,7 +25,8 @@
     "required-loader": "^1.0.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.8.4"
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.1"
   },
   "dependencies": {
     "jquery": "^3.0.0",

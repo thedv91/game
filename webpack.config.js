@@ -1,4 +1,4 @@
-require("babel-polyfill");
+require('babel-polyfill');
 var path = require('path');
 var webpack = require('webpack');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
@@ -11,16 +11,22 @@ var p2 = path.join(phaserModule, 'build/custom/p2.js');
 
 
 module.exports = {
-	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
+	debug: true,
+	devtool: 'eval',
+	noInfo: true,
+	entry: [
+		'babel-polyfill',
+		'whatwg-fetch',
+		'./src/app'
+	],
 	output: {
-		path: './dist',
+		path: __dirname + '/dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
-		library: 'QsoftGame'
+		library: 'QsoftGame',
+		publicPath: '/',
 	},
 	externals: {
-		// require("jquery") is external and available
-		//  on the global var jQuery
 		"Phaser": "Phaser"
 	},
 	watch: true,
@@ -37,7 +43,9 @@ module.exports = {
 			server: {
 				baseDir: ['./', './dist']
 			}
-		})
+		}),
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin()
 	],
 	module: {
 		loaders: [{

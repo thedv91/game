@@ -10,36 +10,45 @@ const p2 = path.join(phaserModule, 'build/custom/p2.js');
 
 
 export default {
-	entry: ['babel-polyfill', 'whatwg-fetch', './src/app'],
+	debug: true,
+	devtool: 'eval',
+	noInfo: true,
+	entry: [
+		'whatwg-fetch',
+		'./src/app'
+	],
+	target: 'web',
+    devServer: {
+        contentBase: './src'
+    },
 	output: {
-		//path: './dist',
-		path: './api/public/dist',
+		path: __dirname + '/dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
-		library: 'QsoftGame'
+		library: 'QsoftGame',
+		publicPath: '/',
 	},
-	devtool: 'cheap-module-source-map',
 	externals: {
-		// require("jquery") is external and available
-		//  on the global var jQuery
-		"Phaser": "Phaser"
+		Phaser: "Phaser"
 	},
-	watch: true,
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
-				'NODE_ENV': JSON.stringify('production')
+				'NODE_ENV': JSON.stringify('development')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin(),
-		new webpack.optimize.OccurrenceOrderPlugin()
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin()
 	],
 	module: {
 		loaders: [{
 			test: /\.js$/,
 			exclude: /node_modules/,
 			include: path.join(__dirname, 'src'),
-			loader: 'babel-loader'
+			loader: 'babel',
+			query: {
+				cacheDirectory: true,
+			}
 		}, {
 			test: /pixi\.js/,
 			loader: 'expose?PIXI'
