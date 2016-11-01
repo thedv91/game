@@ -1,0 +1,23 @@
+{
+  "name": "match-the-pair-kiosk",
+  "authors": [
+    "Duong The <nopbongdem@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser-state-transition-plugin": "^0.1.6",
+    "CanvasInput": "https://github.com/goldfire/CanvasInput.git#^1.2.2",
+    "jquery": "^3.1.1",
+    "phaser": "^2.6.2"
+  }
+}

@@ -1,0 +1,16 @@
+{	
+	"parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+		"ecmaFeatures": {
+            "jsx": true,
+            "spread": true,
+			"experimentalObjectRestSpread": true
+        }
+    },
+	"rules": {
+        "no-undef": 0,
+        "no-unused-vars": 0,
+        "no-console": 0
+    }
+}

@@ -5,8 +5,6 @@
 
 
 /* Kiosk Mode*/
-var w = 1080;
-var h = 1420;
 
 /* Arcade Mode */
 
@@ -19,13 +17,22 @@ var h = 736;*/
 /*var w = 768;
 var h = 1024;*/
 
+var w, h, menu_bg, margin_left, margin_top, TILE_SIZE;
 
 
 
+var game = new Phaser.Game("100%","100%", Phaser.CANVAS, 'gameDiv');
 
-//var game = new Phaser.Game(w, h, Phaser.AUTO, 'gameDiv');
-var game = new Phaser.Game(w, h, Phaser.CANVAS, 'gameDiv');
-// var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+
+
+// Init Item
+var timeBg;
+// check if game is playing
+var is_playing = 0;
+var total_open = 0;
+
+// Init variable for menu stage
+var rank_table;
 
 // Here we add each state. We give it a casual name that we use when
 var firstClick, secondClick;
@@ -33,23 +40,18 @@ var noMatch, clickTime;
 var score = 0;
 var cards = [];
 var images = [];
+var movies = [];
 var time = 0;
 var moves = 0;
-var number_row = 4;
-var number_col = 4;
+var number_row = 2;
+var number_col = 2;
+var level = 1;
+var game_type = 1;
 
-if(w > 1000){
-    TILE_SIZE = 120;
-}else{
-    TILE_SIZE = 70;
-}
+var click = true;
 
 
 
-
-
-// calling it (i.e. 'boot'), and an official name that we use when
-// defining it (i.e. bootState), as you'll see in the boot.js file
 game.state.add('boot', bootState);
 game.state.add('load', loadState);
 game.state.add('menu', menuState);

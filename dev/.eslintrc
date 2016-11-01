@@ -1,0 +1,22 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-undef": 0,
+    "no-unused-vars": 0,
+    "no-console": 0
+  },
+  "globals": {
+    "PIXI": false,
+    "Phaser": false
+  },
+  "env": {
+    "browser": true
+  }
+}
