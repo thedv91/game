@@ -528,6 +528,8 @@ class Play extends Phaser.State {
      * */
 	clickMenu() {
 
+		if (!this.gamePlay)
+			return;	
 		// this._showUpLevel(1, 2, 3);
 		// return;
 		if (!this.enableClickMenu)
