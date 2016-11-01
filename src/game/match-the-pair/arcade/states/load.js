@@ -1,55 +1,20 @@
-import Phaser from 'phaser';
-import { Log } from 'utils/Log';
-import { getInitData } from './../../utils/ScreenData';
 
-class Boot extends Phaser.State {
+export class Load extends Phaser.State {
 
-	constructor() {
-		super();
-	}
-
-	init() {
-		this.game.screenData = getInitData(this.game);
-		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-		this.game.scale.pageAlignVertically = true;
-		this.game.scale.pageAlignHorizontally = true;
-	}
-
-	create() {
-
-		Log.info('Loading assets done!');
-		// Starting the physics system - in this case we are using the
-		// simple (but effective) ARCADE physics engine
-		this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-		this.game.stateTransition = this.game.plugins.add(Phaser.Plugin.StateTransition);
-
-		this.game.stateTransition.configure({
-			duration: Phaser.Timer.SECOND * 1,
-			ease: Phaser.Easing.Exponential.InOut,
-			properties: {
-				alpha: 0,
-				scale: {
-					x: 1.4,
-					y: 1.4
-
-				}
-			}
-		});
-
-		// Calling the load state
-		this.state.start('splash');
+	constructor(game) {
+		super(game);
 	}
 
 	preload() {
 		let game = this.game;
-		// this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-		// this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+		this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+
+		this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;
-		let w = this.game.width;
-		let h = this.game.height;
+		w = this.game.width;
+		h = this.game.height;
 		// Add a loading label on the screen
 		var loadingLabel = this.game.add.text(80, 150, 'loading...',
 			{ font: '30px Courier', fill: '#ffffff' });
@@ -61,7 +26,6 @@ class Boot extends Phaser.State {
 		} else {
 			game.load.image('bg_play', 'assets/match-the-pair/kiosk/images/small_screen/bg_play.png?ssads');
 		}
-		this.load.spritesheet('begin-button', '/assets/buttons/begin_button_sprite_sheet.png', 159, 54);
 		// Menu Stage
 		game.load.image('background', 'assets/match-the-pair/kiosk/images/wallys-background.png?dfddf');
 		game.load.image('play_bg', 'assets/match-the-pair/kiosk/images/play_bg.jpg?sdf');
@@ -94,6 +58,15 @@ class Boot extends Phaser.State {
 		game.load.image('submit', 'assets/match-the-pair/kiosk/images/submit_green.png');
 
 	}
+
+	create() {
+
+		// Call the menu state
+		this.game.state.start('splash');
+		// game.state.start('play');
+		//  game.state.start('win');
+	}
 }
 
-export default Boot;
+
+export default Load;

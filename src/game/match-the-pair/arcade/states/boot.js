@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { Log } from 'utils/Log';
 import { getInitData } from './../../utils/ScreenData';
+import { LevelData } from './../data/GameData';
 
 class Boot extends Phaser.State {
 
@@ -10,6 +11,7 @@ class Boot extends Phaser.State {
 
 	init() {
 		this.game.screenData = getInitData(this.game);
+		this.game.LevelData = LevelData;
 		this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
 		this.game.scale.pageAlignVertically = true;
 		this.game.scale.pageAlignHorizontally = true;

@@ -13,6 +13,7 @@ import './../libs/canvasinput.js';
 import FixTheLeakArcadeGame from './game/fix-the-leak/arcade/game';
 import FixTheLeakKioskGame from './game/fix-the-leak/kiosk/game';
 import MatchThePairKioskGame from './game/match-the-pair/kiosk/game';
+import MatchThePairArcadeGame from './game/match-the-pair/arcade/game';
 
 
 //new FixTheLeak(810, '100%', 'app');	
@@ -116,6 +117,10 @@ export function FixTheLeakKiosk(dom) {
 
 export function MatchThePairKiosk(dom) {
 	new MatchThePairKioskGame('100%', '100%', dom);
+}
+
+export function MatchThePairArcade(dom) {
+	new MatchThePairArcadeGame('100%', '100%', dom);
 }
 // export function FixTheLeakKiosk(dom) {
 // 	if (window.innerHeight > 810) {
