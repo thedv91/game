@@ -15,8 +15,7 @@ export default {
 		'./src/app'
 	],
 	output: {
-		path: './dist',
-		// path: './api/public/dist',
+		path: './api/public/dist',
 		filename: 'app.bundle.js',
 		libraryTarget: 'var',
 		library: 'QsoftGame'
