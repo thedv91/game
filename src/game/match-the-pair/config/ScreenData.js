@@ -25,9 +25,10 @@ export function getInitData(game) {
 		info_bet: 20,
 		input_width: 450,
 		input_height: 35,
-		inputLeft: 120,
+		inputLeft: 120,		
 		font_size_name: 34,
-		inputMarginTop: 250,
+		scoreMarginTop: 100,
+		inputMarginTop: 320,
 		margin2Input: 100,
 		lineSpacing: 25,
 		tabs: 30,
@@ -35,8 +36,7 @@ export function getInitData(game) {
 		rankTableLeft: 50,
 		labelFontSize: 25,
 		scoreFontSize: 40,
-		buttonMarginLeft: 180,
-		scoreMarginTop: 100,
+		buttonMarginLeft: 180,		
 		wallyMarginBottom: 400,
 		wallyScale: .7
 	};

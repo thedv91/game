@@ -24,6 +24,7 @@ class Play extends Phaser.State {
 		this.timeCounter = this.time * 1000;
 		this.LevelData = _.find(this.game.LevelData, { level: this.level });
 
+		//this.game.state.start('win', true, false, 1000, 1000);
 	}
 
 	_startGame() {
