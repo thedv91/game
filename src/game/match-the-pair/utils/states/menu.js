@@ -46,15 +46,15 @@ class Menu extends Phaser.State {
 
 		// Add Button
 		if (game.width <= 768) {
-			button_left = w / 2 - 180 / 2;
 			button_height = h - 70;
 		} else {
-			button_left = 120;
 			button_height = 430;
 		}
-		let button = game.add.button(button_left, this.game.screenData.startButtonPaddingTop, 'start', this.start, this, 1, 0, 2);
+		let button = this.game.add.button(this.game.screenData.buttonMarginLeft, 0, 'start', this.start, this, 1, 0, 2);
 		//game.add.tween(button).to({ x: button_left, y: 600 }, 1000, Phaser.Easing.Linear.Out, true);
+		button.anchor.setTo(0.5);
 		button.input.useHandCursor = true;
+		button.y = this.game.screenData.startButtonMarginBottom;
 		this.createRankTable(this.game.screenData.rankTableLeft, this.game.screenData.rankPaddingTop);
 
 	}
