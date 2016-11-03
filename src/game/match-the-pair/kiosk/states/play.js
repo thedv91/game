@@ -418,32 +418,42 @@ class Play extends Phaser.State {
      * */
 
 	createIntro() {
-		let cc = this.add.group();
-		let panel_height = this.panel_height;
-		let w = this.game.width, h = this.game.height;
-		let bg = this.game.add.sprite(this.game.screenData.panel_margin_left, panel_height + 25, 'pause');
+		const cc = this.add.group();
+		const panel_height = this.panel_height;
+		const w = this.game.width, h = this.game.height;
+		const bg = this.game.add.sprite(this.game.screenData.panel_margin_left, panel_height + 25, 'pause');
 		bg.width = this.game.width - this.game.screenData.panel_margin_left * 2;
 		bg.height = this.game.height - panel_height - 50;
 		bg.alpha = .8;
 		cc.alpha = 0;
 		cc.visible = false;
+		cc.width = this.game.width;
 
 		//Text Bold
-		let text_bold = { font: this.game.screenData.bold_font + "px AvenirNextLTPro-HeavyCn", fill: "#3f5405", align: "center" };
-		let instructions = this.game.add.text(this.game.width / 2, this.game.height / 2 - this.game.screenData.intro_margin_top, 'INSTRUCTIONS', text_bold);
+		const text_bold = {
+			font: this.game.screenData.bold_font + "px AvenirNextLTPro-HeavyCn",
+			fill: "#3f5405",
+			align: "center"
+		};
+		const instructions = this.game.add.text(this.game.width / 2, this.game.height / 2 - this.game.screenData.intro_margin_top, 'INSTRUCTIONS', text_bold);
 		instructions.anchor.set(0.5, 1);
 
-		let lineHR = this.game.add.tileSprite(w / 2, h / 2 - this.game.screenData.intro_margin_top, instructions.width + 50, 2, 'green-dark');
+		const lineHR = this.game.add.tileSprite(w / 2, h / 2 - this.game.screenData.intro_margin_top, instructions.width + 50, 2, 'green-dark');
 		lineHR.anchor.setTo(0.5, 1);
 
 		// Add text in center pause game
-		let style_level = { font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTPro-HeavyCn", fill: "#3f5405", align: "center" };
-		let text_pause = this.game.add.text(w / 2, h / 2 - this.game.screenData.intro_margin_top + 20, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN" + "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
+		const style_level = {
+			font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTPro-HeavyCn",
+			fill: "#3f5405",
+			align: "center"
+		};
+		const text_pause = this.game.add.text(w / 2, h / 2 - this.game.screenData.intro_margin_top + 20, "TAP ON THE BOXES \nTO FIND THE MATCHING PAIRS IN" + "\nTHE FEWEST NUMBER OF MOVES \nAND THE SHORTEST TIME POSSIBLE", style_level);
 		text_pause.anchor.set(0.5, 0);
 		text_pause.lineSpacing = 1;
 
 		this.okBtn = this.game.add.button(w / 2, h / 2 - this.game.screenData.intro_margin_top + text_pause.height + 20 + this.game.screenData.button_ok_margin, 'ok', '', '');
 		this.okBtn.anchor.set(0.5);
+		this.okBtn.scale.setTo(this.game.screenData.okButtonScale);
 		this.okBtn.onInputDown.add(this._startGameClick, this);
 		this.okBtn.input.useHandCursor = true;
 		cc.add(bg);
@@ -452,7 +462,7 @@ class Play extends Phaser.State {
 		cc.add(text_pause);
 		cc.add(this.okBtn);
 
-		let tween = this.add.tween(cc);
+		const tween = this.add.tween(cc);
 
 		tween.to({
 			alpha: 1,
