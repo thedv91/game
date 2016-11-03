@@ -9,10 +9,10 @@ class Menu extends Phaser.State {
 		// reInit data
 		let game = this.game;
 
-		this.game.moves = 0;
-		//this.game.time = 0;
-		this.game.score = 0;
-		this.game.level = 1;
+		// this.game.moves = 0;
+		// //this.game.time = 0;
+		// this.game.score = 0;
+		// this.game.level = 1;
 		let w = this.game.width, h = this.game.height;
 
 		let bg_w, bg_h;
@@ -28,7 +28,7 @@ class Menu extends Phaser.State {
 		this.game.menu_bg.width = bg_w;
 		this.game.menu_bg.height = bg_h;
 		this.game.menu_bg.anchor.setTo(0.5, 1);
-		let wally_margin_bottom = 390, wally_scale = 0.7, button_left, button_height, rank_table_left;
+		let wally_margin_bottom = 390, wally_scale = 0.7, button_left, button_height;
 
 		if (game.width <= 768) {
 			this.game.wally_swing = game.add.sprite(w / 2 - 40, h - wally_margin_bottom, 'wally-animation');
@@ -48,16 +48,14 @@ class Menu extends Phaser.State {
 		if (game.width <= 768) {
 			button_left = w / 2 - 180 / 2;
 			button_height = h - 70;
-			rank_table_left = w / 2 - 145;
 		} else {
-			rank_table_left = 50;
 			button_left = 120;
 			button_height = 430;
 		}
 		let button = game.add.button(button_left, this.game.screenData.startButtonPaddingTop, 'start', this.start, this, 1, 0, 2);
 		//game.add.tween(button).to({ x: button_left, y: 600 }, 1000, Phaser.Easing.Linear.Out, true);
 		button.input.useHandCursor = true;
-		this.createRankTable(rank_table_left, this.game.screenData.rankPaddingTop);
+		this.createRankTable(this.game.screenData.rankTableLeft, this.game.screenData.rankPaddingTop);
 
 	}
 
@@ -167,7 +165,8 @@ class Menu extends Phaser.State {
 	// The start function calls the play state
 	start() {
 		// game.stateTransition.to('play');
-		this.game.state.start('play');
+		//this.game.state.start('play');
+		this.game.state.start('play', true, false, 1);
 		// game.state.start('play', true, false, 1);
 	}
 

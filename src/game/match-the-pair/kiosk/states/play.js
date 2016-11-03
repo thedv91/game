@@ -28,14 +28,15 @@ class Play extends Phaser.State {
 		let game = this.game;
 		let initBg, w = this.game.width;
 		// Config for panel
-		if (game.width <= 810) {
-			this.panel_height = 57;
-		} else {
-			this.panel_height = 90;
-		}
+		this.panel_height = this.game.screenData.panel_height;
+		// if (game.width <= 810) {
+		// 	this.panel_height = 57;
+		// } else {
+		// 	this.panel_height = 90;
+		// }
 
 
-		initBg = this.initBackground();
+		this.initBackground();
 
 		let p1 = new Promise((resolve, reject) => {
 			if (this.level === 1) {
@@ -432,7 +433,7 @@ class Play extends Phaser.State {
 		let instructions = this.game.add.text(this.game.width / 2, this.game.height / 2 - this.game.screenData.intro_margin_top, 'INSTRUCTIONS', text_bold);
 		instructions.anchor.set(0.5, 1);
 
-		let lineHR = this.game.add.tileSprite(w / 2, h / 2 - this.game.screenData.intro_margin_top, instructions.width, 2, 'green-dark');
+		let lineHR = this.game.add.tileSprite(w / 2, h / 2 - this.game.screenData.intro_margin_top, instructions.width + 50, 2, 'green-dark');
 		lineHR.anchor.setTo(0.5, 1);
 
 		// Add text in center pause game
@@ -529,7 +530,7 @@ class Play extends Phaser.State {
 	clickMenu() {
 
 		if (!this.gamePlay)
-			return;	
+			return;
 		// this._showUpLevel(1, 2, 3);
 		// return;
 		if (!this.enableClickMenu)

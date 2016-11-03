@@ -12,27 +12,30 @@ class Play extends Phaser.State {
 		this.clickContinueGame = this.clickContinueGame.bind(this);
 	}
 
-	init(level) {
+	init(level, moves, time) {
 		this.level = level || 1;
-		this.time = 0;
-		this.moves = 0;
+		this.time = time || 0;
+		this.moves = moves || 0;
 		this.noMatch = false;
 		this.firstClick = null;
 		this.secondClick = null;
 		this.enableClickMenu = false;
 		this.gamePlay = false;
-		this.timeCounter = 0;
+		this.timeCounter = this.time * 1000;
 		this.LevelData = _.find(this.game.LevelData, { level: this.level });
+		Log.info(this.timeCounter);
+
 	}
+
+	_startGame() {
+		this.gamePlay = true;
+	}
+
 	create() {
 		let game = this.game;
 		let initBg, w = this.game.width;
 		// Config for panel
-		if (game.width <= 810) {
-			this.panel_height = 57;
-		} else {
-			this.panel_height = 90;
-		}
+		this.panel_height = this.game.screenData.panel_height;
 
 
 		initBg = this.initBackground();
@@ -55,6 +58,11 @@ class Play extends Phaser.State {
 		p1.then(res => {
 			this.pauseGamePanel = this.drawPauseGame();
 			this.panelUpLevel = this._drawUpLevel();
+			if (this.level > 1) {
+				window.setTimeout(() => {
+					this._startGame();
+				}, 500);
+			}
 		});
 
 		//this.game.state.start('win', true, false, 10, 100);
@@ -174,7 +182,7 @@ class Play extends Phaser.State {
 
 
 		// Add text "Match the pairs" on top screen
-		var style = { font: "bold 36px AvenirNextLTPro-HeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+		let style = { font: "bold 36px AvenirNextLTPro-HeavyCn", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 		if (game.width <= 500) {
 			text = this.game.add.text(10, panel_height / 4, "MATCH THE PAIRS", {
 				font: "bold 28px AvenirNextLTPro-HeavyCn",
@@ -219,7 +227,7 @@ class Play extends Phaser.State {
 		this.total_open = 0;
 
 
-		for (var i = 0; i < total_card / 2; i++) {
+		for (let i = 0; i < total_card / 2; i++) {
 			this.images.push(this.game.add.sprite(0, 0, '' + i));
 			this.images.push(this.game.add.sprite(0, 0, '' + i));
 		}
@@ -227,9 +235,9 @@ class Play extends Phaser.State {
 		this.shuffle(this.images);
 
 
-		for (var i = 0; i < row; i++) {
-			for (var j = 0; j < col; j++) {
-				var idx = i * col + j;
+		for (let i = 0; i < row; i++) {
+			for (let j = 0; j < col; j++) {
+				let idx = i * col + j;
 				// cards[idx] = this.game.add.sprite(left + j*TILE_SIZE, top + i*TILE_SIZE,'back');
 				this.cards[idx] = this.game.add.sprite(0, 0, 'back');
 				this.cards[idx].anchor.setTo(0.5, 0.5);
@@ -529,7 +537,7 @@ class Play extends Phaser.State {
 	clickMenu() {
 
 		if (!this.gamePlay)
-			return;	
+			return;
 		// this._showUpLevel(1, 2, 3);
 		// return;
 		if (!this.enableClickMenu)
@@ -700,8 +708,13 @@ class Play extends Phaser.State {
 		this.cards = [];
 		this.images = [];
 		this.movies = [];
-		// We start the win state
-		this.game.state.start('win', true, false, this.moves, this.time);
+
+		if (this.level === _.last(this.game.LevelData).level) {
+			this.game.state.start('win', true, false, this.moves, this.time);
+		} else {
+			const level = this.LevelData.level + 1;
+			this.game.state.start('play', true, false, level, this.moves, this.time);
+		}
 	}
 
 	_startGameClick() {
@@ -714,11 +727,6 @@ class Play extends Phaser.State {
 
 		tween.onComplete.add(() => {
 			this.gamePlay = true;
-			// this.level = 1;
-			// this.score_game = 0;
-			// this.time_play = 0;
-
-			// this.state.start('intro');
 		});
 	}
 

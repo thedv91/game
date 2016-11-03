@@ -12,15 +12,28 @@
  */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index.index');
 });
 
-Route::get('fix-the-leak/kiosk', function () {
-    return view('game.fix-the-leak.kiosk');
+
+Route::group(['prefix'=>'fix-the-leak'], function () {
+    Route::get('arcade', function () {
+        return view('game.fix-the-leak.arcade');
+    })->name('fix-the-leak.arcade');
+    Route::get('kiosk', function () {
+        return view('game.fix-the-leak.kiosk');
+    })->name('fix-the-leak.kiosk');
 });
-Route::get('fix-the-leak/arcade', function () {
-    return view('game.fix-the-leak.arcade');
+
+Route::group(['prefix'=>'match-the-pair'], function () {
+    Route::get('arcade', function () {
+        return view('game.match-the-pair.arcade');
+    })->name('match-the-pair.arcade');
+    Route::get('kiosk', function () {
+        return view('game.match-the-pair.kiosk');
+    })->name('match-the-pair.kiosk');
 });
+
 
 Route::any('memory/save-info', 'MemoryController@saveInfo')->middleware('cors');
 Route::any('memory/ranks', 'MemoryController@getHeightScore')->middleware('cors');

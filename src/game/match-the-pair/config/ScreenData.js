@@ -27,7 +27,10 @@ export function getInitData(game) {
 		margin2Input: 70,
 		lineSpacing: 25,
 		tabs: 30,
-		panel_height: 90
+		panel_height: 90,
+		rankTableLeft: 50,
+		labelFontSize: 25,
+		scoreFontSize: 40
 	};
 
 	/**
@@ -55,7 +58,10 @@ export function getInitData(game) {
 			input_margin_top: 145,
 			margin2Input: 50,
 			lineSpacing: 10,
-			panel_height: 57
+			panel_height: 57,
+			rankTableLeft: width / 2 - 145,
+			labelFontSize: 25,
+			scoreFontSize: 30
 		});
 	} else if (width <= 768 & width > 414 && height <= 1024) {
 		/**
@@ -70,7 +76,7 @@ export function getInitData(game) {
 			menu_font: 32,
 			button_ok_margin: 40,
 			tree_margin_bottom: 65,
-			rankPaddingTop: 0,
+			rankPaddingTop: 100,
 			startButtonPaddingTop: 930,
 			pivot: {
 				y: 15
@@ -85,7 +91,10 @@ export function getInitData(game) {
 			input_margin_top: 145,
 			margin2Input: 50,
 			lineSpacing: 10,
-			panel_height: 57
+			panel_height: 57,
+			rankTableLeft: width / 2 - 145,
+			labelFontSize: 25,
+			scoreFontSize: 30
 		});
 	} else if (width <= 810 && width > 768 && height <= 640) {
 		/**

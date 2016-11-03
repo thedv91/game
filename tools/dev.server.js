@@ -4,6 +4,7 @@ import config from './../webpack.config.dev';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import path from 'path';
+import open from 'open';
 
 const app = Express();
 
@@ -36,4 +37,6 @@ app.get('*', function (req, res) {
 const server = app.listen(port, () => {
 	const port = server.address().port;
 	console.log(`Listening at port: ${port}`);
+	open(`http://localhost:${port}`, 'chrome');
+
 });
