@@ -163,8 +163,11 @@ class Play extends Phaser.State {
 		wally_swing.animations.play('swing', 20, true);
 
 		// add Tree
-		tree_play = game.cache.getImage('bg_play');
-		tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - this.game.screenData.tree_margin_bottom, 'bg_play');
+		// tree_play = game.cache.getImage('bg_play');
+		// tree_play = game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - this.game.screenData.tree_margin_bottom, 'bg_play');
+		this.tree_play = this.game.add.image(w / 2, h / 2 - this.game.screenData.tree_margin_bottom, 'bg_play');
+		this.tree_play.anchor.setTo(0.5, 0.5);
+		this.tree_play.scale.setTo(this.game.screenData.treeScale);
 
 		// Add top menu
 		// Here we create the ground.
@@ -443,7 +446,7 @@ class Play extends Phaser.State {
 
 		// Add text in center pause game
 		const style_level = {
-			font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTPro-HeavyCn",
+			font: '500 ' + this.game.screenData.intro_font + "px AvenirNextLTPro-DemiCn",
 			fill: "#3f5405",
 			align: "center"
 		};

@@ -24,7 +24,7 @@ class Play extends Phaser.State {
 		this.timeCounter = this.time * 1000;
 		this.LevelData = _.find(this.game.LevelData, { level: this.level });
 
-		//this.game.state.start('win', true, false, 1000, 1000);
+		this.game.state.start('win', true, false, 1000, 1000);
 	}
 
 	_startGame() {
@@ -450,7 +450,7 @@ class Play extends Phaser.State {
 
 		// Add text in center pause game
 		const style_level = {
-			font: "bold " + this.game.screenData.intro_font + "px AvenirNextLTPro-HeavyCn",
+			font: '500 ' + this.game.screenData.intro_font + "px AvenirNextLTPro-DemiCn",
 			fill: "#3f5405",
 			align: "center"
 		};

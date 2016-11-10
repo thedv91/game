@@ -114,8 +114,11 @@ class Win extends Phaser.State {
 		wally_swing.animations.add('swing');
 		wally_swing.animations.play('swing', 20, true);
 
-		this.tree_play = this.game.cache.getImage('bg_play');
-		this.tree_play = this.game.add.image(w / 2 - this.tree_play.width / 2, h - this.tree_play.height - this.game.screenData.tree_margin_bottom, 'bg_play');
+		//const tree_play = this.game.cache.getImage('bg_play');
+		//this.tree_play = this.game.add.image(w / 2 - tree_play.width / 2, h - tree_play.height - game.screenData.tree_margin_bottom, 'bg_play');
+		this.tree_play = this.game.add.image(w / 2, h / 2 - this.game.screenData.tree_margin_bottom, 'bg_play');
+		this.tree_play.anchor.setTo(0.5, 0.5);
+		this.tree_play.scale.setTo(this.game.screenData.treeScale);
 
 		// Add top menu
 		// Here we create the ground.

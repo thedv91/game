@@ -25,7 +25,7 @@ export function getInitData(game) {
 		info_bet: 20,
 		input_width: 450,
 		input_height: 35,
-		inputLeft: 120,		
+		inputLeft: 120,
 		font_size_name: 34,
 		scoreMarginTop: 100,
 		inputMarginTop: 320,
@@ -36,9 +36,10 @@ export function getInitData(game) {
 		rankTableLeft: 50,
 		labelFontSize: 25,
 		scoreFontSize: 40,
-		buttonMarginLeft: 180,		
+		buttonMarginLeft: 180,
 		wallyMarginBottom: 400,
-		wallyScale: .7
+		wallyScale: .7,
+		treeScale: 1
 	};
 
 	if (width <= 375) {
@@ -74,7 +75,7 @@ export function getInitData(game) {
 			startButtonMarginBottom: height - 50,
 			scoreMarginTop: 30,
 			wallyScale: .5,
-			wallyMarginBottom: 305
+			wallyMarginBottom: 250
 		});
 	} else if (width > 375 && width <= 480 && height <= 736) {
 		/**
@@ -89,7 +90,7 @@ export function getInitData(game) {
 			intro_font: 20,
 			menu_font: 26,
 			button_ok_margin: 40,
-			tree_margin_bottom: 90,
+			tree_margin_bottom: 50,
 			rankPaddingTop: 0,
 			startButtonPaddingTop: 650,
 			end_score_width: 50,
@@ -193,6 +194,7 @@ export function getInitData(game) {
 			scoreMarginTop: 70,
 			inputMarginTop: 300,
 			margin2Input: 100,
+			wallyMarginBottom: 360,
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1320 && height > 1020) {
 		/**
@@ -209,6 +211,8 @@ export function getInitData(game) {
 			scoreMarginTop: 250,
 			inputMarginTop: 500,
 			margin2Input: 100,
+			wallyMarginBottom: 470,
+			treeScale: 1.2
 		});
 	} else if (width <= 1080 && width > 810 && height <= 1420 && height > 1320) {
 		/**
@@ -225,6 +229,8 @@ export function getInitData(game) {
 			scoreMarginTop: 350,
 			inputMarginTop: 600,
 			margin2Input: 100,
+			wallyMarginBottom: 490,
+			treeScale: 1.3
 		});
 	}
 
